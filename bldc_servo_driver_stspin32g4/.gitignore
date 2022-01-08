@@ -1,0 +1,11 @@
+/build/*
+/Drivers/CMSIS/Core/*
+/Drivers/CMSIS/Core_A/*
+/Drivers/CMSIS/Device/ST/STM32G4xx/Source/Templates/*
+/Drivers/CMSIS/DSP/*
+/Drivers/CMSIS/Lib/*
+/Drivers/CMSIS/NN/*
+/Drivers/CMSIS/RTOS/*
+/Drivers/CMSIS/RTOS2/*
+/Middlewares/Third_Party/ARM_CMSIS/CMSIS/Documentation/*
+/Middlewares/Third_Party/ARM_CMSIS/CMSIS/DSP/Lib/*

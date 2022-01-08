@@ -1,0 +1,2684 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<export version="D">
+  <design>
+    <source>C:\Users\moryu\OneDrive\ドキュメント\ROBOken\elec\bldc_servo_driver_v2\bldc_servo_driver\bldc_servo_driver.sch</source>
+    <date>2021/04/17 18:08:28</date>
+    <tool>Eeschema (5.1.5)-3</tool>
+    <sheet number="1" name="/" tstamps="/">
+      <title_block>
+        <title/>
+        <company/>
+        <rev/>
+        <date/>
+        <source>bldc_servo_driver.sch</source>
+        <comment number="1" value=""/>
+        <comment number="2" value=""/>
+        <comment number="3" value=""/>
+        <comment number="4" value=""/>
+      </title_block>
+    </sheet>
+    <sheet number="2" name="/subSch_onboardsensing/" tstamps="/60490054/">
+      <title_block>
+        <title/>
+        <company/>
+        <rev/>
+        <date/>
+        <source>subSch_onboardsensing.sch</source>
+        <comment number="1" value=""/>
+        <comment number="2" value=""/>
+        <comment number="3" value=""/>
+        <comment number="4" value=""/>
+      </title_block>
+    </sheet>
+    <sheet number="3" name="/subSch_power/" tstamps="/605C7276/">
+      <title_block>
+        <title/>
+        <company/>
+        <rev/>
+        <date/>
+        <source>subSch_power.sch</source>
+        <comment number="1" value=""/>
+        <comment number="2" value=""/>
+        <comment number="3" value=""/>
+        <comment number="4" value=""/>
+      </title_block>
+    </sheet>
+    <sheet number="4" name="/subSch_extcon/" tstamps="/6060D158/">
+      <title_block>
+        <title/>
+        <company/>
+        <rev/>
+        <date/>
+        <source>subSch_extcon.sch</source>
+        <comment number="1" value=""/>
+        <comment number="2" value=""/>
+        <comment number="3" value=""/>
+        <comment number="4" value=""/>
+      </title_block>
+    </sheet>
+    <sheet number="5" name="/subSch_mcu/" tstamps="/6060D278/">
+      <title_block>
+        <title/>
+        <company/>
+        <rev/>
+        <date/>
+        <source>subSch_mcu.sch</source>
+        <comment number="1" value=""/>
+        <comment number="2" value=""/>
+        <comment number="3" value=""/>
+        <comment number="4" value=""/>
+      </title_block>
+    </sheet>
+    <sheet number="6" name="/subSch_3phasebridge/" tstamps="/5FF17E59/">
+      <title_block>
+        <title/>
+        <company/>
+        <rev/>
+        <date/>
+        <source>subSch_3phasebridge.sch</source>
+        <comment number="1" value=""/>
+        <comment number="2" value=""/>
+        <comment number="3" value=""/>
+        <comment number="4" value=""/>
+      </title_block>
+    </sheet>
+  </design>
+  <components>
+    <comp ref="R19">
+      <value>22k</value>
+      <footprint>Resistor_SMD:R_0402_1005Metric</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="R" description="Resistor"/>
+      <sheetpath names="/subSch_onboardsensing/" tstamps="/60490054/"/>
+      <tstamp>604901B7</tstamp>
+    </comp>
+    <comp ref="R23">
+      <value>1.5k</value>
+      <footprint>Resistor_SMD:R_0402_1005Metric</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="R" description="Resistor"/>
+      <sheetpath names="/subSch_onboardsensing/" tstamps="/60490054/"/>
+      <tstamp>6049293C</tstamp>
+    </comp>
+    <comp ref="R20">
+      <value>22k</value>
+      <footprint>Resistor_SMD:R_0402_1005Metric</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="R" description="Resistor"/>
+      <sheetpath names="/subSch_onboardsensing/" tstamps="/60490054/"/>
+      <tstamp>60492F38</tstamp>
+    </comp>
+    <comp ref="R22">
+      <value>1.5k</value>
+      <footprint>Resistor_SMD:R_0402_1005Metric</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="R" description="Resistor"/>
+      <sheetpath names="/subSch_onboardsensing/" tstamps="/60490054/"/>
+      <tstamp>60493402</tstamp>
+    </comp>
+    <comp ref="R21">
+      <value>1.5k</value>
+      <footprint>Resistor_SMD:R_0402_1005Metric</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="R" description="Resistor"/>
+      <sheetpath names="/subSch_onboardsensing/" tstamps="/60490054/"/>
+      <tstamp>60493948</tstamp>
+    </comp>
+    <comp ref="R17">
+      <value>22k</value>
+      <footprint>Resistor_SMD:R_0402_1005Metric</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="R" description="Resistor"/>
+      <sheetpath names="/subSch_onboardsensing/" tstamps="/60490054/"/>
+      <tstamp>60493DCF</tstamp>
+    </comp>
+    <comp ref="R15">
+      <value>22k</value>
+      <footprint>Resistor_SMD:R_0402_1005Metric</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="R" description="Resistor"/>
+      <sheetpath names="/subSch_onboardsensing/" tstamps="/60490054/"/>
+      <tstamp>60495E3D</tstamp>
+    </comp>
+    <comp ref="R18">
+      <value>22k</value>
+      <footprint>Resistor_SMD:R_0402_1005Metric</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="R" description="Resistor"/>
+      <sheetpath names="/subSch_onboardsensing/" tstamps="/60490054/"/>
+      <tstamp>60496AF4</tstamp>
+    </comp>
+    <comp ref="R16">
+      <value>22k</value>
+      <footprint>Resistor_SMD:R_0402_1005Metric</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="R" description="Resistor"/>
+      <sheetpath names="/subSch_onboardsensing/" tstamps="/60490054/"/>
+      <tstamp>60496E42</tstamp>
+    </comp>
+    <comp ref="R1">
+      <value>1.8k</value>
+      <footprint>Resistor_SMD:R_0402_1005Metric</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="R" description="Resistor"/>
+      <sheetpath names="/subSch_onboardsensing/" tstamps="/60490054/"/>
+      <tstamp>604B18DB</tstamp>
+    </comp>
+    <comp ref="R5">
+      <value>1.8k</value>
+      <footprint>Resistor_SMD:R_0402_1005Metric</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="R" description="Resistor"/>
+      <sheetpath names="/subSch_onboardsensing/" tstamps="/60490054/"/>
+      <tstamp>604B2256</tstamp>
+    </comp>
+    <comp ref="R7">
+      <value>1.8k</value>
+      <footprint>Resistor_SMD:R_0402_1005Metric</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="R" description="Resistor"/>
+      <sheetpath names="/subSch_onboardsensing/" tstamps="/60490054/"/>
+      <tstamp>604B29CB</tstamp>
+    </comp>
+    <comp ref="R6">
+      <value>10k</value>
+      <footprint>Resistor_SMD:R_0402_1005Metric</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="R" description="Resistor"/>
+      <sheetpath names="/subSch_onboardsensing/" tstamps="/60490054/"/>
+      <tstamp>604B384A</tstamp>
+    </comp>
+    <comp ref="R10">
+      <value>10k</value>
+      <footprint>Resistor_SMD:R_0402_1005Metric</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="R" description="Resistor"/>
+      <sheetpath names="/subSch_onboardsensing/" tstamps="/60490054/"/>
+      <tstamp>604B4A71</tstamp>
+    </comp>
+    <comp ref="R11">
+      <value>10k</value>
+      <footprint>Resistor_SMD:R_0402_1005Metric</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="R" description="Resistor"/>
+      <sheetpath names="/subSch_onboardsensing/" tstamps="/60490054/"/>
+      <tstamp>604B518B</tstamp>
+    </comp>
+    <comp ref="D5">
+      <value>BAT30KFILM</value>
+      <footprint>Diode_SMD:D_SOD-523</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="D_Schottky" description="Schottky diode"/>
+      <sheetpath names="/subSch_onboardsensing/" tstamps="/60490054/"/>
+      <tstamp>604B7554</tstamp>
+    </comp>
+    <comp ref="D7">
+      <value>BAT30KFILM</value>
+      <footprint>Diode_SMD:D_SOD-523</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="D_Schottky" description="Schottky diode"/>
+      <sheetpath names="/subSch_onboardsensing/" tstamps="/60490054/"/>
+      <tstamp>604B8171</tstamp>
+    </comp>
+    <comp ref="D8">
+      <value>BAT30KFILM</value>
+      <footprint>Diode_SMD:D_SOD-523</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="D_Schottky" description="Schottky diode"/>
+      <sheetpath names="/subSch_onboardsensing/" tstamps="/60490054/"/>
+      <tstamp>604B8D1B</tstamp>
+    </comp>
+    <comp ref="C1">
+      <value>10p</value>
+      <footprint>Capacitor_SMD:C_0402_1005Metric</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="C" description="Unpolarized capacitor"/>
+      <sheetpath names="/subSch_onboardsensing/" tstamps="/60490054/"/>
+      <tstamp>604C5247</tstamp>
+    </comp>
+    <comp ref="C2">
+      <value>10p</value>
+      <footprint>Capacitor_SMD:C_0402_1005Metric</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="C" description="Unpolarized capacitor"/>
+      <sheetpath names="/subSch_onboardsensing/" tstamps="/60490054/"/>
+      <tstamp>604C6300</tstamp>
+    </comp>
+    <comp ref="C3">
+      <value>10p</value>
+      <footprint>Capacitor_SMD:C_0402_1005Metric</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="C" description="Unpolarized capacitor"/>
+      <sheetpath names="/subSch_onboardsensing/" tstamps="/60490054/"/>
+      <tstamp>604C7880</tstamp>
+    </comp>
+    <comp ref="R2">
+      <value>10k</value>
+      <footprint>Resistor_SMD:R_0402_1005Metric</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="R" description="Resistor"/>
+      <sheetpath names="/subSch_onboardsensing/" tstamps="/60490054/"/>
+      <tstamp>6030EA3A</tstamp>
+    </comp>
+    <comp ref="D1">
+      <value>BAT30KFILM</value>
+      <footprint>Diode_SMD:D_SOD-523</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="D_Schottky" description="Schottky diode"/>
+      <sheetpath names="/subSch_onboardsensing/" tstamps="/60490054/"/>
+      <tstamp>60312CDC</tstamp>
+    </comp>
+    <comp ref="D6">
+      <value>BAT30KFILM</value>
+      <footprint>Diode_SMD:D_SOD-523</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="D_Schottky" description="Schottky diode"/>
+      <sheetpath names="/subSch_onboardsensing/" tstamps="/60490054/"/>
+      <tstamp>6031CD4F</tstamp>
+    </comp>
+    <comp ref="R12">
+      <value>2.2k</value>
+      <footprint>Resistor_SMD:R_0402_1005Metric</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="R" description="Resistor"/>
+      <sheetpath names="/subSch_onboardsensing/" tstamps="/60490054/"/>
+      <tstamp>6031F27B</tstamp>
+    </comp>
+    <comp ref="D9">
+      <value>BAT30KFILM</value>
+      <footprint>Diode_SMD:D_SOD-523</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="D_Schottky" description="Schottky diode"/>
+      <sheetpath names="/subSch_onboardsensing/" tstamps="/60490054/"/>
+      <tstamp>60328A93</tstamp>
+    </comp>
+    <comp ref="R13">
+      <value>2.2k</value>
+      <footprint>Resistor_SMD:R_0402_1005Metric</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="R" description="Resistor"/>
+      <sheetpath names="/subSch_onboardsensing/" tstamps="/60490054/"/>
+      <tstamp>60328A99</tstamp>
+    </comp>
+    <comp ref="D10">
+      <value>BAT30KFILM</value>
+      <footprint>Diode_SMD:D_SOD-523</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="D_Schottky" description="Schottky diode"/>
+      <sheetpath names="/subSch_onboardsensing/" tstamps="/60490054/"/>
+      <tstamp>6032B40F</tstamp>
+    </comp>
+    <comp ref="R14">
+      <value>2.2k</value>
+      <footprint>Resistor_SMD:R_0402_1005Metric</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="R" description="Resistor"/>
+      <sheetpath names="/subSch_onboardsensing/" tstamps="/60490054/"/>
+      <tstamp>6032B415</tstamp>
+    </comp>
+    <comp ref="D2">
+      <value>BAT30KFILM</value>
+      <footprint>Diode_SMD:D_SOD-523</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="D_Schottky" description="Schottky diode"/>
+      <sheetpath names="/subSch_onboardsensing/" tstamps="/60490054/"/>
+      <tstamp>60334101</tstamp>
+    </comp>
+    <comp ref="D3">
+      <value>BAT30KFILM</value>
+      <footprint>Diode_SMD:D_SOD-523</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="D_Schottky" description="Schottky diode"/>
+      <sheetpath names="/subSch_onboardsensing/" tstamps="/60490054/"/>
+      <tstamp>603369B5</tstamp>
+    </comp>
+    <comp ref="R3">
+      <value>10k</value>
+      <footprint>Resistor_SMD:R_0402_1005Metric</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="R" description="Resistor"/>
+      <sheetpath names="/subSch_onboardsensing/" tstamps="/60490054/"/>
+      <tstamp>6033D976</tstamp>
+    </comp>
+    <comp ref="R4">
+      <value>10k</value>
+      <footprint>Resistor_SMD:R_0402_1005Metric</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="R" description="Resistor"/>
+      <sheetpath names="/subSch_onboardsensing/" tstamps="/60490054/"/>
+      <tstamp>6033FEF4</tstamp>
+    </comp>
+    <comp ref="R8">
+      <value>470k</value>
+      <footprint>Resistor_SMD:R_0402_1005Metric</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="R" description="Resistor"/>
+      <sheetpath names="/subSch_onboardsensing/" tstamps="/60490054/"/>
+      <tstamp>605AAC2E</tstamp>
+    </comp>
+    <comp ref="R9">
+      <value>33k</value>
+      <footprint>Resistor_SMD:R_0402_1005Metric</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="R" description="Resistor"/>
+      <sheetpath names="/subSch_onboardsensing/" tstamps="/60490054/"/>
+      <tstamp>605ADECC</tstamp>
+    </comp>
+    <comp ref="D4">
+      <value>BAT30KFILM</value>
+      <footprint>Diode_SMD:D_SOD-523</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="D_Schottky" description="Schottky diode"/>
+      <sheetpath names="/subSch_onboardsensing/" tstamps="/60490054/"/>
+      <tstamp>605B2865</tstamp>
+    </comp>
+    <comp ref="IC2">
+      <value>ICM-20648</value>
+      <footprint>SamacSys_Parts:QFN40P300X300X90-25N-D</footprint>
+      <datasheet>http://www.invensense.com/wp-content/uploads/2017/07/DS-000179-ICM-20648-v1.2-TYP.pdf</datasheet>
+      <fields>
+        <field name="Description">IMUs - Inertial Measurement Units DMP-Enabled 6-Axis Integrated Solution for Wrist-Worn Wearable</field>
+        <field name="Height">0.9</field>
+        <field name="Manufacturer_Name">TDK</field>
+        <field name="Manufacturer_Part_Number">ICM-20648</field>
+        <field name="Mouser Part Number">410-ICM-20648</field>
+        <field name="Mouser Price/Stock">https://www.mouser.co.uk/ProductDetail/TDK-InvenSense/ICM-20648/?qs=u4fy%2FsgLU9NQzxgFUirJpA%3D%3D</field>
+      </fields>
+      <libsource lib="SamacSys_Parts" part="ICM-20648" description="IMUs - Inertial Measurement Units DMP-Enabled 6-Axis Integrated Solution for Wrist-Worn Wearable"/>
+      <sheetpath names="/subSch_onboardsensing/" tstamps="/60490054/"/>
+      <tstamp>604481CA</tstamp>
+    </comp>
+    <comp ref="C6">
+      <value>0.1u</value>
+      <footprint>Capacitor_SMD:C_0402_1005Metric</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="C" description="Unpolarized capacitor"/>
+      <sheetpath names="/subSch_onboardsensing/" tstamps="/60490054/"/>
+      <tstamp>60499032</tstamp>
+    </comp>
+    <comp ref="C5">
+      <value>0.1u</value>
+      <footprint>Capacitor_SMD:C_0402_1005Metric</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="C" description="Unpolarized capacitor"/>
+      <sheetpath names="/subSch_onboardsensing/" tstamps="/60490054/"/>
+      <tstamp>604A6D98</tstamp>
+    </comp>
+    <comp ref="C4">
+      <value>0.1u</value>
+      <footprint>Capacitor_SMD:C_0402_1005Metric</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="C" description="Unpolarized capacitor"/>
+      <sheetpath names="/subSch_onboardsensing/" tstamps="/60490054/"/>
+      <tstamp>604C2687</tstamp>
+    </comp>
+    <comp ref="IC10">
+      <value>ADA4571WHRZ-R7</value>
+      <footprint>SamacSys_Parts:SOIC127P600X175-8N</footprint>
+      <datasheet>https://www.arrow.com/en/products/ada4571whrz-r7/analog-devices</datasheet>
+      <fields>
+        <field name="Description">Magnetoresistive Sensor 52(mV/) Automotive 8-Pin SOIC N T/R</field>
+        <field name="Height">1.75</field>
+        <field name="Manufacturer_Name">Analog Devices</field>
+        <field name="Manufacturer_Part_Number">ADA4571WHRZ-R7</field>
+        <field name="Mouser Part Number">584-ADA4571WHRZ-R7</field>
+        <field name="Mouser Price/Stock">https://www.mouser.co.uk/ProductDetail/Analog-Devices/ADA4571WHRZ-R7?qs=SA9szVeHbUGiRnDSGnDPgQ%3D%3D</field>
+      </fields>
+      <libsource lib="SamacSys_Parts" part="ADA4571WHRZ-R7" description="Magnetoresistive Sensor 52(mV/) Automotive 8-Pin SOIC N T/R"/>
+      <sheetpath names="/subSch_onboardsensing/" tstamps="/60490054/"/>
+      <tstamp>60465B79</tstamp>
+    </comp>
+    <comp ref="R39">
+      <value>0</value>
+      <footprint>Resistor_SMD:R_0402_1005Metric</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="R" description="Resistor"/>
+      <sheetpath names="/subSch_onboardsensing/" tstamps="/60490054/"/>
+      <tstamp>6047E3BC</tstamp>
+    </comp>
+    <comp ref="R38">
+      <value>0, N.C.</value>
+      <footprint>Resistor_SMD:R_0402_1005Metric</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="R" description="Resistor"/>
+      <sheetpath names="/subSch_onboardsensing/" tstamps="/60490054/"/>
+      <tstamp>604934E8</tstamp>
+    </comp>
+    <comp ref="TP3">
+      <value>TestPoint</value>
+      <footprint>TestPoint:TestPoint_Pad_D1.0mm</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Connector" part="TestPoint" description="test point"/>
+      <sheetpath names="/subSch_onboardsensing/" tstamps="/60490054/"/>
+      <tstamp>604D28ED</tstamp>
+    </comp>
+    <comp ref="C49">
+      <value>0.1u</value>
+      <footprint>Capacitor_SMD:C_0402_1005Metric</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="C" description="Unpolarized capacitor"/>
+      <sheetpath names="/subSch_onboardsensing/" tstamps="/60490054/"/>
+      <tstamp>6055FE7A</tstamp>
+    </comp>
+    <comp ref="IC3">
+      <value>LDFPVR</value>
+      <footprint>SamacSys_Parts:SON65P200X200X100-7N-D</footprint>
+      <datasheet>http://www.st.com/content/ccc/resource/technical/document/datasheet/3e/64/32/d3/73/04/4a/70/DM00099995.pdf/files/DM00099995.pdf/jcr:content/translations/en.DM00099995.pdf</datasheet>
+      <fields>
+        <field name="Description">STMicroelectronics LDFPVR, LDO Voltage Regulator, Adjustable 1A, 0.8  12 V +/-1.5%, 6-Pin DFN</field>
+        <field name="Height">1</field>
+        <field name="Manufacturer_Name">STMicroelectronics</field>
+        <field name="Manufacturer_Part_Number">LDFPVR</field>
+        <field name="Mouser Part Number">511-LDFPVR</field>
+        <field name="Mouser Price/Stock">https://www.mouser.co.uk/ProductDetail/STMicroelectronics/LDFPVR?qs=xLDY6iXSiQbeQdnd6kJYEg%3D%3D</field>
+      </fields>
+      <libsource lib="SamacSys_Parts" part="LDFPVR" description="STMicroelectronics LDFPVR, LDO Voltage Regulator, Adjustable 1A, 0.8  12 V +/-1.5%, 6-Pin DFN"/>
+      <sheetpath names="/subSch_power/" tstamps="/605C7276/"/>
+      <tstamp>6060D71D</tstamp>
+    </comp>
+    <comp ref="C9">
+      <value>10u</value>
+      <footprint>Capacitor_SMD:C_0603_1608Metric</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="C" description="Unpolarized capacitor"/>
+      <sheetpath names="/subSch_power/" tstamps="/605C7276/"/>
+      <tstamp>6061050E</tstamp>
+    </comp>
+    <comp ref="C7">
+      <value>2.2u</value>
+      <footprint>Capacitor_SMD:C_0402_1005Metric</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="C" description="Unpolarized capacitor"/>
+      <sheetpath names="/subSch_power/" tstamps="/605C7276/"/>
+      <tstamp>60611296</tstamp>
+    </comp>
+    <comp ref="R24">
+      <value>52.3k</value>
+      <footprint>Resistor_SMD:R_0402_1005Metric</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="R" description="Resistor"/>
+      <sheetpath names="/subSch_power/" tstamps="/605C7276/"/>
+      <tstamp>606136DB</tstamp>
+    </comp>
+    <comp ref="R25">
+      <value>10k</value>
+      <footprint>Resistor_SMD:R_0402_1005Metric</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="R" description="Resistor"/>
+      <sheetpath names="/subSch_power/" tstamps="/605C7276/"/>
+      <tstamp>60614909</tstamp>
+    </comp>
+    <comp ref="C12">
+      <value>22u</value>
+      <footprint>Capacitor_SMD:C_0805_2012Metric</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="C" description="Unpolarized capacitor"/>
+      <sheetpath names="/subSch_power/" tstamps="/605C7276/"/>
+      <tstamp>60636581</tstamp>
+    </comp>
+    <comp ref="D11">
+      <value>SMM4F26A</value>
+      <footprint>Diode_SMD:D_SMF</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="D" description="Diode"/>
+      <sheetpath names="/subSch_power/" tstamps="/605C7276/"/>
+      <tstamp>6064C427</tstamp>
+    </comp>
+    <comp ref="C14">
+      <value>22u</value>
+      <footprint>Capacitor_SMD:C_0805_2012Metric</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="C" description="Unpolarized capacitor"/>
+      <sheetpath names="/subSch_power/" tstamps="/605C7276/"/>
+      <tstamp>60654ED1</tstamp>
+    </comp>
+    <comp ref="C15">
+      <value>22u</value>
+      <footprint>Capacitor_SMD:C_0805_2012Metric</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="C" description="Unpolarized capacitor"/>
+      <sheetpath names="/subSch_power/" tstamps="/605C7276/"/>
+      <tstamp>60658B8E</tstamp>
+    </comp>
+    <comp ref="C17">
+      <value>22u</value>
+      <footprint>Capacitor_SMD:C_0805_2012Metric</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="C" description="Unpolarized capacitor"/>
+      <sheetpath names="/subSch_power/" tstamps="/605C7276/"/>
+      <tstamp>6065C939</tstamp>
+    </comp>
+    <comp ref="C19">
+      <value>22u</value>
+      <footprint>Capacitor_SMD:C_0805_2012Metric</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="C" description="Unpolarized capacitor"/>
+      <sheetpath names="/subSch_power/" tstamps="/605C7276/"/>
+      <tstamp>60660532</tstamp>
+    </comp>
+    <comp ref="J4">
+      <value>52271-1179</value>
+      <footprint>SamacSys_Parts:522711179</footprint>
+      <datasheet>https://componentsearchengine.com/Datasheets/1/52271-1179.pdf</datasheet>
+      <fields>
+        <field name="Description">Molex FFC/FPC SMT Series 1mm Pitch 11 Way 1 Row Right Angle SMT Female FPC Connector, Tin Bismuth Alloy Plated Contacts</field>
+        <field name="Height">3.2</field>
+        <field name="Manufacturer_Name">Molex</field>
+        <field name="Manufacturer_Part_Number">52271-1179</field>
+        <field name="Mouser Part Number">538-52271-1179</field>
+        <field name="Mouser Price/Stock">https://www.mouser.com/Search/Refine.aspx?Keyword=538-52271-1179</field>
+      </fields>
+      <libsource lib="SamacSys_Parts" part="52271-1179" description="Molex FFC/FPC SMT Series 1mm Pitch 11 Way 1 Row Right Angle SMT Female FPC Connector, Tin Bismuth Alloy Plated Contacts"/>
+      <sheetpath names="/subSch_extcon/" tstamps="/6060D158/"/>
+      <tstamp>6069BE4D</tstamp>
+    </comp>
+    <comp ref="J5">
+      <value>Conn_01x04</value>
+      <footprint>Connector_JST:JST_SH_SM04B-SRSS-TB_1x04-1MP_P1.00mm_Horizontal</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Connector_Generic" part="Conn_01x04" description="Generic connector, single row, 01x04, script generated (kicad-library-utils/schlib/autogen/connector/)"/>
+      <sheetpath names="/subSch_extcon/" tstamps="/6060D158/"/>
+      <tstamp>604DA5AF</tstamp>
+    </comp>
+    <comp ref="R41">
+      <value>0</value>
+      <footprint>Resistor_SMD:R_0402_1005Metric</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="R" description="Resistor"/>
+      <sheetpath names="/subSch_extcon/" tstamps="/6060D158/"/>
+      <tstamp>604DE587</tstamp>
+    </comp>
+    <comp ref="R40">
+      <value>0</value>
+      <footprint>Resistor_SMD:R_0402_1005Metric</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="R" description="Resistor"/>
+      <sheetpath names="/subSch_extcon/" tstamps="/6060D158/"/>
+      <tstamp>604DF4AA</tstamp>
+    </comp>
+    <comp ref="J1">
+      <value>Conn_01x05</value>
+      <footprint>Connector_JST:JST_SH_SM05B-SRSS-TB_1x05-1MP_P1.00mm_Horizontal</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Connector_Generic" part="Conn_01x05" description="Generic connector, single row, 01x05, script generated (kicad-library-utils/schlib/autogen/connector/)"/>
+      <sheetpath names="/subSch_extcon/" tstamps="/6060D158/"/>
+      <tstamp>604EB715</tstamp>
+    </comp>
+    <comp ref="IC5">
+      <value>SN65HVD485EDGKR</value>
+      <footprint>SamacSys_Parts:SOP65P490X110-8N</footprint>
+      <datasheet>http://www.ti.com/lit/gpn/sn65hvd485e</datasheet>
+      <fields>
+        <field name="Description">Half-Duplex RS-485 Transceiver</field>
+        <field name="Height">1.1</field>
+        <field name="Manufacturer_Name">Texas Instruments</field>
+        <field name="Manufacturer_Part_Number">SN65HVD485EDGKR</field>
+        <field name="Mouser Part Number">595-SN65HVD485EDGKR</field>
+        <field name="Mouser Price/Stock">https://www.mouser.co.uk/ProductDetail/Texas-Instruments/SN65HVD485EDGKR?qs=QViXGNcIEAtal8DEB0lJqA%3D%3D</field>
+      </fields>
+      <libsource lib="SamacSys_Parts" part="SN65HVD485EDGKR" description="Half-Duplex RS-485 Transceiver"/>
+      <sheetpath names="/subSch_extcon/" tstamps="/6060D158/"/>
+      <tstamp>6050A2CF</tstamp>
+    </comp>
+    <comp ref="C22">
+      <value>C</value>
+      <footprint>Capacitor_SMD:C_0402_1005Metric</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="C" description="Unpolarized capacitor"/>
+      <sheetpath names="/subSch_extcon/" tstamps="/6060D158/"/>
+      <tstamp>60511FC1</tstamp>
+    </comp>
+    <comp ref="J2">
+      <value>Conn_01x04</value>
+      <footprint>Connector_JST:JST_EH_S4B-EH_1x04_P2.50mm_Horizontal</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Connector_Generic" part="Conn_01x04" description="Generic connector, single row, 01x04, script generated (kicad-library-utils/schlib/autogen/connector/)"/>
+      <sheetpath names="/subSch_extcon/" tstamps="/6060D158/"/>
+      <tstamp>605167C5</tstamp>
+    </comp>
+    <comp ref="R36">
+      <value>60</value>
+      <footprint>Resistor_SMD:R_0402_1005Metric</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="R" description="Resistor"/>
+      <sheetpath names="/subSch_extcon/" tstamps="/6060D158/"/>
+      <tstamp>6051895A</tstamp>
+    </comp>
+    <comp ref="TP1">
+      <value>TestPoint</value>
+      <footprint>TestPoint:TestPoint_Pad_D1.0mm</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Connector" part="TestPoint" description="test point"/>
+      <sheetpath names="/subSch_extcon/" tstamps="/6060D158/"/>
+      <tstamp>6054A863</tstamp>
+    </comp>
+    <comp ref="TP2">
+      <value>TestPoint</value>
+      <footprint>TestPoint:TestPoint_Pad_D1.0mm</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Connector" part="TestPoint" description="test point"/>
+      <sheetpath names="/subSch_extcon/" tstamps="/6060D158/"/>
+      <tstamp>6054B7EF</tstamp>
+    </comp>
+    <comp ref="IC6">
+      <value>TLT9251VLEXUMA1</value>
+      <footprint>SamacSys_Parts:SON65P300X300X110-9N</footprint>
+      <datasheet>https://www.infineon.com/dgdl/Infineon-TLT9251VLE-DataSheet-v01_00-EN.pdf?fileId=5546d4626e8d4b8f016ea702cfff08e8</datasheet>
+      <fields>
+        <field name="Description">CAN Interface IC</field>
+        <field name="Height">1.1</field>
+        <field name="Manufacturer_Name">Infineon</field>
+        <field name="Manufacturer_Part_Number">TLT9251VLEXUMA1</field>
+        <field name="Mouser Part Number">726-TLT9251VLEXUMA1</field>
+        <field name="Mouser Price/Stock">https://www.mouser.co.uk/ProductDetail/Infineon-Technologies/TLT9251VLEXUMA1/?qs=W%2FMpXkg%252BdQ5zGtp9sfvtfA%3D%3D</field>
+      </fields>
+      <libsource lib="SamacSys_Parts" part="TLT9251VLEXUMA1" description="CAN Interface IC"/>
+      <sheetpath names="/subSch_extcon/" tstamps="/6060D158/"/>
+      <tstamp>60556213</tstamp>
+    </comp>
+    <comp ref="R34">
+      <value>0</value>
+      <footprint>Resistor_SMD:R_0402_1005Metric</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="R" description="Resistor"/>
+      <sheetpath names="/subSch_extcon/" tstamps="/6060D158/"/>
+      <tstamp>6056B3FC</tstamp>
+    </comp>
+    <comp ref="R35">
+      <value>0</value>
+      <footprint>Resistor_SMD:R_0402_1005Metric</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="R" description="Resistor"/>
+      <sheetpath names="/subSch_extcon/" tstamps="/6060D158/"/>
+      <tstamp>60573FD5</tstamp>
+    </comp>
+    <comp ref="R37">
+      <value>120</value>
+      <footprint>Resistor_SMD:R_0402_1005Metric</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="R" description="Resistor"/>
+      <sheetpath names="/subSch_extcon/" tstamps="/6060D158/"/>
+      <tstamp>6057A3A0</tstamp>
+    </comp>
+    <comp ref="J3">
+      <value>Conn_01x04</value>
+      <footprint>Connector_JST:JST_EH_S4B-EH_1x04_P2.50mm_Horizontal</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Connector_Generic" part="Conn_01x04" description="Generic connector, single row, 01x04, script generated (kicad-library-utils/schlib/autogen/connector/)"/>
+      <sheetpath names="/subSch_extcon/" tstamps="/6060D158/"/>
+      <tstamp>60581DF5</tstamp>
+    </comp>
+    <comp ref="SW1">
+      <value>SW_SPST</value>
+      <footprint>Button_Switch_SMD:SW_SPST_EVQP2</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Switch" part="SW_SPST" description="Single Pole Single Throw (SPST) switch"/>
+      <sheetpath names="/subSch_mcu/" tstamps="/6060D278/"/>
+      <tstamp>6045E5AD</tstamp>
+    </comp>
+    <comp ref="C25">
+      <value>0.1u</value>
+      <footprint>Capacitor_SMD:C_0402_1005Metric</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="C" description="Unpolarized capacitor"/>
+      <sheetpath names="/subSch_mcu/" tstamps="/6060D278/"/>
+      <tstamp>60462B78</tstamp>
+    </comp>
+    <comp ref="R42">
+      <value>1k</value>
+      <footprint>Resistor_SMD:R_0402_1005Metric</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="R" description="Resistor"/>
+      <sheetpath names="/subSch_mcu/" tstamps="/6060D278/"/>
+      <tstamp>60465ED5</tstamp>
+    </comp>
+    <comp ref="D13">
+      <value>LED</value>
+      <footprint>LED_SMD:LED_0603_1608Metric</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="LED" description="Light emitting diode"/>
+      <sheetpath names="/subSch_mcu/" tstamps="/6060D278/"/>
+      <tstamp>60504C8F</tstamp>
+    </comp>
+    <comp ref="R43">
+      <value>330</value>
+      <footprint>Resistor_SMD:R_0402_1005Metric</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="R" description="Resistor"/>
+      <sheetpath names="/subSch_mcu/" tstamps="/6060D278/"/>
+      <tstamp>60509484</tstamp>
+    </comp>
+    <comp ref="C46">
+      <value>100p</value>
+      <footprint>Capacitor_SMD:C_0402_1005Metric</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="C" description="Unpolarized capacitor"/>
+      <sheetpath names="/subSch_mcu/" tstamps="/6060D278/"/>
+      <tstamp>60699D00</tstamp>
+    </comp>
+    <comp ref="R62">
+      <value>1.6k</value>
+      <footprint>Resistor_SMD:R_0402_1005Metric</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="R" description="Resistor"/>
+      <sheetpath names="/subSch_mcu/" tstamps="/6060D278/"/>
+      <tstamp>604E79C7</tstamp>
+    </comp>
+    <comp ref="C23">
+      <value>0.001u</value>
+      <footprint>Capacitor_SMD:C_0402_1005Metric</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="C" description="Unpolarized capacitor"/>
+      <sheetpath names="/subSch_mcu/" tstamps="/6060D278/"/>
+      <tstamp>604E79CD</tstamp>
+    </comp>
+    <comp ref="R63">
+      <value>1.6k</value>
+      <footprint>Resistor_SMD:R_0402_1005Metric</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="R" description="Resistor"/>
+      <sheetpath names="/subSch_mcu/" tstamps="/6060D278/"/>
+      <tstamp>6051ED98</tstamp>
+    </comp>
+    <comp ref="C24">
+      <value>0.001u</value>
+      <footprint>Capacitor_SMD:C_0402_1005Metric</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="C" description="Unpolarized capacitor"/>
+      <sheetpath names="/subSch_mcu/" tstamps="/6060D278/"/>
+      <tstamp>6052B69A</tstamp>
+    </comp>
+    <comp ref="C50">
+      <value>0.1u</value>
+      <footprint>Capacitor_SMD:C_0402_1005Metric</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="C" description="Unpolarized capacitor"/>
+      <sheetpath names="/subSch_mcu/" tstamps="/6060D278/"/>
+      <tstamp>60579E5B</tstamp>
+    </comp>
+    <comp ref="C52">
+      <value>0.1u</value>
+      <footprint>Capacitor_SMD:C_0402_1005Metric</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="C" description="Unpolarized capacitor"/>
+      <sheetpath names="/subSch_mcu/" tstamps="/6060D278/"/>
+      <tstamp>6058684A</tstamp>
+    </comp>
+    <comp ref="C53">
+      <value>4.7u</value>
+      <footprint>Capacitor_SMD:C_0402_1005Metric</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="C" description="Unpolarized capacitor"/>
+      <sheetpath names="/subSch_mcu/" tstamps="/6060D278/"/>
+      <tstamp>605994AC</tstamp>
+    </comp>
+    <comp ref="Y1">
+      <value>ABM8G-25MHZ-18-D2Y-T</value>
+      <footprint>Crystal:Crystal_SMD_Abracon_ABM8G-4Pin_3.2x2.5mm</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="Crystal_GND24" description="Four pin crystal, GND on pins 2 and 4"/>
+      <sheetpath names="/subSch_mcu/" tstamps="/6060D278/"/>
+      <tstamp>6089879B</tstamp>
+    </comp>
+    <comp ref="C13">
+      <value>C</value>
+      <footprint>Capacitor_SMD:C_0402_1005Metric</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="C" description="Unpolarized capacitor"/>
+      <sheetpath names="/subSch_mcu/" tstamps="/6060D278/"/>
+      <tstamp>608987A3</tstamp>
+    </comp>
+    <comp ref="C16">
+      <value>C</value>
+      <footprint>Capacitor_SMD:C_0402_1005Metric</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="C" description="Unpolarized capacitor"/>
+      <sheetpath names="/subSch_mcu/" tstamps="/6060D278/"/>
+      <tstamp>608987A9</tstamp>
+    </comp>
+    <comp ref="R27">
+      <value>11k</value>
+      <footprint>Resistor_SMD:R_0402_1005Metric</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="R" description="Resistor"/>
+      <sheetpath names="/subSch_mcu/" tstamps="/6060D278/"/>
+      <tstamp>60974809</tstamp>
+    </comp>
+    <comp ref="R28">
+      <value>1.5k</value>
+      <footprint>Resistor_SMD:R_0402_1005Metric</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="R" description="Resistor"/>
+      <sheetpath names="/subSch_mcu/" tstamps="/6060D278/"/>
+      <tstamp>6097BCCF</tstamp>
+    </comp>
+    <comp ref="C18">
+      <value>100p</value>
+      <footprint>Capacitor_SMD:C_0402_1005Metric</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="C" description="Unpolarized capacitor"/>
+      <sheetpath names="/subSch_mcu/" tstamps="/6060D278/"/>
+      <tstamp>60A0EF80</tstamp>
+    </comp>
+    <comp ref="R29">
+      <value>11k</value>
+      <footprint>Resistor_SMD:R_0402_1005Metric</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="R" description="Resistor"/>
+      <sheetpath names="/subSch_mcu/" tstamps="/6060D278/"/>
+      <tstamp>60A0EF89</tstamp>
+    </comp>
+    <comp ref="R31">
+      <value>1.5k</value>
+      <footprint>Resistor_SMD:R_0402_1005Metric</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="R" description="Resistor"/>
+      <sheetpath names="/subSch_mcu/" tstamps="/6060D278/"/>
+      <tstamp>60A0EF8F</tstamp>
+    </comp>
+    <comp ref="R32">
+      <value>11k</value>
+      <footprint>Resistor_SMD:R_0402_1005Metric</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="R" description="Resistor"/>
+      <sheetpath names="/subSch_mcu/" tstamps="/6060D278/"/>
+      <tstamp>60A3973F</tstamp>
+    </comp>
+    <comp ref="R33">
+      <value>1.5k</value>
+      <footprint>Resistor_SMD:R_0402_1005Metric</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="R" description="Resistor"/>
+      <sheetpath names="/subSch_mcu/" tstamps="/6060D278/"/>
+      <tstamp>60A39745</tstamp>
+    </comp>
+    <comp ref="C21">
+      <value>100p</value>
+      <footprint>Capacitor_SMD:C_0402_1005Metric</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="C" description="Unpolarized capacitor"/>
+      <sheetpath names="/subSch_mcu/" tstamps="/6060D278/"/>
+      <tstamp>60A39737</tstamp>
+    </comp>
+    <comp ref="IC1">
+      <value>STSPIN32G4</value>
+      <footprint>SamacSys_Parts:QFN50P900X900X100-65N-D</footprint>
+      <datasheet>https://www.st.com/resource/en/datasheet/stspin32g4.pdf</datasheet>
+      <fields>
+        <field name="Description">3-PHASE BRUSHLESS MOTOR CONTROLL</field>
+        <field name="Height">1</field>
+        <field name="Manufacturer_Name">STMicroelectronics</field>
+        <field name="Manufacturer_Part_Number">STSPIN32G4</field>
+      </fields>
+      <libsource lib="SamacSys_Parts" part="STSPIN32G4" description="3-PHASE BRUSHLESS MOTOR CONTROLL"/>
+      <sheetpath names="/subSch_mcu/" tstamps="/6060D278/"/>
+      <tstamp>6088D81B</tstamp>
+    </comp>
+    <comp ref="R30">
+      <value>0</value>
+      <footprint>Resistor_SMD:R_0402_1005Metric</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="R" description="Resistor"/>
+      <sheetpath names="/subSch_mcu/" tstamps="/6060D278/"/>
+      <tstamp>60955BCE</tstamp>
+    </comp>
+    <comp ref="C26">
+      <value>10u</value>
+      <footprint>Capacitor_SMD:C_0603_1608Metric</footprint>
+      <datasheet>]</datasheet>
+      <libsource lib="Device" part="C" description="Unpolarized capacitor"/>
+      <sheetpath names="/subSch_mcu/" tstamps="/6060D278/"/>
+      <tstamp>609F973A</tstamp>
+    </comp>
+    <comp ref="L2">
+      <value>33u</value>
+      <footprint>Inductor_SMD:L_Sumida_CDMC6D28_7.25x6.5mm</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="L" description="Inductor"/>
+      <sheetpath names="/subSch_mcu/" tstamps="/6060D278/"/>
+      <tstamp>60A05CE4</tstamp>
+    </comp>
+    <comp ref="D12">
+      <value>STPS1L40M</value>
+      <footprint>SamacSys_Parts:STPS1L40M</footprint>
+      <datasheet>http://www.st.com/content/ccc/resource/technical/document/datasheet/62/69/a4/97/73/11/43/c2/CD00003015.pdf/files/CD00003015.pdf/jcr:content/translations/en.CD00003015.pdf</datasheet>
+      <fields>
+        <field name="Description">STMICROELECTRONICS - STPS1L40M - SCHOTTKY RECTIFIER, 1A, 40V, DO-216AA</field>
+        <field name="Height">1</field>
+        <field name="Manufacturer_Name">STMicroelectronics</field>
+        <field name="Manufacturer_Part_Number">STPS1L40M</field>
+        <field name="Mouser Part Number">511-STPS1L40M</field>
+        <field name="Mouser Price/Stock">https://www.mouser.co.uk/ProductDetail/STMicroelectronics/STPS1L40M/?qs=1tTY8DFIKADyj1WerxBVhA%3D%3D</field>
+      </fields>
+      <libsource lib="SamacSys_Parts" part="STPS1L40M" description="STMICROELECTRONICS - STPS1L40M - SCHOTTKY RECTIFIER, 1A, 40V, DO-216AA"/>
+      <sheetpath names="/subSch_mcu/" tstamps="/6060D278/"/>
+      <tstamp>60A42C76</tstamp>
+    </comp>
+    <comp ref="C20">
+      <value>0.1u</value>
+      <footprint>Capacitor_SMD:C_0402_1005Metric</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="C" description="Unpolarized capacitor"/>
+      <sheetpath names="/subSch_mcu/" tstamps="/6060D278/"/>
+      <tstamp>60ACCFD0</tstamp>
+    </comp>
+    <comp ref="L1">
+      <value>L</value>
+      <footprint>Inductor_SMD:L_0603_1608Metric</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="L" description="Inductor"/>
+      <sheetpath names="/subSch_mcu/" tstamps="/6060D278/"/>
+      <tstamp>60AF0CF3</tstamp>
+    </comp>
+    <comp ref="C10">
+      <value>1u</value>
+      <footprint>Capacitor_SMD:C_0402_1005Metric</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="C" description="Unpolarized capacitor"/>
+      <sheetpath names="/subSch_mcu/" tstamps="/6060D278/"/>
+      <tstamp>60B380BC</tstamp>
+    </comp>
+    <comp ref="C11">
+      <value>0.01u</value>
+      <footprint>Capacitor_SMD:C_0402_1005Metric</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="C" description="Unpolarized capacitor"/>
+      <sheetpath names="/subSch_mcu/" tstamps="/6060D278/"/>
+      <tstamp>60B380C2</tstamp>
+    </comp>
+    <comp ref="SW2">
+      <value>SW_SPST</value>
+      <footprint>Button_Switch_SMD:SW_SPST_EVQP2</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Switch" part="SW_SPST" description="Single Pole Single Throw (SPST) switch"/>
+      <sheetpath names="/subSch_mcu/" tstamps="/6060D278/"/>
+      <tstamp>60C9B66A</tstamp>
+    </comp>
+    <comp ref="C8">
+      <value>0.1u</value>
+      <footprint>Capacitor_SMD:C_0402_1005Metric</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="C" description="Unpolarized capacitor"/>
+      <sheetpath names="/subSch_mcu/" tstamps="/6060D278/"/>
+      <tstamp>60C9B673</tstamp>
+    </comp>
+    <comp ref="R26">
+      <value>1k</value>
+      <footprint>Resistor_SMD:R_0402_1005Metric</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="R" description="Resistor"/>
+      <sheetpath names="/subSch_mcu/" tstamps="/6060D278/"/>
+      <tstamp>60C9B680</tstamp>
+    </comp>
+    <comp ref="R70">
+      <value>22k</value>
+      <footprint>Resistor_SMD:R_0402_1005Metric</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="R" description="Resistor"/>
+      <sheetpath names="/subSch_mcu/" tstamps="/6060D278/"/>
+      <tstamp>60D4D278</tstamp>
+    </comp>
+    <comp ref="R71">
+      <value>10k</value>
+      <footprint>Resistor_SMD:R_0402_1005Metric</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="R" description="Resistor"/>
+      <sheetpath names="/subSch_mcu/" tstamps="/6060D278/"/>
+      <tstamp>60D5AD54</tstamp>
+    </comp>
+    <comp ref="Q3">
+      <value>STL180N6F7</value>
+      <footprint>SamacSys_Parts:STL140N6F7</footprint>
+      <datasheet>https://www.st.com/resource/en/datasheet/stl140n6f7.pdf</datasheet>
+      <fields>
+        <field name="Description">N-channel 60 V, 1.9 m typ., 120 A, STripFET F7 Power MOSFET in a PowerFLAT 5x6 package</field>
+        <field name="Height">0.95</field>
+        <field name="Manufacturer_Name">STMicroelectronics</field>
+        <field name="Manufacturer_Part_Number">STL180N6F7</field>
+        <field name="Mouser Part Number">511-STL180N6F7</field>
+        <field name="Mouser Price/Stock">https://www.mouser.co.uk/ProductDetail/STMicroelectronics/STL180N6F7?qs=vLWxofP3U2xHOjKiB8nfgg%3D%3D</field>
+      </fields>
+      <libsource lib="SamacSys_Parts" part="STL180N6F7" description="N-channel 60 V, 1.9 m typ., 120 A, STripFET F7 Power MOSFET in a PowerFLAT 5x6 package"/>
+      <sheetpath names="/subSch_3phasebridge/" tstamps="/5FF17E59/"/>
+      <tstamp>60278339</tstamp>
+    </comp>
+    <comp ref="R54">
+      <value>10k</value>
+      <footprint>Resistor_SMD:R_0402_1005Metric</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="R" description="Resistor"/>
+      <sheetpath names="/subSch_3phasebridge/" tstamps="/5FF17E59/"/>
+      <tstamp>6027F62F</tstamp>
+    </comp>
+    <comp ref="R50">
+      <value>33</value>
+      <footprint>Resistor_SMD:R_0402_1005Metric</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="R" description="Resistor"/>
+      <sheetpath names="/subSch_3phasebridge/" tstamps="/5FF17E59/"/>
+      <tstamp>60280AFB</tstamp>
+    </comp>
+    <comp ref="Q4">
+      <value>STL180N6F7</value>
+      <footprint>SamacSys_Parts:STL140N6F7</footprint>
+      <datasheet>https://www.st.com/resource/en/datasheet/stl140n6f7.pdf</datasheet>
+      <fields>
+        <field name="Description">N-channel 60 V, 1.9 m typ., 120 A, STripFET F7 Power MOSFET in a PowerFLAT 5x6 package</field>
+        <field name="Height">0.95</field>
+        <field name="Manufacturer_Name">STMicroelectronics</field>
+        <field name="Manufacturer_Part_Number">STL180N6F7</field>
+        <field name="Mouser Part Number">511-STL180N6F7</field>
+        <field name="Mouser Price/Stock">https://www.mouser.co.uk/ProductDetail/STMicroelectronics/STL180N6F7?qs=vLWxofP3U2xHOjKiB8nfgg%3D%3D</field>
+      </fields>
+      <libsource lib="SamacSys_Parts" part="STL180N6F7" description="N-channel 60 V, 1.9 m typ., 120 A, STripFET F7 Power MOSFET in a PowerFLAT 5x6 package"/>
+      <sheetpath names="/subSch_3phasebridge/" tstamps="/5FF17E59/"/>
+      <tstamp>602853EA</tstamp>
+    </comp>
+    <comp ref="R56">
+      <value>10k</value>
+      <footprint>Resistor_SMD:R_0402_1005Metric</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="R" description="Resistor"/>
+      <sheetpath names="/subSch_3phasebridge/" tstamps="/5FF17E59/"/>
+      <tstamp>602868CE</tstamp>
+    </comp>
+    <comp ref="R52">
+      <value>33</value>
+      <footprint>Resistor_SMD:R_0402_1005Metric</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="R" description="Resistor"/>
+      <sheetpath names="/subSch_3phasebridge/" tstamps="/5FF17E59/"/>
+      <tstamp>602868D4</tstamp>
+    </comp>
+    <comp ref="C42">
+      <value>1u</value>
+      <footprint>Capacitor_SMD:C_0402_1005Metric</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="C" description="Unpolarized capacitor"/>
+      <sheetpath names="/subSch_3phasebridge/" tstamps="/5FF17E59/"/>
+      <tstamp>6028B08B</tstamp>
+    </comp>
+    <comp ref="R58">
+      <value>0.003</value>
+      <footprint>Resistor_SMD:R_2512_6332Metric</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="R" description="Resistor"/>
+      <sheetpath names="/subSch_3phasebridge/" tstamps="/5FF17E59/"/>
+      <tstamp>6039E765</tstamp>
+    </comp>
+    <comp ref="JP2">
+      <value>SolderJumper_2_Bridged</value>
+      <footprint>Jumper:SolderJumper-2_P1.3mm_Open_Pad1.0x1.5mm</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Jumper" part="SolderJumper_2_Bridged" description="Solder Jumper, 2-pole, closed/bridged"/>
+      <sheetpath names="/subSch_3phasebridge/" tstamps="/5FF17E59/"/>
+      <tstamp>603BB496</tstamp>
+    </comp>
+    <comp ref="Q5">
+      <value>STL180N6F7</value>
+      <footprint>SamacSys_Parts:STL140N6F7</footprint>
+      <datasheet>https://www.st.com/resource/en/datasheet/stl140n6f7.pdf</datasheet>
+      <fields>
+        <field name="Description">N-channel 60 V, 1.9 m typ., 120 A, STripFET F7 Power MOSFET in a PowerFLAT 5x6 package</field>
+        <field name="Height">0.95</field>
+        <field name="Manufacturer_Name">STMicroelectronics</field>
+        <field name="Manufacturer_Part_Number">STL180N6F7</field>
+        <field name="Mouser Part Number">511-STL180N6F7</field>
+        <field name="Mouser Price/Stock">https://www.mouser.co.uk/ProductDetail/STMicroelectronics/STL180N6F7?qs=vLWxofP3U2xHOjKiB8nfgg%3D%3D</field>
+      </fields>
+      <libsource lib="SamacSys_Parts" part="STL180N6F7" description="N-channel 60 V, 1.9 m typ., 120 A, STripFET F7 Power MOSFET in a PowerFLAT 5x6 package"/>
+      <sheetpath names="/subSch_3phasebridge/" tstamps="/5FF17E59/"/>
+      <tstamp>603EC7F7</tstamp>
+    </comp>
+    <comp ref="Q6">
+      <value>STL180N6F7</value>
+      <footprint>SamacSys_Parts:STL140N6F7</footprint>
+      <datasheet>https://www.st.com/resource/en/datasheet/stl140n6f7.pdf</datasheet>
+      <fields>
+        <field name="Description">N-channel 60 V, 1.9 m typ., 120 A, STripFET F7 Power MOSFET in a PowerFLAT 5x6 package</field>
+        <field name="Height">0.95</field>
+        <field name="Manufacturer_Name">STMicroelectronics</field>
+        <field name="Manufacturer_Part_Number">STL180N6F7</field>
+        <field name="Mouser Part Number">511-STL180N6F7</field>
+        <field name="Mouser Price/Stock">https://www.mouser.co.uk/ProductDetail/STMicroelectronics/STL180N6F7?qs=vLWxofP3U2xHOjKiB8nfgg%3D%3D</field>
+      </fields>
+      <libsource lib="SamacSys_Parts" part="STL180N6F7" description="N-channel 60 V, 1.9 m typ., 120 A, STripFET F7 Power MOSFET in a PowerFLAT 5x6 package"/>
+      <sheetpath names="/subSch_3phasebridge/" tstamps="/5FF17E59/"/>
+      <tstamp>603EC82D</tstamp>
+    </comp>
+    <comp ref="R59">
+      <value>0.003</value>
+      <footprint>Resistor_SMD:R_2512_6332Metric</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="R" description="Resistor"/>
+      <sheetpath names="/subSch_3phasebridge/" tstamps="/5FF17E59/"/>
+      <tstamp>603EC8C8</tstamp>
+    </comp>
+    <comp ref="JP3">
+      <value>SolderJumper_2_Bridged</value>
+      <footprint>Jumper:SolderJumper-2_P1.3mm_Open_Pad1.0x1.5mm</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Jumper" part="SolderJumper_2_Bridged" description="Solder Jumper, 2-pole, closed/bridged"/>
+      <sheetpath names="/subSch_3phasebridge/" tstamps="/5FF17E59/"/>
+      <tstamp>603EC8D8</tstamp>
+    </comp>
+    <comp ref="Q1">
+      <value>STL180N6F7</value>
+      <footprint>SamacSys_Parts:STL140N6F7</footprint>
+      <datasheet>https://www.st.com/resource/en/datasheet/stl140n6f7.pdf</datasheet>
+      <fields>
+        <field name="Description">N-channel 60 V, 1.9 m typ., 120 A, STripFET F7 Power MOSFET in a PowerFLAT 5x6 package</field>
+        <field name="Height">0.95</field>
+        <field name="Manufacturer_Name">STMicroelectronics</field>
+        <field name="Manufacturer_Part_Number">STL180N6F7</field>
+        <field name="Mouser Part Number">511-STL180N6F7</field>
+        <field name="Mouser Price/Stock">https://www.mouser.co.uk/ProductDetail/STMicroelectronics/STL180N6F7?qs=vLWxofP3U2xHOjKiB8nfgg%3D%3D</field>
+      </fields>
+      <libsource lib="SamacSys_Parts" part="STL180N6F7" description="N-channel 60 V, 1.9 m typ., 120 A, STripFET F7 Power MOSFET in a PowerFLAT 5x6 package"/>
+      <sheetpath names="/subSch_3phasebridge/" tstamps="/5FF17E59/"/>
+      <tstamp>60403942</tstamp>
+    </comp>
+    <comp ref="Q2">
+      <value>STL180N6F7</value>
+      <footprint>SamacSys_Parts:STL140N6F7</footprint>
+      <datasheet>https://www.st.com/resource/en/datasheet/stl140n6f7.pdf</datasheet>
+      <fields>
+        <field name="Description">N-channel 60 V, 1.9 m typ., 120 A, STripFET F7 Power MOSFET in a PowerFLAT 5x6 package</field>
+        <field name="Height">0.95</field>
+        <field name="Manufacturer_Name">STMicroelectronics</field>
+        <field name="Manufacturer_Part_Number">STL180N6F7</field>
+        <field name="Mouser Part Number">511-STL180N6F7</field>
+        <field name="Mouser Price/Stock">https://www.mouser.co.uk/ProductDetail/STMicroelectronics/STL180N6F7?qs=vLWxofP3U2xHOjKiB8nfgg%3D%3D</field>
+      </fields>
+      <libsource lib="SamacSys_Parts" part="STL180N6F7" description="N-channel 60 V, 1.9 m typ., 120 A, STripFET F7 Power MOSFET in a PowerFLAT 5x6 package"/>
+      <sheetpath names="/subSch_3phasebridge/" tstamps="/5FF17E59/"/>
+      <tstamp>60403978</tstamp>
+    </comp>
+    <comp ref="R48">
+      <value>0.003</value>
+      <footprint>Resistor_SMD:R_2512_6332Metric</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="R" description="Resistor"/>
+      <sheetpath names="/subSch_3phasebridge/" tstamps="/5FF17E59/"/>
+      <tstamp>60403A13</tstamp>
+    </comp>
+    <comp ref="JP1">
+      <value>SolderJumper_2_Bridged</value>
+      <footprint>Jumper:SolderJumper-2_P1.3mm_Open_Pad1.0x1.5mm</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Jumper" part="SolderJumper_2_Bridged" description="Solder Jumper, 2-pole, closed/bridged"/>
+      <sheetpath names="/subSch_3phasebridge/" tstamps="/5FF17E59/"/>
+      <tstamp>60403A23</tstamp>
+    </comp>
+    <comp ref="D19">
+      <value>BAT48JFILM</value>
+      <footprint>Diode_SMD:D_SOD-323</footprint>
+      <datasheet>www.st.com/resource/en/datasheet/bat48.pdf</datasheet>
+      <libsource lib="Diode" part="BAT48JFILM" description="40V 0.35A Small Signal Schottky Diode, SOD-323"/>
+      <sheetpath names="/subSch_3phasebridge/" tstamps="/5FF17E59/"/>
+      <tstamp>60794AEF</tstamp>
+    </comp>
+    <comp ref="R60">
+      <value>0</value>
+      <footprint>Resistor_SMD:R_0402_1005Metric</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="R" description="Resistor"/>
+      <sheetpath names="/subSch_3phasebridge/" tstamps="/5FF17E59/"/>
+      <tstamp>607D8B04</tstamp>
+    </comp>
+    <comp ref="D21">
+      <value>BAT48JFILM</value>
+      <footprint>Diode_SMD:D_SOD-323</footprint>
+      <datasheet>www.st.com/resource/en/datasheet/bat48.pdf</datasheet>
+      <libsource lib="Diode" part="BAT48JFILM" description="40V 0.35A Small Signal Schottky Diode, SOD-323"/>
+      <sheetpath names="/subSch_3phasebridge/" tstamps="/5FF17E59/"/>
+      <tstamp>6082B929</tstamp>
+    </comp>
+    <comp ref="R65">
+      <value>0</value>
+      <footprint>Resistor_SMD:R_0402_1005Metric</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="R" description="Resistor"/>
+      <sheetpath names="/subSch_3phasebridge/" tstamps="/5FF17E59/"/>
+      <tstamp>6082B92F</tstamp>
+    </comp>
+    <comp ref="R55">
+      <value>0</value>
+      <footprint>Resistor_SMD:R_0402_1005Metric</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="R" description="Resistor"/>
+      <sheetpath names="/subSch_3phasebridge/" tstamps="/5FF17E59/"/>
+      <tstamp>6085618E</tstamp>
+    </comp>
+    <comp ref="R68">
+      <value>10k</value>
+      <footprint>Resistor_SMD:R_0402_1005Metric</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="R" description="Resistor"/>
+      <sheetpath names="/subSch_3phasebridge/" tstamps="/5FF17E59/"/>
+      <tstamp>607B8D5D</tstamp>
+    </comp>
+    <comp ref="R64">
+      <value>33</value>
+      <footprint>Resistor_SMD:R_0402_1005Metric</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="R" description="Resistor"/>
+      <sheetpath names="/subSch_3phasebridge/" tstamps="/5FF17E59/"/>
+      <tstamp>607B8D63</tstamp>
+    </comp>
+    <comp ref="R69">
+      <value>10k</value>
+      <footprint>Resistor_SMD:R_0402_1005Metric</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="R" description="Resistor"/>
+      <sheetpath names="/subSch_3phasebridge/" tstamps="/5FF17E59/"/>
+      <tstamp>607B8D6E</tstamp>
+    </comp>
+    <comp ref="R67">
+      <value>33</value>
+      <footprint>Resistor_SMD:R_0402_1005Metric</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="R" description="Resistor"/>
+      <sheetpath names="/subSch_3phasebridge/" tstamps="/5FF17E59/"/>
+      <tstamp>607B8D74</tstamp>
+    </comp>
+    <comp ref="C28">
+      <value>1u</value>
+      <footprint>Capacitor_SMD:C_0402_1005Metric</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="C" description="Unpolarized capacitor"/>
+      <sheetpath names="/subSch_3phasebridge/" tstamps="/5FF17E59/"/>
+      <tstamp>607B8D7E</tstamp>
+    </comp>
+    <comp ref="D20">
+      <value>BAT48JFILM</value>
+      <footprint>Diode_SMD:D_SOD-323</footprint>
+      <datasheet>www.st.com/resource/en/datasheet/bat48.pdf</datasheet>
+      <libsource lib="Diode" part="BAT48JFILM" description="40V 0.35A Small Signal Schottky Diode, SOD-323"/>
+      <sheetpath names="/subSch_3phasebridge/" tstamps="/5FF17E59/"/>
+      <tstamp>607B8D84</tstamp>
+    </comp>
+    <comp ref="R61">
+      <value>0</value>
+      <footprint>Resistor_SMD:R_0402_1005Metric</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="R" description="Resistor"/>
+      <sheetpath names="/subSch_3phasebridge/" tstamps="/5FF17E59/"/>
+      <tstamp>607B8D8B</tstamp>
+    </comp>
+    <comp ref="D22">
+      <value>BAT48JFILM</value>
+      <footprint>Diode_SMD:D_SOD-323</footprint>
+      <datasheet>www.st.com/resource/en/datasheet/bat48.pdf</datasheet>
+      <libsource lib="Diode" part="BAT48JFILM" description="40V 0.35A Small Signal Schottky Diode, SOD-323"/>
+      <sheetpath names="/subSch_3phasebridge/" tstamps="/5FF17E59/"/>
+      <tstamp>607B8D92</tstamp>
+    </comp>
+    <comp ref="R66">
+      <value>0</value>
+      <footprint>Resistor_SMD:R_0402_1005Metric</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="R" description="Resistor"/>
+      <sheetpath names="/subSch_3phasebridge/" tstamps="/5FF17E59/"/>
+      <tstamp>607B8D98</tstamp>
+    </comp>
+    <comp ref="R57">
+      <value>0</value>
+      <footprint>Resistor_SMD:R_0402_1005Metric</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="R" description="Resistor"/>
+      <sheetpath names="/subSch_3phasebridge/" tstamps="/5FF17E59/"/>
+      <tstamp>607B8DA3</tstamp>
+    </comp>
+    <comp ref="R51">
+      <value>10k</value>
+      <footprint>Resistor_SMD:R_0402_1005Metric</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="R" description="Resistor"/>
+      <sheetpath names="/subSch_3phasebridge/" tstamps="/5FF17E59/"/>
+      <tstamp>607D62DE</tstamp>
+    </comp>
+    <comp ref="R46">
+      <value>33</value>
+      <footprint>Resistor_SMD:R_0402_1005Metric</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="R" description="Resistor"/>
+      <sheetpath names="/subSch_3phasebridge/" tstamps="/5FF17E59/"/>
+      <tstamp>607D62E4</tstamp>
+    </comp>
+    <comp ref="R53">
+      <value>10k</value>
+      <footprint>Resistor_SMD:R_0402_1005Metric</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="R" description="Resistor"/>
+      <sheetpath names="/subSch_3phasebridge/" tstamps="/5FF17E59/"/>
+      <tstamp>607D62EF</tstamp>
+    </comp>
+    <comp ref="R49">
+      <value>33</value>
+      <footprint>Resistor_SMD:R_0402_1005Metric</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="R" description="Resistor"/>
+      <sheetpath names="/subSch_3phasebridge/" tstamps="/5FF17E59/"/>
+      <tstamp>607D62F5</tstamp>
+    </comp>
+    <comp ref="C27">
+      <value>1u</value>
+      <footprint>Capacitor_SMD:C_0402_1005Metric</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="C" description="Unpolarized capacitor"/>
+      <sheetpath names="/subSch_3phasebridge/" tstamps="/5FF17E59/"/>
+      <tstamp>607D62FF</tstamp>
+    </comp>
+    <comp ref="D17">
+      <value>BAT48JFILM</value>
+      <footprint>Diode_SMD:D_SOD-323</footprint>
+      <datasheet>www.st.com/resource/en/datasheet/bat48.pdf</datasheet>
+      <libsource lib="Diode" part="BAT48JFILM" description="40V 0.35A Small Signal Schottky Diode, SOD-323"/>
+      <sheetpath names="/subSch_3phasebridge/" tstamps="/5FF17E59/"/>
+      <tstamp>607D6305</tstamp>
+    </comp>
+    <comp ref="R45">
+      <value>0</value>
+      <footprint>Resistor_SMD:R_0402_1005Metric</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="R" description="Resistor"/>
+      <sheetpath names="/subSch_3phasebridge/" tstamps="/5FF17E59/"/>
+      <tstamp>607D630C</tstamp>
+    </comp>
+    <comp ref="D18">
+      <value>BAT48JFILM</value>
+      <footprint>Diode_SMD:D_SOD-323</footprint>
+      <datasheet>www.st.com/resource/en/datasheet/bat48.pdf</datasheet>
+      <libsource lib="Diode" part="BAT48JFILM" description="40V 0.35A Small Signal Schottky Diode, SOD-323"/>
+      <sheetpath names="/subSch_3phasebridge/" tstamps="/5FF17E59/"/>
+      <tstamp>607D6313</tstamp>
+    </comp>
+    <comp ref="R47">
+      <value>0</value>
+      <footprint>Resistor_SMD:R_0402_1005Metric</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="R" description="Resistor"/>
+      <sheetpath names="/subSch_3phasebridge/" tstamps="/5FF17E59/"/>
+      <tstamp>607D6319</tstamp>
+    </comp>
+    <comp ref="R44">
+      <value>0</value>
+      <footprint>Resistor_SMD:R_0402_1005Metric</footprint>
+      <datasheet>~</datasheet>
+      <libsource lib="Device" part="R" description="Resistor"/>
+      <sheetpath names="/subSch_3phasebridge/" tstamps="/5FF17E59/"/>
+      <tstamp>607D6324</tstamp>
+    </comp>
+  </components>
+  <libparts>
+    <libpart lib="Connector" part="TestPoint">
+      <description>test point</description>
+      <docs>~</docs>
+      <footprints>
+        <fp>Pin*</fp>
+        <fp>Test*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">TP</field>
+        <field name="Value">TestPoint</field>
+      </fields>
+      <pins>
+        <pin num="1" name="1" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="Connector_Generic" part="Conn_01x04">
+      <description>Generic connector, single row, 01x04, script generated (kicad-library-utils/schlib/autogen/connector/)</description>
+      <docs>~</docs>
+      <footprints>
+        <fp>Connector*:*_1x??_*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">J</field>
+        <field name="Value">Conn_01x04</field>
+      </fields>
+      <pins>
+        <pin num="1" name="Pin_1" type="passive"/>
+        <pin num="2" name="Pin_2" type="passive"/>
+        <pin num="3" name="Pin_3" type="passive"/>
+        <pin num="4" name="Pin_4" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="Connector_Generic" part="Conn_01x05">
+      <description>Generic connector, single row, 01x05, script generated (kicad-library-utils/schlib/autogen/connector/)</description>
+      <docs>~</docs>
+      <footprints>
+        <fp>Connector*:*_1x??_*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">J</field>
+        <field name="Value">Conn_01x05</field>
+      </fields>
+      <pins>
+        <pin num="1" name="Pin_1" type="passive"/>
+        <pin num="2" name="Pin_2" type="passive"/>
+        <pin num="3" name="Pin_3" type="passive"/>
+        <pin num="4" name="Pin_4" type="passive"/>
+        <pin num="5" name="Pin_5" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="Device" part="C">
+      <description>Unpolarized capacitor</description>
+      <docs>~</docs>
+      <footprints>
+        <fp>C_*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">C</field>
+        <field name="Value">C</field>
+      </fields>
+      <pins>
+        <pin num="1" name="~" type="passive"/>
+        <pin num="2" name="~" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="Device" part="Crystal_GND24">
+      <description>Four pin crystal, GND on pins 2 and 4</description>
+      <docs>~</docs>
+      <footprints>
+        <fp>Crystal*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">Y</field>
+        <field name="Value">Crystal_GND24</field>
+      </fields>
+      <pins>
+        <pin num="1" name="1" type="passive"/>
+        <pin num="2" name="2" type="passive"/>
+        <pin num="3" name="3" type="passive"/>
+        <pin num="4" name="4" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="Device" part="D">
+      <description>Diode</description>
+      <docs>~</docs>
+      <footprints>
+        <fp>TO-???*</fp>
+        <fp>*_Diode_*</fp>
+        <fp>*SingleDiode*</fp>
+        <fp>D_*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">D</field>
+        <field name="Value">D</field>
+      </fields>
+      <pins>
+        <pin num="1" name="K" type="passive"/>
+        <pin num="2" name="A" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="Device" part="D_Schottky">
+      <description>Schottky diode</description>
+      <docs>~</docs>
+      <footprints>
+        <fp>TO-???*</fp>
+        <fp>*_Diode_*</fp>
+        <fp>*SingleDiode*</fp>
+        <fp>D_*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">D</field>
+        <field name="Value">D_Schottky</field>
+      </fields>
+      <pins>
+        <pin num="1" name="K" type="passive"/>
+        <pin num="2" name="A" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="Device" part="L">
+      <description>Inductor</description>
+      <docs>~</docs>
+      <footprints>
+        <fp>Choke_*</fp>
+        <fp>*Coil*</fp>
+        <fp>Inductor_*</fp>
+        <fp>L_*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">L</field>
+        <field name="Value">L</field>
+      </fields>
+      <pins>
+        <pin num="1" name="1" type="passive"/>
+        <pin num="2" name="2" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="Device" part="LED">
+      <description>Light emitting diode</description>
+      <docs>~</docs>
+      <footprints>
+        <fp>LED*</fp>
+        <fp>LED_SMD:*</fp>
+        <fp>LED_THT:*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">D</field>
+        <field name="Value">LED</field>
+      </fields>
+      <pins>
+        <pin num="1" name="K" type="passive"/>
+        <pin num="2" name="A" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="Device" part="R">
+      <description>Resistor</description>
+      <docs>~</docs>
+      <footprints>
+        <fp>R_*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">R</field>
+        <field name="Value">R</field>
+      </fields>
+      <pins>
+        <pin num="1" name="~" type="passive"/>
+        <pin num="2" name="~" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="Diode" part="BAT48JFILM">
+      <aliases>
+        <alias>PMEG6010CEJ</alias>
+        <alias>NSR0340HT1G</alias>
+        <alias>BAT60A</alias>
+      </aliases>
+      <description>40V 0.35A Small Signal Schottky Diode, SOD-323</description>
+      <docs>www.st.com/resource/en/datasheet/bat48.pdf</docs>
+      <footprints>
+        <fp>D*SOD?323*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">D</field>
+        <field name="Value">BAT48JFILM</field>
+        <field name="Footprint">Diode_SMD:D_SOD-323</field>
+      </fields>
+      <pins>
+        <pin num="1" name="K" type="passive"/>
+        <pin num="2" name="A" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="Jumper" part="SolderJumper_2_Bridged">
+      <description>Solder Jumper, 2-pole, closed/bridged</description>
+      <docs>~</docs>
+      <footprints>
+        <fp>SolderJumper*Bridged*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">JP</field>
+        <field name="Value">SolderJumper_2_Bridged</field>
+      </fields>
+      <pins>
+        <pin num="1" name="A" type="passive"/>
+        <pin num="2" name="B" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="SamacSys_Parts" part="52271-1179">
+      <description>Molex FFC/FPC SMT Series 1mm Pitch 11 Way 1 Row Right Angle SMT Female FPC Connector, Tin Bismuth Alloy Plated Contacts</description>
+      <docs>https://componentsearchengine.com/Datasheets/1/52271-1179.pdf</docs>
+      <fields>
+        <field name="Reference">J</field>
+        <field name="Value">52271-1179</field>
+        <field name="Footprint">522711179</field>
+        <field name="Datasheet">https://componentsearchengine.com/Datasheets/1/52271-1179.pdf</field>
+        <field name="Description">Molex FFC/FPC SMT Series 1mm Pitch 11 Way 1 Row Right Angle SMT Female FPC Connector, Tin Bismuth Alloy Plated Contacts</field>
+        <field name="Height">3.2</field>
+        <field name="Mouser Part Number">538-52271-1179</field>
+        <field name="Mouser Price/Stock">https://www.mouser.com/Search/Refine.aspx?Keyword=538-52271-1179</field>
+        <field name="Manufacturer_Name">Molex</field>
+        <field name="Manufacturer_Part_Number">52271-1179</field>
+      </fields>
+      <pins>
+        <pin num="1" name="1" type="passive"/>
+        <pin num="2" name="2" type="passive"/>
+        <pin num="3" name="3" type="passive"/>
+        <pin num="4" name="4" type="passive"/>
+        <pin num="5" name="5" type="passive"/>
+        <pin num="6" name="6" type="passive"/>
+        <pin num="7" name="7" type="passive"/>
+        <pin num="8" name="8" type="passive"/>
+        <pin num="9" name="9" type="passive"/>
+        <pin num="10" name="10" type="passive"/>
+        <pin num="11" name="11" type="passive"/>
+        <pin num="MP1" name="MP1" type="passive"/>
+        <pin num="MP2" name="MP2" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="SamacSys_Parts" part="ADA4571WHRZ-R7">
+      <description>Magnetoresistive Sensor 52(mV/) Automotive 8-Pin SOIC N T/R</description>
+      <docs>https://www.arrow.com/en/products/ada4571whrz-r7/analog-devices</docs>
+      <fields>
+        <field name="Reference">IC</field>
+        <field name="Value">ADA4571WHRZ-R7</field>
+        <field name="Footprint">SOIC127P600X175-8N</field>
+        <field name="Datasheet">https://www.arrow.com/en/products/ada4571whrz-r7/analog-devices</field>
+        <field name="Description">Magnetoresistive Sensor 52(mV/) Automotive 8-Pin SOIC N T/R</field>
+        <field name="Height">1.75</field>
+        <field name="Mouser Part Number">584-ADA4571WHRZ-R7</field>
+        <field name="Mouser Price/Stock">https://www.mouser.co.uk/ProductDetail/Analog-Devices/ADA4571WHRZ-R7?qs=SA9szVeHbUGiRnDSGnDPgQ%3D%3D</field>
+        <field name="Manufacturer_Name">Analog Devices</field>
+        <field name="Manufacturer_Part_Number">ADA4571WHRZ-R7</field>
+      </fields>
+      <pins>
+        <pin num="1" name="GC" type="passive"/>
+        <pin num="2" name="VCOS" type="passive"/>
+        <pin num="3" name="GND_1" type="passive"/>
+        <pin num="4" name="VSIN" type="passive"/>
+        <pin num="5" name="VTEMP" type="passive"/>
+        <pin num="6" name="GND_2" type="passive"/>
+        <pin num="7" name="VDD" type="passive"/>
+        <pin num="8" name="PD" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="SamacSys_Parts" part="ICM-20648">
+      <description>IMUs - Inertial Measurement Units DMP-Enabled 6-Axis Integrated Solution for Wrist-Worn Wearable</description>
+      <docs>http://www.invensense.com/wp-content/uploads/2017/07/DS-000179-ICM-20648-v1.2-TYP.pdf</docs>
+      <fields>
+        <field name="Reference">IC</field>
+        <field name="Value">ICM-20648</field>
+        <field name="Footprint">QFN40P300X300X90-25N-D</field>
+        <field name="Datasheet">http://www.invensense.com/wp-content/uploads/2017/07/DS-000179-ICM-20648-v1.2-TYP.pdf</field>
+        <field name="Description">IMUs - Inertial Measurement Units DMP-Enabled 6-Axis Integrated Solution for Wrist-Worn Wearable</field>
+        <field name="Height">0.9</field>
+        <field name="Mouser Part Number">410-ICM-20648</field>
+        <field name="Mouser Price/Stock">https://www.mouser.co.uk/ProductDetail/TDK-InvenSense/ICM-20648/?qs=u4fy%2FsgLU9NQzxgFUirJpA%3D%3D</field>
+        <field name="Manufacturer_Name">TDK</field>
+        <field name="Manufacturer_Part_Number">ICM-20648</field>
+      </fields>
+      <pins>
+        <pin num="1" name="NC_1" type="passive"/>
+        <pin num="2" name="NC_2" type="passive"/>
+        <pin num="3" name="NC_3" type="passive"/>
+        <pin num="4" name="NC_4" type="passive"/>
+        <pin num="5" name="NC_5" type="passive"/>
+        <pin num="6" name="NC_6" type="passive"/>
+        <pin num="7" name="AUX_CL" type="passive"/>
+        <pin num="8" name="VDDIO" type="passive"/>
+        <pin num="9" name="SDO_/_AD0" type="passive"/>
+        <pin num="10" name="REGOUT" type="passive"/>
+        <pin num="11" name="FSYNC" type="passive"/>
+        <pin num="12" name="INT1" type="passive"/>
+        <pin num="13" name="VDD" type="passive"/>
+        <pin num="14" name="NC_7" type="passive"/>
+        <pin num="15" name="NC_8" type="passive"/>
+        <pin num="16" name="NC_9" type="passive"/>
+        <pin num="17" name="NC_10" type="passive"/>
+        <pin num="18" name="GND" type="passive"/>
+        <pin num="19" name="INT2" type="passive"/>
+        <pin num="20" name="RESV" type="passive"/>
+        <pin num="21" name="AUX_DA" type="passive"/>
+        <pin num="22" name="NCS" type="passive"/>
+        <pin num="23" name="SCL_/_SCLK" type="passive"/>
+        <pin num="24" name="SDA_/_SDI" type="passive"/>
+        <pin num="25" name="THERMAL_PAD" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="SamacSys_Parts" part="LDFPVR">
+      <description>STMicroelectronics LDFPVR, LDO Voltage Regulator, Adjustable 1A, 0.8  12 V +/-1.5%, 6-Pin DFN</description>
+      <docs>http://www.st.com/content/ccc/resource/technical/document/datasheet/3e/64/32/d3/73/04/4a/70/DM00099995.pdf/files/DM00099995.pdf/jcr:content/translations/en.DM00099995.pdf</docs>
+      <fields>
+        <field name="Reference">IC</field>
+        <field name="Value">LDFPVR</field>
+        <field name="Footprint">SON65P200X200X100-7N-D</field>
+        <field name="Datasheet">http://www.st.com/content/ccc/resource/technical/document/datasheet/3e/64/32/d3/73/04/4a/70/DM00099995.pdf/files/DM00099995.pdf/jcr:content/translations/en.DM00099995.pdf</field>
+        <field name="Description">STMicroelectronics LDFPVR, LDO Voltage Regulator, Adjustable 1A, 0.8  12 V +/-1.5%, 6-Pin DFN</field>
+        <field name="Height">1</field>
+        <field name="Mouser Part Number">511-LDFPVR</field>
+        <field name="Mouser Price/Stock">https://www.mouser.co.uk/ProductDetail/STMicroelectronics/LDFPVR?qs=xLDY6iXSiQbeQdnd6kJYEg%3D%3D</field>
+        <field name="Manufacturer_Name">STMicroelectronics</field>
+        <field name="Manufacturer_Part_Number">LDFPVR</field>
+      </fields>
+      <pins>
+        <pin num="1" name="VOUT" type="passive"/>
+        <pin num="2" name="ADJ/NC" type="passive"/>
+        <pin num="3" name="PG" type="passive"/>
+        <pin num="4" name="GND_1" type="passive"/>
+        <pin num="5" name="EN" type="passive"/>
+        <pin num="6" name="VIN" type="passive"/>
+        <pin num="7" name="GND_2" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="SamacSys_Parts" part="SN65HVD485EDGKR">
+      <description>Half-Duplex RS-485 Transceiver</description>
+      <docs>http://www.ti.com/lit/gpn/sn65hvd485e</docs>
+      <fields>
+        <field name="Reference">IC</field>
+        <field name="Value">SN65HVD485EDGKR</field>
+        <field name="Footprint">SOP65P490X110-8N</field>
+        <field name="Datasheet">http://www.ti.com/lit/gpn/sn65hvd485e</field>
+        <field name="Description">Half-Duplex RS-485 Transceiver</field>
+        <field name="Height">1.1</field>
+        <field name="Mouser Part Number">595-SN65HVD485EDGKR</field>
+        <field name="Mouser Price/Stock">https://www.mouser.co.uk/ProductDetail/Texas-Instruments/SN65HVD485EDGKR?qs=QViXGNcIEAtal8DEB0lJqA%3D%3D</field>
+        <field name="Manufacturer_Name">Texas Instruments</field>
+        <field name="Manufacturer_Part_Number">SN65HVD485EDGKR</field>
+      </fields>
+      <pins>
+        <pin num="1" name="R" type="passive"/>
+        <pin num="2" name="~RE" type="passive"/>
+        <pin num="3" name="DE" type="passive"/>
+        <pin num="4" name="D" type="passive"/>
+        <pin num="5" name="GND" type="passive"/>
+        <pin num="6" name="A" type="passive"/>
+        <pin num="7" name="B" type="passive"/>
+        <pin num="8" name="VCC" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="SamacSys_Parts" part="STL180N6F7">
+      <description>N-channel 60 V, 1.9 m typ., 120 A, STripFET F7 Power MOSFET in a PowerFLAT 5x6 package</description>
+      <docs>https://www.st.com/resource/en/datasheet/stl140n6f7.pdf</docs>
+      <fields>
+        <field name="Reference">Q</field>
+        <field name="Value">STL180N6F7</field>
+        <field name="Footprint">STL140N6F7</field>
+        <field name="Datasheet">https://www.st.com/resource/en/datasheet/stl140n6f7.pdf</field>
+        <field name="Description">N-channel 60 V, 1.9 m typ., 120 A, STripFET F7 Power MOSFET in a PowerFLAT 5x6 package</field>
+        <field name="Height">0.95</field>
+        <field name="Mouser Part Number">511-STL180N6F7</field>
+        <field name="Mouser Price/Stock">https://www.mouser.co.uk/ProductDetail/STMicroelectronics/STL180N6F7?qs=vLWxofP3U2xHOjKiB8nfgg%3D%3D</field>
+        <field name="Manufacturer_Name">STMicroelectronics</field>
+        <field name="Manufacturer_Part_Number">STL180N6F7</field>
+      </fields>
+      <pins>
+        <pin num="1" name="S_1" type="passive"/>
+        <pin num="2" name="S_2" type="passive"/>
+        <pin num="3" name="S_3" type="passive"/>
+        <pin num="4" name="G" type="passive"/>
+        <pin num="5" name="D_1" type="passive"/>
+        <pin num="6" name="D_2" type="passive"/>
+        <pin num="7" name="D_3" type="passive"/>
+        <pin num="8" name="D_4" type="passive"/>
+        <pin num="9" name="D_5" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="SamacSys_Parts" part="STPS1L40M">
+      <description>STMICROELECTRONICS - STPS1L40M - SCHOTTKY RECTIFIER, 1A, 40V, DO-216AA</description>
+      <docs>http://www.st.com/content/ccc/resource/technical/document/datasheet/62/69/a4/97/73/11/43/c2/CD00003015.pdf/files/CD00003015.pdf/jcr:content/translations/en.CD00003015.pdf</docs>
+      <fields>
+        <field name="Reference">D</field>
+        <field name="Value">STPS1L40M</field>
+        <field name="Footprint">STPS1L40M</field>
+        <field name="Datasheet">http://www.st.com/content/ccc/resource/technical/document/datasheet/62/69/a4/97/73/11/43/c2/CD00003015.pdf/files/CD00003015.pdf/jcr:content/translations/en.CD00003015.pdf</field>
+        <field name="Description">STMICROELECTRONICS - STPS1L40M - SCHOTTKY RECTIFIER, 1A, 40V, DO-216AA</field>
+        <field name="Height">1</field>
+        <field name="Mouser Part Number">511-STPS1L40M</field>
+        <field name="Mouser Price/Stock">https://www.mouser.co.uk/ProductDetail/STMicroelectronics/STPS1L40M/?qs=1tTY8DFIKADyj1WerxBVhA%3D%3D</field>
+        <field name="Manufacturer_Name">STMicroelectronics</field>
+        <field name="Manufacturer_Part_Number">STPS1L40M</field>
+      </fields>
+      <pins>
+        <pin num="1" name="K_1" type="passive"/>
+        <pin num="2" name="K_2" type="passive"/>
+        <pin num="3" name="A" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="SamacSys_Parts" part="STSPIN32G4">
+      <description>3-PHASE BRUSHLESS MOTOR CONTROLL</description>
+      <docs>https://www.st.com/resource/en/datasheet/stspin32g4.pdf</docs>
+      <fields>
+        <field name="Reference">IC</field>
+        <field name="Value">STSPIN32G4</field>
+        <field name="Footprint">QFN50P900X900X100-65N-D</field>
+        <field name="Datasheet">https://www.st.com/resource/en/datasheet/stspin32g4.pdf</field>
+        <field name="Description">3-PHASE BRUSHLESS MOTOR CONTROLL</field>
+        <field name="Height">1</field>
+        <field name="Manufacturer_Name">STMicroelectronics</field>
+        <field name="Manufacturer_Part_Number">STSPIN32G4</field>
+      </fields>
+      <pins>
+        <pin num="1" name="REG3V3/VDD" type="passive"/>
+        <pin num="2" name="VBAT" type="passive"/>
+        <pin num="3" name="PC13" type="passive"/>
+        <pin num="4" name="PC14" type="passive"/>
+        <pin num="5" name="PC15" type="passive"/>
+        <pin num="6" name="PF0" type="passive"/>
+        <pin num="7" name="PF1" type="passive"/>
+        <pin num="8" name="PG10" type="passive"/>
+        <pin num="9" name="PC0" type="passive"/>
+        <pin num="10" name="PC1" type="passive"/>
+        <pin num="11" name="PC2" type="passive"/>
+        <pin num="12" name="PC3" type="passive"/>
+        <pin num="13" name="PA0" type="passive"/>
+        <pin num="14" name="PA1" type="passive"/>
+        <pin num="15" name="PA2" type="passive"/>
+        <pin num="16" name="PA3" type="passive"/>
+        <pin num="17" name="PA4" type="passive"/>
+        <pin num="18" name="PA5" type="passive"/>
+        <pin num="19" name="PA6" type="passive"/>
+        <pin num="20" name="PA7" type="passive"/>
+        <pin num="21" name="PC4" type="passive"/>
+        <pin num="22" name="PC5" type="passive"/>
+        <pin num="23" name="PB0" type="passive"/>
+        <pin num="24" name="PB1" type="passive"/>
+        <pin num="25" name="PB2" type="passive"/>
+        <pin num="26" name="VREF+" type="passive"/>
+        <pin num="27" name="VDDA" type="passive"/>
+        <pin num="28" name="PB10" type="passive"/>
+        <pin num="29" name="GLS1" type="passive"/>
+        <pin num="30" name="GLS2" type="passive"/>
+        <pin num="31" name="GLS3" type="passive"/>
+        <pin num="32" name="PGND" type="passive"/>
+        <pin num="33" name="NC_1" type="passive"/>
+        <pin num="34" name="NC_2" type="passive"/>
+        <pin num="35" name="BOOT3" type="passive"/>
+        <pin num="36" name="OUT3" type="passive"/>
+        <pin num="37" name="GHS3" type="passive"/>
+        <pin num="38" name="BOOT2" type="passive"/>
+        <pin num="39" name="OUT2" type="passive"/>
+        <pin num="40" name="GHS2" type="passive"/>
+        <pin num="41" name="BOOT1" type="passive"/>
+        <pin num="42" name="OUT1" type="passive"/>
+        <pin num="43" name="GHS1" type="passive"/>
+        <pin num="44" name="PA8" type="passive"/>
+        <pin num="45" name="PA9" type="passive"/>
+        <pin num="46" name="PA10" type="passive"/>
+        <pin num="47" name="PA11" type="passive"/>
+        <pin num="48" name="PA12" type="passive"/>
+        <pin num="49" name="PA13" type="passive"/>
+        <pin num="50" name="PA14" type="passive"/>
+        <pin num="51" name="PA15" type="passive"/>
+        <pin num="52" name="SCREF" type="passive"/>
+        <pin num="53" name="PD2" type="passive"/>
+        <pin num="54" name="PB3" type="passive"/>
+        <pin num="55" name="PB4" type="passive"/>
+        <pin num="56" name="PB5" type="passive"/>
+        <pin num="57" name="PB6" type="passive"/>
+        <pin num="58" name="PB7" type="passive"/>
+        <pin num="59" name="PB8" type="passive"/>
+        <pin num="60" name="PB9" type="passive"/>
+        <pin num="61" name="VM" type="passive"/>
+        <pin num="62" name="SW" type="passive"/>
+        <pin num="63" name="VCC" type="passive"/>
+        <pin num="64" name="REGIN" type="passive"/>
+        <pin num="65" name="VSS" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="SamacSys_Parts" part="TLT9251VLEXUMA1">
+      <description>CAN Interface IC</description>
+      <docs>https://www.infineon.com/dgdl/Infineon-TLT9251VLE-DataSheet-v01_00-EN.pdf?fileId=5546d4626e8d4b8f016ea702cfff08e8</docs>
+      <fields>
+        <field name="Reference">IC</field>
+        <field name="Value">TLT9251VLEXUMA1</field>
+        <field name="Footprint">SON65P300X300X110-9N</field>
+        <field name="Datasheet">https://www.infineon.com/dgdl/Infineon-TLT9251VLE-DataSheet-v01_00-EN.pdf?fileId=5546d4626e8d4b8f016ea702cfff08e8</field>
+        <field name="Description">CAN Interface IC</field>
+        <field name="Height">1.1</field>
+        <field name="Mouser Part Number">726-TLT9251VLEXUMA1</field>
+        <field name="Mouser Price/Stock">https://www.mouser.co.uk/ProductDetail/Infineon-Technologies/TLT9251VLEXUMA1/?qs=W%2FMpXkg%252BdQ5zGtp9sfvtfA%3D%3D</field>
+        <field name="Manufacturer_Name">Infineon</field>
+        <field name="Manufacturer_Part_Number">TLT9251VLEXUMA1</field>
+      </fields>
+      <pins>
+        <pin num="1" name="TXD" type="passive"/>
+        <pin num="2" name="GND" type="passive"/>
+        <pin num="3" name="VCC" type="passive"/>
+        <pin num="4" name="RXD" type="passive"/>
+        <pin num="5" name="VIO" type="passive"/>
+        <pin num="6" name="CANL" type="passive"/>
+        <pin num="7" name="CANH" type="passive"/>
+        <pin num="8" name="STB" type="passive"/>
+        <pin num="9" name="EP" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="Switch" part="SW_SPST">
+      <description>Single Pole Single Throw (SPST) switch</description>
+      <docs>~</docs>
+      <fields>
+        <field name="Reference">SW</field>
+        <field name="Value">SW_SPST</field>
+      </fields>
+      <pins>
+        <pin num="1" name="A" type="passive"/>
+        <pin num="2" name="B" type="passive"/>
+      </pins>
+    </libpart>
+  </libparts>
+  <libraries>
+    <library logical="Connector">
+      <uri>C:\Program Files\KiCad\share\kicad\library/Connector.lib</uri>
+    </library>
+    <library logical="Connector_Generic">
+      <uri>C:\Program Files\KiCad\share\kicad\library/Connector_Generic.lib</uri>
+    </library>
+    <library logical="Device">
+      <uri>C:\Program Files\KiCad\share\kicad\library/Device.lib</uri>
+    </library>
+    <library logical="Diode">
+      <uri>C:\Program Files\KiCad\share\kicad\library/Diode.lib</uri>
+    </library>
+    <library logical="Jumper">
+      <uri>C:\Program Files\KiCad\share\kicad\library/Jumper.lib</uri>
+    </library>
+    <library logical="SamacSys_Parts">
+      <uri>C:\Users\moryu\OneDrive\ドキュメント\Kicad_mylib/SamacSys_Parts.lib</uri>
+    </library>
+    <library logical="Switch">
+      <uri>C:\Program Files\KiCad\share\kicad\library/Switch.lib</uri>
+    </library>
+  </libraries>
+  <nets>
+    <net code="1" name="/subSch_3phasebridge/VshuntW+">
+      <node ref="Q2" pin="2"/>
+      <node ref="Q2" pin="3"/>
+      <node ref="R53" pin="2"/>
+      <node ref="Q2" pin="1"/>
+      <node ref="R48" pin="1"/>
+      <node ref="R23" pin="2"/>
+    </net>
+    <net code="2" name="/subSch_mcu/MCU_VBAT_MON">
+      <node ref="R8" pin="1"/>
+      <node ref="D4" pin="2"/>
+      <node ref="R9" pin="2"/>
+      <node ref="IC1" pin="13"/>
+    </net>
+    <net code="4" name="/subSch_3phasebridge/VshuntU+">
+      <node ref="Q4" pin="1"/>
+      <node ref="Q4" pin="2"/>
+      <node ref="Q4" pin="3"/>
+      <node ref="R56" pin="2"/>
+      <node ref="R21" pin="2"/>
+      <node ref="R58" pin="1"/>
+    </net>
+    <net code="5" name="/subSch_onboardsensing/GPIO_BEMF">
+      <node ref="D10" pin="1"/>
+      <node ref="IC1" pin="5"/>
+      <node ref="D6" pin="1"/>
+      <node ref="D9" pin="1"/>
+    </net>
+    <net code="7" name="/subSch_3phasebridge/VshuntV+">
+      <node ref="Q6" pin="3"/>
+      <node ref="Q6" pin="2"/>
+      <node ref="Q6" pin="1"/>
+      <node ref="R69" pin="2"/>
+      <node ref="R59" pin="1"/>
+      <node ref="R22" pin="2"/>
+    </net>
+    <net code="8" name="Net-(Q3-Pad4)">
+      <node ref="R60" pin="1"/>
+      <node ref="R50" pin="1"/>
+      <node ref="R54" pin="1"/>
+      <node ref="Q3" pin="4"/>
+    </net>
+    <net code="9" name="+BATT">
+      <node ref="C14" pin="1"/>
+      <node ref="C19" pin="1"/>
+      <node ref="C17" pin="1"/>
+      <node ref="C15" pin="1"/>
+      <node ref="Q5" pin="6"/>
+      <node ref="Q5" pin="7"/>
+      <node ref="Q5" pin="8"/>
+      <node ref="Q5" pin="9"/>
+      <node ref="D11" pin="1"/>
+      <node ref="Q5" pin="5"/>
+      <node ref="J3" pin="3"/>
+      <node ref="Q3" pin="5"/>
+      <node ref="Q3" pin="6"/>
+      <node ref="Q3" pin="7"/>
+      <node ref="Q3" pin="8"/>
+      <node ref="Q3" pin="9"/>
+      <node ref="C12" pin="1"/>
+      <node ref="J2" pin="3"/>
+      <node ref="Q1" pin="7"/>
+      <node ref="R8" pin="2"/>
+      <node ref="Q1" pin="5"/>
+      <node ref="C20" pin="1"/>
+      <node ref="IC1" pin="61"/>
+      <node ref="Q1" pin="9"/>
+      <node ref="Q1" pin="8"/>
+      <node ref="Q1" pin="6"/>
+    </net>
+    <net code="10" name="Net-(D17-Pad2)">
+      <node ref="D17" pin="2"/>
+      <node ref="R45" pin="2"/>
+    </net>
+    <net code="11" name="Net-(Q2-Pad4)">
+      <node ref="R49" pin="1"/>
+      <node ref="Q2" pin="4"/>
+      <node ref="R53" pin="1"/>
+      <node ref="R47" pin="1"/>
+    </net>
+    <net code="12" name="Net-(D18-Pad2)">
+      <node ref="D18" pin="2"/>
+      <node ref="R47" pin="2"/>
+    </net>
+    <net code="13" name="Net-(Q1-Pad4)">
+      <node ref="R45" pin="1"/>
+      <node ref="R51" pin="1"/>
+      <node ref="R46" pin="1"/>
+      <node ref="Q1" pin="4"/>
+    </net>
+    <net code="14" name="Net-(Q4-Pad4)">
+      <node ref="Q4" pin="4"/>
+      <node ref="R52" pin="1"/>
+      <node ref="R56" pin="1"/>
+      <node ref="R65" pin="1"/>
+    </net>
+    <net code="15" name="Net-(D19-Pad2)">
+      <node ref="D19" pin="2"/>
+      <node ref="R60" pin="2"/>
+    </net>
+    <net code="16" name="Net-(D21-Pad2)">
+      <node ref="D21" pin="2"/>
+      <node ref="R65" pin="2"/>
+    </net>
+    <net code="17" name="Net-(D20-Pad2)">
+      <node ref="R61" pin="2"/>
+      <node ref="D20" pin="2"/>
+    </net>
+    <net code="18" name="Net-(D22-Pad2)">
+      <node ref="R66" pin="2"/>
+      <node ref="D22" pin="2"/>
+    </net>
+    <net code="19" name="Net-(Q5-Pad4)">
+      <node ref="Q5" pin="4"/>
+      <node ref="R61" pin="1"/>
+      <node ref="R68" pin="1"/>
+      <node ref="R64" pin="1"/>
+    </net>
+    <net code="20" name="Net-(Q6-Pad4)">
+      <node ref="R66" pin="1"/>
+      <node ref="Q6" pin="4"/>
+      <node ref="R67" pin="1"/>
+      <node ref="R69" pin="1"/>
+    </net>
+    <net code="21" name="Net-(IC2-Pad12)">
+      <node ref="IC2" pin="12"/>
+    </net>
+    <net code="22" name="Net-(IC2-Pad19)">
+      <node ref="IC2" pin="19"/>
+    </net>
+    <net code="23" name="Net-(IC2-Pad21)">
+      <node ref="IC2" pin="21"/>
+    </net>
+    <net code="24" name="Net-(IC2-Pad14)">
+      <node ref="IC2" pin="14"/>
+    </net>
+    <net code="25" name="Net-(IC2-Pad15)">
+      <node ref="IC2" pin="15"/>
+    </net>
+    <net code="26" name="Net-(IC2-Pad16)">
+      <node ref="IC2" pin="16"/>
+    </net>
+    <net code="27" name="Net-(IC2-Pad17)">
+      <node ref="IC2" pin="17"/>
+    </net>
+    <net code="28" name="Net-(C5-Pad1)">
+      <node ref="C5" pin="1"/>
+      <node ref="IC2" pin="10"/>
+    </net>
+    <net code="29" name="Net-(IC2-Pad7)">
+      <node ref="IC2" pin="7"/>
+    </net>
+    <net code="30" name="Net-(IC2-Pad6)">
+      <node ref="IC2" pin="6"/>
+    </net>
+    <net code="31" name="Net-(IC2-Pad5)">
+      <node ref="IC2" pin="5"/>
+    </net>
+    <net code="32" name="Net-(IC2-Pad4)">
+      <node ref="IC2" pin="4"/>
+    </net>
+    <net code="33" name="Net-(IC2-Pad3)">
+      <node ref="IC2" pin="3"/>
+    </net>
+    <net code="34" name="Net-(IC2-Pad2)">
+      <node ref="IC2" pin="2"/>
+    </net>
+    <net code="35" name="Net-(IC2-Pad1)">
+      <node ref="IC2" pin="1"/>
+    </net>
+    <net code="36" name="GND">
+      <node ref="IC3" pin="4"/>
+      <node ref="C15" pin="2"/>
+      <node ref="JP1" pin="1"/>
+      <node ref="C49" pin="2"/>
+      <node ref="IC3" pin="7"/>
+      <node ref="IC10" pin="3"/>
+      <node ref="C6" pin="2"/>
+      <node ref="D11" pin="2"/>
+      <node ref="C5" pin="2"/>
+      <node ref="C14" pin="2"/>
+      <node ref="C17" pin="2"/>
+      <node ref="C4" pin="2"/>
+      <node ref="C19" pin="2"/>
+      <node ref="IC10" pin="6"/>
+      <node ref="IC10" pin="8"/>
+      <node ref="R9" pin="1"/>
+      <node ref="C1" pin="2"/>
+      <node ref="C2" pin="2"/>
+      <node ref="C3" pin="2"/>
+      <node ref="R16" pin="2"/>
+      <node ref="R18" pin="2"/>
+      <node ref="R20" pin="2"/>
+      <node ref="IC2" pin="20"/>
+      <node ref="R38" pin="2"/>
+      <node ref="IC2" pin="11"/>
+      <node ref="IC2" pin="18"/>
+      <node ref="IC2" pin="25"/>
+      <node ref="C23" pin="2"/>
+      <node ref="R71" pin="2"/>
+      <node ref="R48" pin="2"/>
+      <node ref="R43" pin="2"/>
+      <node ref="R26" pin="2"/>
+      <node ref="J4" pin="7"/>
+      <node ref="JP2" pin="1"/>
+      <node ref="IC5" pin="5"/>
+      <node ref="C20" pin="2"/>
+      <node ref="IC1" pin="65"/>
+      <node ref="J1" pin="3"/>
+      <node ref="C53" pin="2"/>
+      <node ref="R59" pin="2"/>
+      <node ref="C52" pin="2"/>
+      <node ref="C13" pin="2"/>
+      <node ref="C50" pin="2"/>
+      <node ref="C24" pin="2"/>
+      <node ref="R42" pin="2"/>
+      <node ref="Y1" pin="4"/>
+      <node ref="C16" pin="1"/>
+      <node ref="JP3" pin="1"/>
+      <node ref="Y1" pin="2"/>
+      <node ref="IC6" pin="2"/>
+      <node ref="IC6" pin="9"/>
+      <node ref="IC1" pin="32"/>
+      <node ref="C22" pin="2"/>
+      <node ref="J2" pin="4"/>
+      <node ref="R25" pin="1"/>
+      <node ref="C7" pin="2"/>
+      <node ref="C9" pin="2"/>
+      <node ref="C12" pin="2"/>
+      <node ref="C26" pin="2"/>
+      <node ref="J3" pin="4"/>
+      <node ref="J5" pin="4"/>
+      <node ref="C11" pin="1"/>
+      <node ref="C10" pin="1"/>
+      <node ref="R58" pin="2"/>
+      <node ref="D12" pin="3"/>
+    </net>
+    <net code="37" name="Net-(IC10-Pad1)">
+      <node ref="R39" pin="2"/>
+      <node ref="IC10" pin="1"/>
+      <node ref="R38" pin="1"/>
+    </net>
+    <net code="38" name="Net-(IC10-Pad5)">
+      <node ref="IC10" pin="5"/>
+      <node ref="TP3" pin="1"/>
+    </net>
+    <net code="39" name="+3V3">
+      <node ref="L1" pin="1"/>
+      <node ref="C52" pin="1"/>
+      <node ref="IC10" pin="7"/>
+      <node ref="IC1" pin="2"/>
+      <node ref="IC1" pin="1"/>
+      <node ref="R19" pin="1"/>
+      <node ref="C6" pin="1"/>
+      <node ref="R41" pin="1"/>
+      <node ref="D2" pin="1"/>
+      <node ref="D3" pin="1"/>
+      <node ref="J1" pin="5"/>
+      <node ref="IC6" pin="5"/>
+      <node ref="R15" pin="1"/>
+      <node ref="R17" pin="1"/>
+      <node ref="R10" pin="2"/>
+      <node ref="R11" pin="2"/>
+      <node ref="D5" pin="1"/>
+      <node ref="D7" pin="1"/>
+      <node ref="D8" pin="1"/>
+      <node ref="R6" pin="2"/>
+      <node ref="C53" pin="1"/>
+      <node ref="R70" pin="1"/>
+      <node ref="C8" pin="1"/>
+      <node ref="D1" pin="1"/>
+      <node ref="SW2" pin="1"/>
+      <node ref="C50" pin="1"/>
+      <node ref="R39" pin="1"/>
+      <node ref="D4" pin="1"/>
+      <node ref="C4" pin="1"/>
+      <node ref="IC2" pin="13"/>
+      <node ref="IC2" pin="8"/>
+      <node ref="C49" pin="1"/>
+    </net>
+    <net code="40" name="Net-(D9-Pad2)">
+      <node ref="D9" pin="2"/>
+      <node ref="R13" pin="2"/>
+    </net>
+    <net code="41" name="Net-(D6-Pad2)">
+      <node ref="D6" pin="2"/>
+      <node ref="R12" pin="2"/>
+    </net>
+    <net code="42" name="Net-(D10-Pad2)">
+      <node ref="R14" pin="2"/>
+      <node ref="D10" pin="2"/>
+    </net>
+    <net code="43" name="Net-(IC3-Pad3)">
+      <node ref="IC3" pin="3"/>
+    </net>
+    <net code="44" name="VCC">
+      <node ref="IC3" pin="5"/>
+      <node ref="L2" pin="1"/>
+      <node ref="C26" pin="1"/>
+      <node ref="IC3" pin="6"/>
+      <node ref="R30" pin="1"/>
+      <node ref="IC1" pin="63"/>
+      <node ref="C9" pin="1"/>
+    </net>
+    <net code="45" name="Net-(IC3-Pad2)">
+      <node ref="R25" pin="2"/>
+      <node ref="IC3" pin="2"/>
+      <node ref="R24" pin="1"/>
+    </net>
+    <net code="46" name="+5V">
+      <node ref="R40" pin="1"/>
+      <node ref="J4" pin="11"/>
+      <node ref="IC3" pin="1"/>
+      <node ref="C22" pin="1"/>
+      <node ref="IC6" pin="3"/>
+      <node ref="R24" pin="2"/>
+      <node ref="IC5" pin="8"/>
+      <node ref="C7" pin="1"/>
+    </net>
+    <net code="47" name="Net-(IC5-Pad7)">
+      <node ref="R36" pin="1"/>
+      <node ref="J2" pin="1"/>
+      <node ref="IC5" pin="7"/>
+    </net>
+    <net code="48" name="Net-(IC6-Pad7)">
+      <node ref="IC6" pin="7"/>
+      <node ref="R37" pin="2"/>
+      <node ref="J3" pin="1"/>
+    </net>
+    <net code="49" name="Net-(IC6-Pad6)">
+      <node ref="IC6" pin="6"/>
+      <node ref="R37" pin="1"/>
+      <node ref="J3" pin="2"/>
+    </net>
+    <net code="50" name="Net-(IC5-Pad6)">
+      <node ref="IC5" pin="6"/>
+      <node ref="R36" pin="2"/>
+      <node ref="J2" pin="2"/>
+    </net>
+    <net code="51" name="Net-(J4-PadMP1)">
+      <node ref="J4" pin="MP1"/>
+    </net>
+    <net code="52" name="Net-(J4-PadMP2)">
+      <node ref="J4" pin="MP2"/>
+    </net>
+    <net code="53" name="Net-(IC6-Pad8)">
+      <node ref="R35" pin="1"/>
+      <node ref="IC6" pin="8"/>
+    </net>
+    <net code="54" name="Net-(J5-Pad1)">
+      <node ref="R40" pin="2"/>
+      <node ref="R41" pin="2"/>
+      <node ref="J5" pin="1"/>
+    </net>
+    <net code="55" name="/subSch_extcon/USART_EN">
+      <node ref="IC5" pin="2"/>
+      <node ref="IC5" pin="3"/>
+      <node ref="R34" pin="2"/>
+    </net>
+    <net code="56" name="/subSch_mcu/SCREF">
+      <node ref="R70" pin="2"/>
+      <node ref="R71" pin="1"/>
+      <node ref="IC1" pin="52"/>
+    </net>
+    <net code="57" name="/subSch_mcu/USER_SW">
+      <node ref="R26" pin="1"/>
+      <node ref="C8" pin="2"/>
+      <node ref="SW2" pin="2"/>
+      <node ref="IC1" pin="3"/>
+    </net>
+    <net code="58" name="Net-(IC1-Pad33)">
+      <node ref="IC1" pin="33"/>
+    </net>
+    <net code="59" name="Net-(IC1-Pad34)">
+      <node ref="IC1" pin="34"/>
+    </net>
+    <net code="60" name="Net-(IC1-Pad12)">
+      <node ref="IC1" pin="12"/>
+    </net>
+    <net code="61" name="Net-(C25-Pad2)">
+      <node ref="SW1" pin="2"/>
+      <node ref="C25" pin="2"/>
+      <node ref="R42" pin="1"/>
+    </net>
+    <net code="62" name="Net-(C13-Pad1)">
+      <node ref="C13" pin="1"/>
+      <node ref="Y1" pin="1"/>
+      <node ref="IC1" pin="6"/>
+    </net>
+    <net code="63" name="Net-(C16-Pad2)">
+      <node ref="Y1" pin="3"/>
+      <node ref="IC1" pin="7"/>
+      <node ref="C16" pin="2"/>
+    </net>
+    <net code="64" name="/subSch_mcu/HALL_AD_B">
+      <node ref="C24" pin="1"/>
+      <node ref="IC1" pin="21"/>
+      <node ref="R63" pin="2"/>
+    </net>
+    <net code="65" name="/subSch_mcu/OP3M">
+      <node ref="IC1" pin="28"/>
+      <node ref="R33" pin="1"/>
+      <node ref="R32" pin="2"/>
+      <node ref="C21" pin="2"/>
+    </net>
+    <net code="66" name="/subSch_mcu/OP1O">
+      <node ref="C46" pin="1"/>
+      <node ref="R27" pin="1"/>
+      <node ref="IC1" pin="15"/>
+    </net>
+    <net code="67" name="/subSch_mcu/OP1M">
+      <node ref="C46" pin="2"/>
+      <node ref="IC1" pin="16"/>
+      <node ref="R28" pin="1"/>
+      <node ref="R27" pin="2"/>
+    </net>
+    <net code="68" name="/subSch_mcu/OP2O">
+      <node ref="C18" pin="1"/>
+      <node ref="IC1" pin="19"/>
+      <node ref="R29" pin="1"/>
+    </net>
+    <net code="69" name="/subSch_mcu/OP2M">
+      <node ref="C18" pin="2"/>
+      <node ref="R29" pin="2"/>
+      <node ref="R31" pin="1"/>
+      <node ref="IC1" pin="22"/>
+    </net>
+    <net code="70" name="/subSch_mcu/OP3O">
+      <node ref="IC1" pin="24"/>
+      <node ref="R32" pin="1"/>
+      <node ref="C21" pin="1"/>
+    </net>
+    <net code="71" name="Net-(D13-Pad1)">
+      <node ref="D13" pin="1"/>
+      <node ref="R43" pin="1"/>
+    </net>
+    <net code="72" name="/subSch_mcu/LED">
+      <node ref="IC1" pin="60"/>
+      <node ref="D13" pin="2"/>
+    </net>
+    <net code="73" name="/subSch_mcu/HALL_AD_A">
+      <node ref="C23" pin="1"/>
+      <node ref="IC1" pin="25"/>
+      <node ref="R62" pin="2"/>
+    </net>
+    <net code="74" name="Net-(IC1-Pad64)">
+      <node ref="R30" pin="2"/>
+      <node ref="IC1" pin="64"/>
+    </net>
+    <net code="75" name="/subSch_mcu/SW">
+      <node ref="L2" pin="2"/>
+      <node ref="D12" pin="1"/>
+      <node ref="D12" pin="2"/>
+      <node ref="IC1" pin="62"/>
+    </net>
+    <net code="76" name="+3.3VA">
+      <node ref="IC1" pin="26"/>
+      <node ref="IC1" pin="27"/>
+      <node ref="C11" pin="2"/>
+      <node ref="L1" pin="2"/>
+      <node ref="C10" pin="2"/>
+    </net>
+    <net code="77" name="Net-(IC1-Pad44)">
+      <node ref="IC1" pin="44"/>
+    </net>
+    <net code="78" name="/subSch_mcu/aaa">
+      <node ref="IC1" pin="53"/>
+    </net>
+    <net code="79" name="/subSch_3phasebridge/BOOT1">
+      <node ref="IC1" pin="38"/>
+      <node ref="C28" pin="1"/>
+    </net>
+    <net code="80" name="/subSch_3phasebridge/MotorD0">
+      <node ref="J4" pin="2"/>
+      <node ref="Q3" pin="1"/>
+      <node ref="J4" pin="1"/>
+      <node ref="R55" pin="1"/>
+      <node ref="R2" pin="1"/>
+      <node ref="Q4" pin="9"/>
+      <node ref="Q4" pin="7"/>
+      <node ref="Q3" pin="3"/>
+      <node ref="Q4" pin="5"/>
+      <node ref="Q4" pin="6"/>
+      <node ref="R54" pin="2"/>
+      <node ref="Q3" pin="2"/>
+      <node ref="Q4" pin="8"/>
+    </net>
+    <net code="81" name="/subSch_3phasebridge/MotorD1">
+      <node ref="Q6" pin="7"/>
+      <node ref="Q6" pin="6"/>
+      <node ref="Q6" pin="8"/>
+      <node ref="Q6" pin="5"/>
+      <node ref="Q6" pin="9"/>
+      <node ref="R57" pin="1"/>
+      <node ref="J4" pin="4"/>
+      <node ref="J4" pin="3"/>
+      <node ref="Q5" pin="1"/>
+      <node ref="Q5" pin="2"/>
+      <node ref="Q5" pin="3"/>
+      <node ref="R68" pin="2"/>
+      <node ref="R3" pin="1"/>
+    </net>
+    <net code="82" name="/subSch_3phasebridge/MotorD2">
+      <node ref="Q1" pin="1"/>
+      <node ref="J4" pin="5"/>
+      <node ref="J4" pin="6"/>
+      <node ref="R51" pin="2"/>
+      <node ref="R4" pin="1"/>
+      <node ref="Q2" pin="9"/>
+      <node ref="Q2" pin="8"/>
+      <node ref="Q2" pin="7"/>
+      <node ref="Q2" pin="6"/>
+      <node ref="Q2" pin="5"/>
+      <node ref="R44" pin="1"/>
+      <node ref="Q1" pin="3"/>
+      <node ref="Q1" pin="2"/>
+    </net>
+    <net code="83" name="/subSch_3phasebridge/BOOT0">
+      <node ref="C42" pin="1"/>
+      <node ref="IC1" pin="41"/>
+    </net>
+    <net code="84" name="/subSch_3phasebridge/BOOT2">
+      <node ref="IC1" pin="35"/>
+      <node ref="C27" pin="1"/>
+    </net>
+    <net code="85" name="/subSch_mcu/MCU_OUT0">
+      <node ref="C42" pin="2"/>
+      <node ref="R55" pin="2"/>
+      <node ref="IC1" pin="42"/>
+    </net>
+    <net code="86" name="/subSch_mcu/MCU_OUT1">
+      <node ref="R57" pin="2"/>
+      <node ref="IC1" pin="39"/>
+      <node ref="C28" pin="2"/>
+    </net>
+    <net code="87" name="/subSch_mcu/MCU_OUT2">
+      <node ref="C27" pin="2"/>
+      <node ref="IC1" pin="36"/>
+      <node ref="R44" pin="2"/>
+    </net>
+    <net code="88" name="/subSch_3phasebridge/GLS0">
+      <node ref="D21" pin="1"/>
+      <node ref="IC1" pin="29"/>
+      <node ref="R52" pin="2"/>
+    </net>
+    <net code="89" name="/subSch_3phasebridge/GLS1">
+      <node ref="D22" pin="1"/>
+      <node ref="R67" pin="2"/>
+      <node ref="IC1" pin="30"/>
+    </net>
+    <net code="90" name="/subSch_3phasebridge/GLS2">
+      <node ref="R49" pin="2"/>
+      <node ref="D18" pin="1"/>
+      <node ref="IC1" pin="31"/>
+    </net>
+    <net code="91" name="/subSch_3phasebridge/GHS0">
+      <node ref="D19" pin="1"/>
+      <node ref="IC1" pin="43"/>
+      <node ref="R50" pin="2"/>
+    </net>
+    <net code="92" name="/subSch_3phasebridge/GHS1">
+      <node ref="D20" pin="1"/>
+      <node ref="R64" pin="2"/>
+      <node ref="IC1" pin="40"/>
+    </net>
+    <net code="93" name="/subSch_3phasebridge/GHS2">
+      <node ref="D17" pin="1"/>
+      <node ref="R46" pin="2"/>
+      <node ref="IC1" pin="37"/>
+    </net>
+    <net code="94" name="/subSch_extcon/ANALOG3">
+      <node ref="IC1" pin="18"/>
+      <node ref="TP2" pin="1"/>
+    </net>
+    <net code="95" name="/subSch_mcu/CAN1_TX">
+      <node ref="IC1" pin="48"/>
+      <node ref="IC6" pin="1"/>
+    </net>
+    <net code="96" name="/subSch_mcu/CAN1_RX">
+      <node ref="IC6" pin="4"/>
+      <node ref="IC1" pin="47"/>
+    </net>
+    <net code="97" name="/subSch_extcon/CAN_EN">
+      <node ref="R34" pin="1"/>
+      <node ref="R35" pin="2"/>
+      <node ref="IC1" pin="4"/>
+    </net>
+    <net code="98" name="/subSch_extcon/COM_BUS3">
+      <node ref="IC5" pin="4"/>
+      <node ref="IC1" pin="45"/>
+    </net>
+    <net code="99" name="/subSch_extcon/COM_BUS4">
+      <node ref="IC1" pin="46"/>
+      <node ref="IC5" pin="1"/>
+    </net>
+    <net code="100" name="/subSch_extcon/ANALOG0">
+      <node ref="IC10" pin="2"/>
+      <node ref="R62" pin="1"/>
+      <node ref="J5" pin="2"/>
+    </net>
+    <net code="101" name="/subSch_onboardsensing/IMU_SPI_BUS0">
+      <node ref="IC1" pin="56"/>
+      <node ref="IC2" pin="24"/>
+    </net>
+    <net code="102" name="/subSch_onboardsensing/IMU_SPI_BUS1">
+      <node ref="IC2" pin="9"/>
+      <node ref="IC1" pin="55"/>
+    </net>
+    <net code="103" name="/subSch_onboardsensing/IMU_SPI_BUS2">
+      <node ref="IC2" pin="23"/>
+      <node ref="IC1" pin="54"/>
+    </net>
+    <net code="104" name="/subSch_onboardsensing/IMU_SPI_BUS3">
+      <node ref="IC1" pin="51"/>
+      <node ref="IC2" pin="22"/>
+    </net>
+    <net code="105" name="/subSch_onboardsensing/BEMF2">
+      <node ref="R4" pin="2"/>
+      <node ref="IC1" pin="11"/>
+      <node ref="R14" pin="1"/>
+      <node ref="D3" pin="2"/>
+    </net>
+    <net code="106" name="/subSch_extcon/ANALOG1">
+      <node ref="IC10" pin="4"/>
+      <node ref="R63" pin="1"/>
+      <node ref="J5" pin="3"/>
+    </net>
+    <net code="107" name="/subSch_extcon/ANALOG2">
+      <node ref="IC1" pin="17"/>
+      <node ref="TP1" pin="1"/>
+    </net>
+    <net code="108" name="/subSch_onboardsensing/CurFb+_1">
+      <node ref="IC1" pin="20"/>
+      <node ref="R18" pin="1"/>
+      <node ref="R22" pin="1"/>
+      <node ref="R17" pin="2"/>
+    </net>
+    <net code="109" name="/subSch_extcon/Hall_0">
+      <node ref="R1" pin="1"/>
+      <node ref="J4" pin="9"/>
+    </net>
+    <net code="110" name="/subSch_extcon/Hall_1">
+      <node ref="J4" pin="8"/>
+      <node ref="R5" pin="1"/>
+    </net>
+    <net code="111" name="/subSch_extcon/Hall_2">
+      <node ref="J4" pin="10"/>
+      <node ref="R7" pin="1"/>
+    </net>
+    <net code="112" name="/subSch_onboardsensing/CurFb+_0">
+      <node ref="R21" pin="1"/>
+      <node ref="R15" pin="2"/>
+      <node ref="IC1" pin="14"/>
+      <node ref="R16" pin="1"/>
+    </net>
+    <net code="113" name="/subSch_onboardsensing/CurFb+_2">
+      <node ref="R20" pin="1"/>
+      <node ref="R23" pin="1"/>
+      <node ref="IC1" pin="23"/>
+      <node ref="R19" pin="2"/>
+    </net>
+    <net code="114" name="/subSch_mcu/HALL_U">
+      <node ref="IC1" pin="57"/>
+      <node ref="R6" pin="1"/>
+      <node ref="R1" pin="2"/>
+      <node ref="D5" pin="2"/>
+      <node ref="C1" pin="1"/>
+    </net>
+    <net code="115" name="/subSch_mcu/HALL_V">
+      <node ref="C2" pin="1"/>
+      <node ref="D7" pin="2"/>
+      <node ref="R5" pin="2"/>
+      <node ref="IC1" pin="58"/>
+      <node ref="R10" pin="1"/>
+    </net>
+    <net code="116" name="/subSch_mcu/HALL_W">
+      <node ref="D8" pin="2"/>
+      <node ref="R11" pin="1"/>
+      <node ref="C3" pin="1"/>
+      <node ref="R7" pin="2"/>
+      <node ref="IC1" pin="59"/>
+    </net>
+    <net code="117" name="/subSch_3phasebridge/VshuntU-">
+      <node ref="JP2" pin="2"/>
+      <node ref="R28" pin="2"/>
+    </net>
+    <net code="118" name="/subSch_3phasebridge/VshuntV-">
+      <node ref="R31" pin="2"/>
+      <node ref="JP3" pin="2"/>
+    </net>
+    <net code="119" name="/subSch_3phasebridge/VshuntW-">
+      <node ref="R33" pin="2"/>
+      <node ref="JP1" pin="2"/>
+    </net>
+    <net code="120" name="/subSch_onboardsensing/BEMF0">
+      <node ref="R2" pin="2"/>
+      <node ref="R12" pin="1"/>
+      <node ref="D1" pin="2"/>
+      <node ref="IC1" pin="9"/>
+    </net>
+    <net code="121" name="/subSch_onboardsensing/BEMF1">
+      <node ref="IC1" pin="10"/>
+      <node ref="D2" pin="2"/>
+      <node ref="R3" pin="2"/>
+      <node ref="R13" pin="1"/>
+    </net>
+    <net code="122" name="/subSch_mcu/MCU_SWD_BUS0">
+      <node ref="J1" pin="4"/>
+      <node ref="IC1" pin="50"/>
+    </net>
+    <net code="123" name="/subSch_mcu/MCU_SWD_BUS1">
+      <node ref="IC1" pin="49"/>
+      <node ref="J1" pin="2"/>
+    </net>
+    <net code="124" name="/subSch_mcu/MCU_SWD_BUS2">
+      <node ref="SW1" pin="1"/>
+      <node ref="C25" pin="1"/>
+      <node ref="IC1" pin="8"/>
+      <node ref="J1" pin="1"/>
+    </net>
+  </nets>
+</export>

@@ -1,0 +1,11 @@
+{
+	"folders": [
+		{
+			"path": "bldc_servo_driver_stspin32g4"
+		},
+		{
+			"path": "common"
+		}
+	],
+	"settings": {}
+}

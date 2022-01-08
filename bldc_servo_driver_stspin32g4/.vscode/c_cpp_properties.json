@@ -1,0 +1,21 @@
+{
+    "configurations": [
+        {
+            "name": "STM32",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "C:/Tools/gcc-arm-none-eabi-10-2020-q4-major/arm-none-eabi/include/**",
+                "C:/Tools/gcc-arm-none-eabi-10-2020-q4-major/lib/gcc/arm-none-eabi/10.2.1/include/**"
+            ],
+            "defines": [
+                "USE_FULL_LL_DRIVER",
+                "STM32G431xx",
+            ],
+            "compilerPath": "C:/Tools/gcc-arm-none-eabi-10-2020-q4-major/bin/arm-none-eabi-gcc.exe",
+            "cStandard": "c17",
+            "cppStandard": "c++17",
+            "intelliSenseMode": "clang-x64"
+        }
+    ],
+    "version": 4
+}

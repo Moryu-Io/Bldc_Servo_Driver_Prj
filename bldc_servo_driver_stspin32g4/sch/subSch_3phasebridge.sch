@@ -1,0 +1,1123 @@
+EESchema Schematic File Version 4
+EELAYER 30 0
+EELAYER END
+$Descr A4 11693 8268
+encoding utf-8
+Sheet 5 6
+Title ""
+Date ""
+Rev ""
+Comp ""
+Comment1 ""
+Comment2 ""
+Comment3 ""
+Comment4 ""
+$EndDescr
+$Comp
+L SamacSys_Parts:STL180N6F7 Q3
+U 1 1 60278339
+P 9150 1200
+F 0 "Q3" H 9650 1465 50  0000 C CNN
+F 1 "STL180N6F7" H 9650 1374 50  0000 C CNN
+F 2 "SamacSys_Parts:STL140N6F7" H 10000 1300 50  0001 L CNN
+F 3 "https://www.st.com/resource/en/datasheet/stl140n6f7.pdf" H 10000 1200 50  0001 L CNN
+F 4 "N-channel 60 V, 1.9 m typ., 120 A, STripFET F7 Power MOSFET in a PowerFLAT 5x6 package" H 10000 1100 50  0001 L CNN "Description"
+F 5 "0.95" H 10000 1000 50  0001 L CNN "Height"
+F 6 "511-STL180N6F7" H 10000 900 50  0001 L CNN "Mouser Part Number"
+F 7 "https://www.mouser.co.uk/ProductDetail/STMicroelectronics/STL180N6F7?qs=vLWxofP3U2xHOjKiB8nfgg%3D%3D" H 10000 800 50  0001 L CNN "Mouser Price/Stock"
+F 8 "STMicroelectronics" H 10000 700 50  0001 L CNN "Manufacturer_Name"
+F 9 "STL180N6F7" H 10000 600 50  0001 L CNN "Manufacturer_Part_Number"
+	1    9150 1200
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:R R54
+U 1 1 6027F62F
+P 8800 1650
+F 0 "R54" H 8870 1696 50  0000 L CNN
+F 1 "10k" H 8870 1605 50  0000 L CNN
+F 2 "Resistor_SMD:R_0402_1005Metric" V 8730 1650 50  0001 C CNN
+F 3 "~" H 8800 1650 50  0001 C CNN
+	1    8800 1650
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:R R50
+U 1 1 60280AFB
+P 8600 1500
+F 0 "R50" V 8393 1500 50  0000 C CNN
+F 1 "33" V 8484 1500 50  0000 C CNN
+F 2 "Resistor_SMD:R_0402_1005Metric" V 8530 1500 50  0001 C CNN
+F 3 "~" H 8600 1500 50  0001 C CNN
+	1    8600 1500
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	9150 1200 9150 1300
+Wire Wire Line
+	9150 1300 9150 1400
+Connection ~ 9150 1300
+Wire Wire Line
+	9150 1500 8800 1500
+Wire Wire Line
+	8750 1500 8800 1500
+Connection ~ 8800 1500
+Wire Wire Line
+	9150 1300 9050 1300
+Wire Wire Line
+	9050 1300 9050 1800
+Wire Wire Line
+	9050 1800 8800 1800
+Wire Wire Line
+	9150 1600 9150 1750
+Wire Wire Line
+	9150 1750 10150 1750
+Wire Wire Line
+	10150 1750 10150 1500
+Wire Wire Line
+	10150 1400 10150 1500
+Connection ~ 10150 1500
+Wire Wire Line
+	10150 1300 10150 1400
+Connection ~ 10150 1400
+Wire Wire Line
+	10150 1200 10150 1300
+Connection ~ 10150 1300
+$Comp
+L SamacSys_Parts:STL180N6F7 Q4
+U 1 1 602853EA
+P 9150 2400
+F 0 "Q4" H 9650 2665 50  0000 C CNN
+F 1 "STL180N6F7" H 9650 2574 50  0000 C CNN
+F 2 "SamacSys_Parts:STL140N6F7" H 10000 2500 50  0001 L CNN
+F 3 "https://www.st.com/resource/en/datasheet/stl140n6f7.pdf" H 10000 2400 50  0001 L CNN
+F 4 "N-channel 60 V, 1.9 m typ., 120 A, STripFET F7 Power MOSFET in a PowerFLAT 5x6 package" H 10000 2300 50  0001 L CNN "Description"
+F 5 "0.95" H 10000 2200 50  0001 L CNN "Height"
+F 6 "511-STL180N6F7" H 10000 2100 50  0001 L CNN "Mouser Part Number"
+F 7 "https://www.mouser.co.uk/ProductDetail/STMicroelectronics/STL180N6F7?qs=vLWxofP3U2xHOjKiB8nfgg%3D%3D" H 10000 2000 50  0001 L CNN "Mouser Price/Stock"
+F 8 "STMicroelectronics" H 10000 1900 50  0001 L CNN "Manufacturer_Name"
+F 9 "STL180N6F7" H 10000 1800 50  0001 L CNN "Manufacturer_Part_Number"
+	1    9150 2400
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	9150 2400 9150 2500
+Wire Wire Line
+	9150 2500 9150 2600
+Connection ~ 9150 2500
+Wire Wire Line
+	9150 2700 8850 2700
+Wire Wire Line
+	9150 2500 9050 2500
+Wire Wire Line
+	9150 2800 9150 2950
+Wire Wire Line
+	9150 2950 10150 2950
+Wire Wire Line
+	10150 2950 10150 2700
+Wire Wire Line
+	10150 2600 10150 2700
+Connection ~ 10150 2700
+Wire Wire Line
+	10150 2500 10150 2600
+Connection ~ 10150 2600
+Wire Wire Line
+	10150 2400 10150 2500
+Connection ~ 10150 2500
+$Comp
+L Device:R R56
+U 1 1 602868CE
+P 8850 2850
+F 0 "R56" H 8920 2896 50  0000 L CNN
+F 1 "10k" H 8920 2805 50  0000 L CNN
+F 2 "Resistor_SMD:R_0402_1005Metric" V 8780 2850 50  0001 C CNN
+F 3 "~" H 8850 2850 50  0001 C CNN
+	1    8850 2850
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:R R52
+U 1 1 602868D4
+P 8650 2700
+F 0 "R52" V 8443 2700 50  0000 C CNN
+F 1 "33" V 8534 2700 50  0000 C CNN
+F 2 "Resistor_SMD:R_0402_1005Metric" V 8580 2700 50  0001 C CNN
+F 3 "~" H 8650 2700 50  0001 C CNN
+	1    8650 2700
+	0    1    1    0   
+$EndComp
+Connection ~ 8850 2700
+Wire Wire Line
+	8850 2700 8800 2700
+Wire Wire Line
+	9050 2500 9050 3000
+Wire Wire Line
+	9050 3000 8850 3000
+Wire Wire Line
+	9050 1800 9050 2000
+Wire Wire Line
+	9050 2000 10150 2000
+Wire Wire Line
+	10150 2000 10150 2400
+Connection ~ 9050 1800
+Connection ~ 10150 2400
+Wire Wire Line
+	8400 2000 9050 2000
+Connection ~ 9050 2000
+$Comp
+L Device:C C42
+U 1 1 6028B08B
+P 8050 1800
+F 0 "C42" V 7798 1800 50  0000 C CNN
+F 1 "1u" V 7889 1800 50  0000 C CNN
+F 2 "Capacitor_SMD:C_0402_1005Metric" H 8088 1650 50  0001 C CNN
+F 3 "~" H 8050 1800 50  0001 C CNN
+	1    8050 1800
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:+BATT #PWR058
+U 1 1 6028E879
+P 10150 750
+F 0 "#PWR058" H 10150 600 50  0001 C CNN
+F 1 "+BATT" H 10165 923 50  0000 C CNN
+F 2 "" H 10150 750 50  0001 C CNN
+F 3 "" H 10150 750 50  0001 C CNN
+	1    10150 750 
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	10150 750  10150 1200
+Connection ~ 10150 1200
+Connection ~ 10150 2000
+Wire Wire Line
+	9050 3000 9050 3050
+Wire Wire Line
+	9050 3050 9150 3050
+Connection ~ 9050 3000
+Text HLabel 9150 3050 2    50   Output ~ 0
+VshuntU+
+$Comp
+L Device:R R58
+U 1 1 6039E765
+P 9050 3200
+F 0 "R58" H 9120 3246 50  0000 L CNN
+F 1 "0.003" H 9120 3155 50  0000 L CNN
+F 2 "Resistor_SMD:R_2512_6332Metric" V 8980 3200 50  0001 C CNN
+F 3 "~" H 9050 3200 50  0001 C CNN
+	1    9050 3200
+	1    0    0    -1  
+$EndComp
+Connection ~ 9050 3050
+$Comp
+L power:-BATT #PWR056
+U 1 1 603AC68D
+P 9050 3400
+F 0 "#PWR056" H 9050 3250 50  0001 C CNN
+F 1 "-BATT" H 9065 3573 50  0000 C CNN
+F 2 "" H 9050 3400 50  0001 C CNN
+F 3 "" H 9050 3400 50  0001 C CNN
+	1    9050 3400
+	-1   0    0    1   
+$EndComp
+Wire Wire Line
+	9050 3350 9050 3400
+Wire Wire Line
+	9050 3350 9150 3350
+Connection ~ 9050 3350
+$Comp
+L Jumper:SolderJumper_2_Bridged JP2
+U 1 1 603BB496
+P 9300 3350
+F 0 "JP2" H 9300 3250 50  0000 C CNN
+F 1 "SolderJumper_2_Bridged" H 9600 3250 50  0001 C CNN
+F 2 "Jumper:SolderJumper-2_P1.3mm_Open_Pad1.0x1.5mm" H 9300 3350 50  0001 C CNN
+F 3 "~" H 9300 3350 50  0001 C CNN
+	1    9300 3350
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	9450 3350 9600 3350
+Text HLabel 9600 3350 2    50   Output ~ 0
+VshuntU-
+$Comp
+L SamacSys_Parts:STL180N6F7 Q5
+U 1 1 603EC7F7
+P 9150 4150
+F 0 "Q5" H 9650 4415 50  0000 C CNN
+F 1 "STL180N6F7" H 9650 4324 50  0000 C CNN
+F 2 "SamacSys_Parts:STL140N6F7" H 10000 4250 50  0001 L CNN
+F 3 "https://www.st.com/resource/en/datasheet/stl140n6f7.pdf" H 10000 4150 50  0001 L CNN
+F 4 "N-channel 60 V, 1.9 m typ., 120 A, STripFET F7 Power MOSFET in a PowerFLAT 5x6 package" H 10000 4050 50  0001 L CNN "Description"
+F 5 "0.95" H 10000 3950 50  0001 L CNN "Height"
+F 6 "511-STL180N6F7" H 10000 3850 50  0001 L CNN "Mouser Part Number"
+F 7 "https://www.mouser.co.uk/ProductDetail/STMicroelectronics/STL180N6F7?qs=vLWxofP3U2xHOjKiB8nfgg%3D%3D" H 10000 3750 50  0001 L CNN "Mouser Price/Stock"
+F 8 "STMicroelectronics" H 10000 3650 50  0001 L CNN "Manufacturer_Name"
+F 9 "STL180N6F7" H 10000 3550 50  0001 L CNN "Manufacturer_Part_Number"
+	1    9150 4150
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	9150 4150 9150 4250
+Wire Wire Line
+	9150 4250 9150 4350
+Connection ~ 9150 4250
+Wire Wire Line
+	9150 4250 9050 4250
+Wire Wire Line
+	9150 4550 9150 4700
+Wire Wire Line
+	9150 4700 10150 4700
+Wire Wire Line
+	10150 4700 10150 4450
+Wire Wire Line
+	10150 4350 10150 4450
+Connection ~ 10150 4450
+Wire Wire Line
+	10150 4250 10150 4350
+Connection ~ 10150 4350
+Wire Wire Line
+	10150 4150 10150 4250
+Connection ~ 10150 4250
+$Comp
+L SamacSys_Parts:STL180N6F7 Q6
+U 1 1 603EC82D
+P 9150 5350
+F 0 "Q6" H 9650 5615 50  0000 C CNN
+F 1 "STL180N6F7" H 9650 5524 50  0000 C CNN
+F 2 "SamacSys_Parts:STL140N6F7" H 10000 5450 50  0001 L CNN
+F 3 "https://www.st.com/resource/en/datasheet/stl140n6f7.pdf" H 10000 5350 50  0001 L CNN
+F 4 "N-channel 60 V, 1.9 m typ., 120 A, STripFET F7 Power MOSFET in a PowerFLAT 5x6 package" H 10000 5250 50  0001 L CNN "Description"
+F 5 "0.95" H 10000 5150 50  0001 L CNN "Height"
+F 6 "511-STL180N6F7" H 10000 5050 50  0001 L CNN "Mouser Part Number"
+F 7 "https://www.mouser.co.uk/ProductDetail/STMicroelectronics/STL180N6F7?qs=vLWxofP3U2xHOjKiB8nfgg%3D%3D" H 10000 4950 50  0001 L CNN "Mouser Price/Stock"
+F 8 "STMicroelectronics" H 10000 4850 50  0001 L CNN "Manufacturer_Name"
+F 9 "STL180N6F7" H 10000 4750 50  0001 L CNN "Manufacturer_Part_Number"
+	1    9150 5350
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	9150 5350 9150 5450
+Wire Wire Line
+	9150 5450 9150 5550
+Connection ~ 9150 5450
+Wire Wire Line
+	9150 5450 9050 5450
+Wire Wire Line
+	9150 5750 9150 5900
+Wire Wire Line
+	9150 5900 10150 5900
+Wire Wire Line
+	10150 5900 10150 5650
+Wire Wire Line
+	10150 5550 10150 5650
+Connection ~ 10150 5650
+Wire Wire Line
+	10150 5450 10150 5550
+Connection ~ 10150 5550
+Wire Wire Line
+	10150 5350 10150 5450
+Connection ~ 10150 5450
+Wire Wire Line
+	9050 4950 10150 4950
+Wire Wire Line
+	10150 4950 10150 5350
+Connection ~ 10150 5350
+$Comp
+L power:+BATT #PWR059
+U 1 1 603EC869
+P 10150 3700
+F 0 "#PWR059" H 10150 3550 50  0001 C CNN
+F 1 "+BATT" H 10165 3873 50  0000 C CNN
+F 2 "" H 10150 3700 50  0001 C CNN
+F 3 "" H 10150 3700 50  0001 C CNN
+	1    10150 3700
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	10150 3700 10150 4150
+Connection ~ 10150 4150
+Connection ~ 10150 4950
+Wire Wire Line
+	9050 6000 9150 6000
+Text HLabel 9150 6000 2    50   Output ~ 0
+VshuntV+
+$Comp
+L Device:R R59
+U 1 1 603EC8C8
+P 9050 6150
+F 0 "R59" H 9120 6196 50  0000 L CNN
+F 1 "0.003" H 9120 6105 50  0000 L CNN
+F 2 "Resistor_SMD:R_2512_6332Metric" V 8980 6150 50  0001 C CNN
+F 3 "~" H 9050 6150 50  0001 C CNN
+	1    9050 6150
+	1    0    0    -1  
+$EndComp
+Connection ~ 9050 6000
+$Comp
+L power:-BATT #PWR057
+U 1 1 603EC8CF
+P 9050 6350
+F 0 "#PWR057" H 9050 6200 50  0001 C CNN
+F 1 "-BATT" H 9065 6523 50  0000 C CNN
+F 2 "" H 9050 6350 50  0001 C CNN
+F 3 "" H 9050 6350 50  0001 C CNN
+	1    9050 6350
+	-1   0    0    1   
+$EndComp
+Wire Wire Line
+	9050 6300 9050 6350
+Wire Wire Line
+	9050 6300 9150 6300
+Connection ~ 9050 6300
+$Comp
+L Jumper:SolderJumper_2_Bridged JP3
+U 1 1 603EC8D8
+P 9300 6300
+F 0 "JP3" H 9300 6200 50  0000 C CNN
+F 1 "SolderJumper_2_Bridged" H 9600 6200 50  0001 C CNN
+F 2 "Jumper:SolderJumper-2_P1.3mm_Open_Pad1.0x1.5mm" H 9300 6300 50  0001 C CNN
+F 3 "~" H 9300 6300 50  0001 C CNN
+	1    9300 6300
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	9450 6300 9600 6300
+Text HLabel 9600 6300 2    50   Output ~ 0
+VshuntV-
+$Comp
+L SamacSys_Parts:STL180N6F7 Q1
+U 1 1 60403942
+P 4400 5350
+F 0 "Q1" H 4900 5615 50  0000 C CNN
+F 1 "STL180N6F7" H 4900 5524 50  0000 C CNN
+F 2 "SamacSys_Parts:STL140N6F7" H 5250 5450 50  0001 L CNN
+F 3 "https://www.st.com/resource/en/datasheet/stl140n6f7.pdf" H 5250 5350 50  0001 L CNN
+F 4 "N-channel 60 V, 1.9 m typ., 120 A, STripFET F7 Power MOSFET in a PowerFLAT 5x6 package" H 5250 5250 50  0001 L CNN "Description"
+F 5 "0.95" H 5250 5150 50  0001 L CNN "Height"
+F 6 "511-STL180N6F7" H 5250 5050 50  0001 L CNN "Mouser Part Number"
+F 7 "https://www.mouser.co.uk/ProductDetail/STMicroelectronics/STL180N6F7?qs=vLWxofP3U2xHOjKiB8nfgg%3D%3D" H 5250 4950 50  0001 L CNN "Mouser Price/Stock"
+F 8 "STMicroelectronics" H 5250 4850 50  0001 L CNN "Manufacturer_Name"
+F 9 "STL180N6F7" H 5250 4750 50  0001 L CNN "Manufacturer_Part_Number"
+	1    4400 5350
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	4400 5350 4400 5450
+Wire Wire Line
+	4400 5450 4400 5550
+Connection ~ 4400 5450
+Wire Wire Line
+	4400 5450 4300 5450
+Wire Wire Line
+	4400 5750 4400 5900
+Wire Wire Line
+	4400 5900 5400 5900
+Wire Wire Line
+	5400 5900 5400 5650
+Wire Wire Line
+	5400 5550 5400 5650
+Connection ~ 5400 5650
+Wire Wire Line
+	5400 5450 5400 5550
+Connection ~ 5400 5550
+Wire Wire Line
+	5400 5350 5400 5450
+Connection ~ 5400 5450
+$Comp
+L SamacSys_Parts:STL180N6F7 Q2
+U 1 1 60403978
+P 4400 6550
+F 0 "Q2" H 4900 6815 50  0000 C CNN
+F 1 "STL180N6F7" H 4900 6724 50  0000 C CNN
+F 2 "SamacSys_Parts:STL140N6F7" H 5250 6650 50  0001 L CNN
+F 3 "https://www.st.com/resource/en/datasheet/stl140n6f7.pdf" H 5250 6550 50  0001 L CNN
+F 4 "N-channel 60 V, 1.9 m typ., 120 A, STripFET F7 Power MOSFET in a PowerFLAT 5x6 package" H 5250 6450 50  0001 L CNN "Description"
+F 5 "0.95" H 5250 6350 50  0001 L CNN "Height"
+F 6 "511-STL180N6F7" H 5250 6250 50  0001 L CNN "Mouser Part Number"
+F 7 "https://www.mouser.co.uk/ProductDetail/STMicroelectronics/STL180N6F7?qs=vLWxofP3U2xHOjKiB8nfgg%3D%3D" H 5250 6150 50  0001 L CNN "Mouser Price/Stock"
+F 8 "STMicroelectronics" H 5250 6050 50  0001 L CNN "Manufacturer_Name"
+F 9 "STL180N6F7" H 5250 5950 50  0001 L CNN "Manufacturer_Part_Number"
+	1    4400 6550
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	4400 6550 4400 6650
+Wire Wire Line
+	4400 6650 4400 6750
+Connection ~ 4400 6650
+Wire Wire Line
+	4400 6650 4300 6650
+Wire Wire Line
+	4400 6950 4400 7100
+Wire Wire Line
+	4400 7100 5400 7100
+Wire Wire Line
+	5400 7100 5400 6850
+Wire Wire Line
+	5400 6750 5400 6850
+Connection ~ 5400 6850
+Wire Wire Line
+	5400 6650 5400 6750
+Connection ~ 5400 6750
+Wire Wire Line
+	5400 6550 5400 6650
+Connection ~ 5400 6650
+Wire Wire Line
+	4300 6150 5400 6150
+Wire Wire Line
+	5400 6150 5400 6550
+Connection ~ 5400 6550
+$Comp
+L power:+BATT #PWR050
+U 1 1 604039B4
+P 5400 4900
+F 0 "#PWR050" H 5400 4750 50  0001 C CNN
+F 1 "+BATT" H 5415 5073 50  0000 C CNN
+F 2 "" H 5400 4900 50  0001 C CNN
+F 3 "" H 5400 4900 50  0001 C CNN
+	1    5400 4900
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	5400 4900 5400 5350
+Connection ~ 5400 5350
+Connection ~ 5400 6150
+Wire Wire Line
+	4300 7200 4400 7200
+Text HLabel 4400 7200 2    50   Output ~ 0
+VshuntW+
+$Comp
+L Device:R R48
+U 1 1 60403A13
+P 4300 7350
+F 0 "R48" H 4370 7396 50  0000 L CNN
+F 1 "0.003" H 4370 7305 50  0000 L CNN
+F 2 "Resistor_SMD:R_2512_6332Metric" V 4230 7350 50  0001 C CNN
+F 3 "~" H 4300 7350 50  0001 C CNN
+	1    4300 7350
+	1    0    0    -1  
+$EndComp
+Connection ~ 4300 7200
+$Comp
+L power:-BATT #PWR049
+U 1 1 60403A1A
+P 4300 7550
+F 0 "#PWR049" H 4300 7400 50  0001 C CNN
+F 1 "-BATT" H 4315 7723 50  0000 C CNN
+F 2 "" H 4300 7550 50  0001 C CNN
+F 3 "" H 4300 7550 50  0001 C CNN
+	1    4300 7550
+	-1   0    0    1   
+$EndComp
+Wire Wire Line
+	4300 7500 4300 7550
+Wire Wire Line
+	4300 7500 4400 7500
+Connection ~ 4300 7500
+$Comp
+L Jumper:SolderJumper_2_Bridged JP1
+U 1 1 60403A23
+P 4550 7500
+F 0 "JP1" H 4550 7400 50  0000 C CNN
+F 1 "SolderJumper_2_Bridged" H 4850 7400 50  0001 C CNN
+F 2 "Jumper:SolderJumper-2_P1.3mm_Open_Pad1.0x1.5mm" H 4550 7500 50  0001 C CNN
+F 3 "~" H 4550 7500 50  0001 C CNN
+	1    4550 7500
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	4700 7500 4850 7500
+Text HLabel 4850 7500 2    50   Output ~ 0
+VshuntW-
+Text Label 10500 2000 0    50   ~ 0
+MotorD0
+Text Label 10500 4950 0    50   ~ 0
+MotorD1
+Text Label 5750 6150 0    50   ~ 0
+MotorD2
+Entry Wire Line
+	6250 6150 6350 6050
+Wire Bus Line
+	6350 6550 6350 6050
+Wire Bus Line
+	11100 6550 6350 6550
+Entry Wire Line
+	11000 4950 11100 4850
+Entry Wire Line
+	11000 2000 11100 1900
+Text HLabel 11100 1750 0    50   Output ~ 0
+MotorD[0..2]
+$Comp
+L Diode:BAT48JFILM D19
+U 1 1 60794AEF
+P 8250 1150
+F 0 "D19" H 8250 1366 50  0000 C CNN
+F 1 "BAT48JFILM" H 8250 1275 50  0000 C CNN
+F 2 "Diode_SMD:D_SOD-323" H 8250 975 50  0001 C CNN
+F 3 "www.st.com/resource/en/datasheet/bat48.pdf" H 8250 1150 50  0001 C CNN
+	1    8250 1150
+	1    0    0    -1  
+$EndComp
+Text Label 7650 2700 0    50   ~ 0
+GLS0
+$Comp
+L Device:R R60
+U 1 1 607D8B04
+P 8600 1150
+F 0 "R60" V 8393 1150 50  0000 C CNN
+F 1 "0" V 8484 1150 50  0000 C CNN
+F 2 "Resistor_SMD:R_0402_1005Metric" V 8530 1150 50  0001 C CNN
+F 3 "~" H 8600 1150 50  0001 C CNN
+	1    8600 1150
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	8450 1150 8400 1150
+$Comp
+L Diode:BAT48JFILM D21
+U 1 1 6082B929
+P 8300 2350
+F 0 "D21" H 8300 2566 50  0000 C CNN
+F 1 "BAT48JFILM" H 8300 2475 50  0000 C CNN
+F 2 "Diode_SMD:D_SOD-323" H 8300 2175 50  0001 C CNN
+F 3 "www.st.com/resource/en/datasheet/bat48.pdf" H 8300 2350 50  0001 C CNN
+	1    8300 2350
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:R R65
+U 1 1 6082B92F
+P 8650 2350
+F 0 "R65" V 8443 2350 50  0000 C CNN
+F 1 "0" V 8534 2350 50  0000 C CNN
+F 2 "Resistor_SMD:R_0402_1005Metric" V 8580 2350 50  0001 C CNN
+F 3 "~" H 8650 2350 50  0001 C CNN
+	1    8650 2350
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	8500 2350 8450 2350
+Wire Wire Line
+	8850 2700 8850 2350
+Wire Wire Line
+	8850 2350 8800 2350
+Wire Wire Line
+	8800 1500 8800 1150
+Wire Wire Line
+	8800 1150 8750 1150
+$Comp
+L Device:R R55
+U 1 1 6085618E
+P 8250 2000
+F 0 "R55" V 8043 2000 50  0000 C CNN
+F 1 "0" V 8134 2000 50  0000 C CNN
+F 2 "Resistor_SMD:R_0402_1005Metric" V 8180 2000 50  0001 C CNN
+F 3 "~" H 8250 2000 50  0001 C CNN
+	1    8250 2000
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	8100 2000 8050 2000
+Wire Wire Line
+	8050 2000 8050 1950
+Wire Wire Line
+	8450 1500 8050 1500
+Wire Wire Line
+	8100 1150 8050 1150
+Wire Wire Line
+	8050 1150 8050 1500
+Connection ~ 8050 1500
+Wire Wire Line
+	8050 1500 7650 1500
+Wire Wire Line
+	8150 2350 8100 2350
+Wire Wire Line
+	8100 2350 8100 2700
+Connection ~ 8100 2700
+Wire Wire Line
+	8100 2700 8500 2700
+Wire Wire Line
+	10150 2000 11000 2000
+Wire Wire Line
+	8050 1650 7650 1650
+Wire Wire Line
+	8050 2000 7650 2000
+Connection ~ 8050 2000
+Wire Wire Line
+	7650 2700 8100 2700
+Text Label 7650 2000 0    50   ~ 0
+OUT0
+Text Label 7650 1650 0    50   ~ 0
+BOOT0
+Text Label 7650 1500 0    50   ~ 0
+GHS0
+Text HLabel 2000 1600 0    50   Input ~ 0
+BOOT[0..2]
+Text HLabel 1950 2000 0    50   Output ~ 0
+OUT[0..2]
+Text HLabel 1950 2400 0    50   Input ~ 0
+GLS[0..2]
+Text HLabel 1950 1150 0    50   Input ~ 0
+GHS[0..2]
+Wire Wire Line
+	9050 4250 9050 4750
+Wire Wire Line
+	9050 5450 9050 5950
+$Comp
+L Device:R R68
+U 1 1 607B8D5D
+P 8800 4600
+F 0 "R68" H 8870 4646 50  0000 L CNN
+F 1 "10k" H 8870 4555 50  0000 L CNN
+F 2 "Resistor_SMD:R_0402_1005Metric" V 8730 4600 50  0001 C CNN
+F 3 "~" H 8800 4600 50  0001 C CNN
+	1    8800 4600
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:R R64
+U 1 1 607B8D63
+P 8600 4450
+F 0 "R64" V 8393 4450 50  0000 C CNN
+F 1 "33" V 8484 4450 50  0000 C CNN
+F 2 "Resistor_SMD:R_0402_1005Metric" V 8530 4450 50  0001 C CNN
+F 3 "~" H 8600 4450 50  0001 C CNN
+	1    8600 4450
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	9150 4450 8800 4450
+Wire Wire Line
+	8750 4450 8800 4450
+Connection ~ 8800 4450
+Wire Wire Line
+	9050 4750 8800 4750
+Wire Wire Line
+	9150 5650 8850 5650
+$Comp
+L Device:R R69
+U 1 1 607B8D6E
+P 8850 5800
+F 0 "R69" H 8920 5846 50  0000 L CNN
+F 1 "10k" H 8920 5755 50  0000 L CNN
+F 2 "Resistor_SMD:R_0402_1005Metric" V 8780 5800 50  0001 C CNN
+F 3 "~" H 8850 5800 50  0001 C CNN
+	1    8850 5800
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:R R67
+U 1 1 607B8D74
+P 8650 5650
+F 0 "R67" V 8443 5650 50  0000 C CNN
+F 1 "33" V 8534 5650 50  0000 C CNN
+F 2 "Resistor_SMD:R_0402_1005Metric" V 8580 5650 50  0001 C CNN
+F 3 "~" H 8650 5650 50  0001 C CNN
+	1    8650 5650
+	0    1    1    0   
+$EndComp
+Connection ~ 8850 5650
+Wire Wire Line
+	8850 5650 8800 5650
+Wire Wire Line
+	9050 5950 8850 5950
+Wire Wire Line
+	8400 4950 9050 4950
+$Comp
+L Device:C C28
+U 1 1 607B8D7E
+P 8050 4750
+F 0 "C28" V 7798 4750 50  0000 C CNN
+F 1 "1u" V 7889 4750 50  0000 C CNN
+F 2 "Capacitor_SMD:C_0402_1005Metric" H 8088 4600 50  0001 C CNN
+F 3 "~" H 8050 4750 50  0001 C CNN
+	1    8050 4750
+	1    0    0    -1  
+$EndComp
+$Comp
+L Diode:BAT48JFILM D20
+U 1 1 607B8D84
+P 8250 4100
+F 0 "D20" H 8250 4316 50  0000 C CNN
+F 1 "BAT48JFILM" H 8250 4225 50  0000 C CNN
+F 2 "Diode_SMD:D_SOD-323" H 8250 3925 50  0001 C CNN
+F 3 "www.st.com/resource/en/datasheet/bat48.pdf" H 8250 4100 50  0001 C CNN
+	1    8250 4100
+	1    0    0    -1  
+$EndComp
+Text Label 7650 5650 0    50   ~ 0
+GLS1
+$Comp
+L Device:R R61
+U 1 1 607B8D8B
+P 8600 4100
+F 0 "R61" V 8393 4100 50  0000 C CNN
+F 1 "0" V 8484 4100 50  0000 C CNN
+F 2 "Resistor_SMD:R_0402_1005Metric" V 8530 4100 50  0001 C CNN
+F 3 "~" H 8600 4100 50  0001 C CNN
+	1    8600 4100
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	8450 4100 8400 4100
+$Comp
+L Diode:BAT48JFILM D22
+U 1 1 607B8D92
+P 8300 5300
+F 0 "D22" H 8300 5516 50  0000 C CNN
+F 1 "BAT48JFILM" H 8300 5425 50  0000 C CNN
+F 2 "Diode_SMD:D_SOD-323" H 8300 5125 50  0001 C CNN
+F 3 "www.st.com/resource/en/datasheet/bat48.pdf" H 8300 5300 50  0001 C CNN
+	1    8300 5300
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:R R66
+U 1 1 607B8D98
+P 8650 5300
+F 0 "R66" V 8443 5300 50  0000 C CNN
+F 1 "0" V 8534 5300 50  0000 C CNN
+F 2 "Resistor_SMD:R_0402_1005Metric" V 8580 5300 50  0001 C CNN
+F 3 "~" H 8650 5300 50  0001 C CNN
+	1    8650 5300
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	8500 5300 8450 5300
+Wire Wire Line
+	8850 5650 8850 5300
+Wire Wire Line
+	8850 5300 8800 5300
+Wire Wire Line
+	8800 4450 8800 4100
+Wire Wire Line
+	8800 4100 8750 4100
+$Comp
+L Device:R R57
+U 1 1 607B8DA3
+P 8250 4950
+F 0 "R57" V 8043 4950 50  0000 C CNN
+F 1 "0" V 8134 4950 50  0000 C CNN
+F 2 "Resistor_SMD:R_0402_1005Metric" V 8180 4950 50  0001 C CNN
+F 3 "~" H 8250 4950 50  0001 C CNN
+	1    8250 4950
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	8100 4950 8050 4950
+Wire Wire Line
+	8050 4950 8050 4900
+Wire Wire Line
+	8450 4450 8050 4450
+Wire Wire Line
+	8100 4100 8050 4100
+Wire Wire Line
+	8050 4100 8050 4450
+Connection ~ 8050 4450
+Wire Wire Line
+	8050 4450 7650 4450
+Wire Wire Line
+	8150 5300 8100 5300
+Wire Wire Line
+	8100 5300 8100 5650
+Connection ~ 8100 5650
+Wire Wire Line
+	8100 5650 8500 5650
+Wire Wire Line
+	8050 4600 7650 4600
+Wire Wire Line
+	8050 4950 7650 4950
+Connection ~ 8050 4950
+Wire Wire Line
+	7650 5650 8100 5650
+Text Label 7650 4950 0    50   ~ 0
+OUT1
+Text Label 7650 4600 0    50   ~ 0
+BOOT1
+Text Label 7650 4450 0    50   ~ 0
+GHS1
+Connection ~ 9050 4750
+Wire Wire Line
+	9050 4750 9050 4950
+Connection ~ 9050 5950
+Wire Wire Line
+	9050 5950 9050 6000
+Wire Wire Line
+	4300 5450 4300 5950
+Wire Wire Line
+	4300 6650 4300 7150
+$Comp
+L Device:R R51
+U 1 1 607D62DE
+P 4050 5800
+F 0 "R51" H 4120 5846 50  0000 L CNN
+F 1 "10k" H 4120 5755 50  0000 L CNN
+F 2 "Resistor_SMD:R_0402_1005Metric" V 3980 5800 50  0001 C CNN
+F 3 "~" H 4050 5800 50  0001 C CNN
+	1    4050 5800
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:R R46
+U 1 1 607D62E4
+P 3850 5650
+F 0 "R46" V 3643 5650 50  0000 C CNN
+F 1 "33" V 3734 5650 50  0000 C CNN
+F 2 "Resistor_SMD:R_0402_1005Metric" V 3780 5650 50  0001 C CNN
+F 3 "~" H 3850 5650 50  0001 C CNN
+	1    3850 5650
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	4400 5650 4050 5650
+Wire Wire Line
+	4000 5650 4050 5650
+Connection ~ 4050 5650
+Wire Wire Line
+	4300 5950 4050 5950
+Wire Wire Line
+	4400 6850 4100 6850
+$Comp
+L Device:R R53
+U 1 1 607D62EF
+P 4100 7000
+F 0 "R53" H 4170 7046 50  0000 L CNN
+F 1 "10k" H 4170 6955 50  0000 L CNN
+F 2 "Resistor_SMD:R_0402_1005Metric" V 4030 7000 50  0001 C CNN
+F 3 "~" H 4100 7000 50  0001 C CNN
+	1    4100 7000
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:R R49
+U 1 1 607D62F5
+P 3900 6850
+F 0 "R49" V 3693 6850 50  0000 C CNN
+F 1 "33" V 3784 6850 50  0000 C CNN
+F 2 "Resistor_SMD:R_0402_1005Metric" V 3830 6850 50  0001 C CNN
+F 3 "~" H 3900 6850 50  0001 C CNN
+	1    3900 6850
+	0    1    1    0   
+$EndComp
+Connection ~ 4100 6850
+Wire Wire Line
+	4100 6850 4050 6850
+Wire Wire Line
+	4300 7150 4100 7150
+Wire Wire Line
+	3650 6150 4300 6150
+$Comp
+L Device:C C27
+U 1 1 607D62FF
+P 3300 5950
+F 0 "C27" V 3048 5950 50  0000 C CNN
+F 1 "1u" V 3139 5950 50  0000 C CNN
+F 2 "Capacitor_SMD:C_0402_1005Metric" H 3338 5800 50  0001 C CNN
+F 3 "~" H 3300 5950 50  0001 C CNN
+	1    3300 5950
+	1    0    0    -1  
+$EndComp
+$Comp
+L Diode:BAT48JFILM D17
+U 1 1 607D6305
+P 3500 5300
+F 0 "D17" H 3500 5516 50  0000 C CNN
+F 1 "BAT48JFILM" H 3500 5425 50  0000 C CNN
+F 2 "Diode_SMD:D_SOD-323" H 3500 5125 50  0001 C CNN
+F 3 "www.st.com/resource/en/datasheet/bat48.pdf" H 3500 5300 50  0001 C CNN
+	1    3500 5300
+	1    0    0    -1  
+$EndComp
+Text Label 2900 6850 0    50   ~ 0
+GLS2
+$Comp
+L Device:R R45
+U 1 1 607D630C
+P 3850 5300
+F 0 "R45" V 3643 5300 50  0000 C CNN
+F 1 "0" V 3734 5300 50  0000 C CNN
+F 2 "Resistor_SMD:R_0402_1005Metric" V 3780 5300 50  0001 C CNN
+F 3 "~" H 3850 5300 50  0001 C CNN
+	1    3850 5300
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	3700 5300 3650 5300
+$Comp
+L Diode:BAT48JFILM D18
+U 1 1 607D6313
+P 3550 6500
+F 0 "D18" H 3550 6716 50  0000 C CNN
+F 1 "BAT48JFILM" H 3550 6625 50  0000 C CNN
+F 2 "Diode_SMD:D_SOD-323" H 3550 6325 50  0001 C CNN
+F 3 "www.st.com/resource/en/datasheet/bat48.pdf" H 3550 6500 50  0001 C CNN
+	1    3550 6500
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:R R47
+U 1 1 607D6319
+P 3900 6500
+F 0 "R47" V 3693 6500 50  0000 C CNN
+F 1 "0" V 3784 6500 50  0000 C CNN
+F 2 "Resistor_SMD:R_0402_1005Metric" V 3830 6500 50  0001 C CNN
+F 3 "~" H 3900 6500 50  0001 C CNN
+	1    3900 6500
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	3750 6500 3700 6500
+Wire Wire Line
+	4100 6850 4100 6500
+Wire Wire Line
+	4100 6500 4050 6500
+Wire Wire Line
+	4050 5650 4050 5300
+Wire Wire Line
+	4050 5300 4000 5300
+$Comp
+L Device:R R44
+U 1 1 607D6324
+P 3500 6150
+F 0 "R44" V 3293 6150 50  0000 C CNN
+F 1 "0" V 3384 6150 50  0000 C CNN
+F 2 "Resistor_SMD:R_0402_1005Metric" V 3430 6150 50  0001 C CNN
+F 3 "~" H 3500 6150 50  0001 C CNN
+	1    3500 6150
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	3350 6150 3300 6150
+Wire Wire Line
+	3300 6150 3300 6100
+Wire Wire Line
+	3700 5650 3300 5650
+Wire Wire Line
+	3350 5300 3300 5300
+Wire Wire Line
+	3300 5300 3300 5650
+Connection ~ 3300 5650
+Wire Wire Line
+	3300 5650 2900 5650
+Wire Wire Line
+	3400 6500 3350 6500
+Wire Wire Line
+	3350 6500 3350 6850
+Connection ~ 3350 6850
+Wire Wire Line
+	3350 6850 3750 6850
+Wire Wire Line
+	3300 5800 2900 5800
+Wire Wire Line
+	3300 6150 2900 6150
+Connection ~ 3300 6150
+Wire Wire Line
+	2900 6850 3350 6850
+Text Label 2900 6150 0    50   ~ 0
+OUT2
+Text Label 2900 5800 0    50   ~ 0
+BOOT2
+Text Label 2900 5650 0    50   ~ 0
+GHS2
+Connection ~ 4300 5950
+Wire Wire Line
+	4300 5950 4300 6150
+Connection ~ 4300 7150
+Wire Wire Line
+	4300 7150 4300 7200
+Entry Wire Line
+	2900 1150 3000 1250
+Entry Wire Line
+	2900 1250 3000 1350
+Entry Wire Line
+	2900 1350 3000 1450
+Wire Wire Line
+	3000 1250 3350 1250
+Wire Wire Line
+	3000 1350 3350 1350
+Wire Wire Line
+	3000 1450 3350 1450
+Text Label 3000 1250 0    50   ~ 0
+GHS0
+Text Label 3000 1350 0    50   ~ 0
+GHS1
+Text Label 3000 1450 0    50   ~ 0
+GHS2
+Entry Wire Line
+	2900 1600 3000 1700
+Entry Wire Line
+	2900 1700 3000 1800
+Entry Wire Line
+	2900 1800 3000 1900
+Wire Wire Line
+	3000 1700 3350 1700
+Wire Wire Line
+	3000 1800 3350 1800
+Wire Wire Line
+	3000 1900 3350 1900
+Text Label 3000 1700 0    50   ~ 0
+BOOT0
+Text Label 3000 1800 0    50   ~ 0
+BOOT1
+Text Label 3000 1900 0    50   ~ 0
+BOOT2
+Entry Wire Line
+	2900 2000 3000 2100
+Entry Wire Line
+	2900 2100 3000 2200
+Entry Wire Line
+	2900 2200 3000 2300
+Wire Wire Line
+	3000 2100 3350 2100
+Wire Wire Line
+	3000 2200 3350 2200
+Wire Wire Line
+	3000 2300 3350 2300
+Text Label 3000 2100 0    50   ~ 0
+OUT0
+Text Label 3000 2200 0    50   ~ 0
+OUT1
+Text Label 3000 2300 0    50   ~ 0
+OUT2
+Entry Wire Line
+	2900 2400 3000 2500
+Entry Wire Line
+	2900 2500 3000 2600
+Entry Wire Line
+	2900 2600 3000 2700
+Wire Wire Line
+	3000 2500 3350 2500
+Wire Wire Line
+	3000 2600 3350 2600
+Wire Wire Line
+	3000 2700 3350 2700
+Text Label 3000 2500 0    50   ~ 0
+GLS0
+Text Label 3000 2600 0    50   ~ 0
+GLS1
+Text Label 3000 2700 0    50   ~ 0
+GLS2
+Wire Bus Line
+	1950 1150 2900 1150
+Wire Bus Line
+	2000 1600 2900 1600
+Wire Bus Line
+	1950 2000 2900 2000
+Wire Bus Line
+	1950 2400 2900 2400
+Wire Wire Line
+	10150 4950 11000 4950
+Wire Wire Line
+	5400 6150 6250 6150
+Wire Bus Line
+	2900 1150 2900 1350
+Wire Bus Line
+	2900 1600 2900 1800
+Wire Bus Line
+	2900 2000 2900 2200
+Wire Bus Line
+	2900 2400 2900 2600
+Wire Bus Line
+	11100 1750 11100 6550
+$EndSCHEMATC

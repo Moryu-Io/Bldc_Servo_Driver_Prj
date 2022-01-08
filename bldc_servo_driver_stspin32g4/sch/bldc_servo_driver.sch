@@ -1,0 +1,192 @@
+EESchema Schematic File Version 4
+EELAYER 30 0
+EELAYER END
+$Descr A4 11693 8268
+encoding utf-8
+Sheet 1 6
+Title ""
+Date ""
+Rev ""
+Comp ""
+Comment1 ""
+Comment2 ""
+Comment3 ""
+Comment4 ""
+$EndDescr
+Wire Wire Line
+	6200 3450 6700 3450
+Wire Wire Line
+	6200 3550 6700 3550
+Wire Wire Line
+	6200 3750 6700 3750
+Wire Wire Line
+	6200 3850 6700 3850
+Wire Wire Line
+	6200 4050 6700 4050
+Wire Wire Line
+	6200 4150 6700 4150
+$Sheet
+S 1400 1150 1100 600 
+U 605C7276
+F0 "subSch_power" 50
+F1 "subSch_power.sch" 50
+$EndSheet
+$Sheet
+S 2350 2500 900  3750
+U 6060D158
+F0 "subSch_extcon" 50
+F1 "subSch_extcon.sch" 50
+F2 "Hall_[0..2]" O R 3250 3400 50 
+F3 "MotorD[0..2]" I R 3250 3000 50 
+F4 "SWD_BUS[0..2]" B R 3250 6050 50 
+F5 "COM_BUS[0..4]" B R 3250 5650 50 
+F6 "ANALOG[0..3]" B R 3250 5450 50 
+$EndSheet
+$Sheet
+S 9000 3200 1150 3000
+U 6060D278
+F0 "subSch_mcu" 50
+F1 "subSch_mcu.sch" 50
+F2 "MCU_CurFB+[0..2]" I L 9000 4400 50 
+F3 "MCU_CurFB-[0..2]" I L 9000 4550 50 
+F4 "MCU_BEMF[0..2]" I L 9000 4050 50 
+F5 "MCU_HALL[0..2]" I L 9000 4800 50 
+F6 "MCU_BEMF_GPIO" O L 9000 3950 50 
+F7 "MCU_SWD_BUS[0..2]" B L 9000 6050 50 
+F8 "MCU_SPI_BUS[0..3]" B L 9000 5100 50 
+F9 "MCU_ANALOG[0..3]" B L 9000 5550 50 
+F10 "MCU_VBAT_MON" I L 9000 4950 50 
+F11 "MCU_COM_BUS[0..4]" B L 9000 5800 50 
+F12 "MCU_GHS[0..2]" O R 10150 3700 50 
+F13 "MCU_GLS[0..2]" O R 10150 3800 50 
+F14 "MCU_BOOT[0..2]" O R 10150 3500 50 
+F15 "MCU_OUT[0..2]" O R 10150 3400 50 
+$EndSheet
+$Sheet
+S 4950 2050 1250 2200
+U 5FF17E59
+F0 "subSch_3phasebridge" 50
+F1 "subSch_3phasebridge.sch" 50
+F2 "VshuntU+" O R 6200 3450 50 
+F3 "VshuntU-" O R 6200 3550 50 
+F4 "VshuntV+" O R 6200 3750 50 
+F5 "VshuntV-" O R 6200 3850 50 
+F6 "VshuntW+" O R 6200 4050 50 
+F7 "VshuntW-" O R 6200 4150 50 
+F8 "MotorD[0..2]" O L 4950 3000 50 
+F9 "BOOT[0..2]" I R 6200 2350 50 
+F10 "OUT[0..2]" O R 6200 2250 50 
+F11 "GLS[0..2]" I R 6200 2600 50 
+F12 "GHS[0..2]" I R 6200 2500 50 
+$EndSheet
+Wire Bus Line
+	6700 4650 4200 4650
+Wire Bus Line
+	4200 3400 4200 4650
+Wire Bus Line
+	6700 4500 4550 4500
+Wire Bus Line
+	4550 4500 4550 3000
+Connection ~ 4550 3000
+Wire Bus Line
+	4550 3000 4950 3000
+Wire Bus Line
+	7850 4400 9000 4400
+Wire Bus Line
+	7850 4550 9000 4550
+Wire Bus Line
+	9000 4050 7850 4050
+Wire Wire Line
+	7850 3950 9000 3950
+Wire Wire Line
+	7850 4950 9000 4950
+Wire Bus Line
+	9000 4800 7850 4800
+Wire Bus Line
+	3250 3000 4550 3000
+Wire Bus Line
+	3250 3400 4200 3400
+Wire Bus Line
+	7850 5100 9000 5100
+Wire Bus Line
+	3250 6050 9000 6050
+Wire Bus Line
+	9000 5800 4000 5800
+Wire Bus Line
+	4000 5800 4000 5650
+Wire Bus Line
+	4000 5650 3250 5650
+Wire Bus Line
+	4150 5550 4150 5450
+Wire Bus Line
+	4150 5450 3250 5450
+Wire Bus Line
+	10150 3400 10650 3400
+Wire Bus Line
+	10650 3400 10650 2250
+Wire Bus Line
+	10650 2250 6200 2250
+Wire Bus Line
+	10150 3500 10550 3500
+Wire Bus Line
+	10550 3500 10550 2350
+Wire Bus Line
+	10550 2350 6200 2350
+Wire Bus Line
+	10150 3700 10450 3700
+Wire Bus Line
+	10450 3700 10450 2500
+Wire Bus Line
+	10450 2500 6200 2500
+Wire Bus Line
+	10150 3800 10350 3800
+Wire Bus Line
+	10350 3800 10350 2600
+Wire Bus Line
+	10350 2600 6200 2600
+$Comp
+L Mechanical:MountingHole H1
+U 1 1 60A8BA00
+P 1150 3300
+F 0 "H1" H 1250 3346 50  0000 L CNN
+F 1 "MountingHole" H 1250 3255 50  0000 L CNN
+F 2 "MountingHole:MountingHole_2.1mm" H 1150 3300 50  0001 C CNN
+F 3 "~" H 1150 3300 50  0001 C CNN
+	1    1150 3300
+	1    0    0    -1  
+$EndComp
+$Comp
+L Mechanical:MountingHole H2
+U 1 1 60A8BD05
+P 1150 3700
+F 0 "H2" H 1250 3746 50  0000 L CNN
+F 1 "MountingHole" H 1250 3655 50  0000 L CNN
+F 2 "MountingHole:MountingHole_2.1mm" H 1150 3700 50  0001 C CNN
+F 3 "~" H 1150 3700 50  0001 C CNN
+	1    1150 3700
+	1    0    0    -1  
+$EndComp
+$Sheet
+S 6700 3200 1150 2000
+U 60490054
+F0 "subSch_onboardsensing" 50
+F1 "subSch_onboardsensing.sch" 50
+F2 "VshuntU+" I L 6700 3450 50 
+F3 "VshuntV+" I L 6700 3750 50 
+F4 "VshuntW+" I L 6700 4050 50 
+F5 "VshuntU-" I L 6700 3550 50 
+F6 "VshuntV-" I L 6700 3850 50 
+F7 "VshuntW-" I L 6700 4150 50 
+F8 "Hall_[0..2]" I L 6700 4650 50 
+F9 "CurFb+_[0..2]" O R 7850 4400 50 
+F10 "Hall_micon_[0..2]" O R 7850 4800 50 
+F11 "CurFb-_[0..2]" O R 7850 4550 50 
+F12 "BEMF[0..2]" O R 7850 4050 50 
+F13 "MotorD[0..2]" I L 6700 4500 50 
+F14 "GPIO_BEMF" I R 7850 3950 50 
+F15 "VBAT_MON" O R 7850 4950 50 
+F18 "SPI_BUS[0..3]" B R 7850 5100 50 
+$EndSheet
+Wire Bus Line
+	4150 5550 9000 5550
+$EndSCHEMATC
