@@ -37,13 +37,15 @@ void initialize_servo_driver_model() {
                            u8_DEBUG_COM_TXBUF, DEBUG_COM_TXBUF_LENGTH);
   DebugCom.init_rxtx();
 
-  Dac1Ctrl.init();
-  Adc1Ctrl.init();
-  Adc2Ctrl.init();
-  Adc1Ctrl.start();
-  Adc2Ctrl.start();
+  //Dac1Ctrl.init();
+  //Adc1Ctrl.init();
+  //Adc2Ctrl.init();
+  //Adc1Ctrl.start();
+  //Adc2Ctrl.start();
 
 }
 
 void loop_servo_driver_model() {
+  LL_mDelay(1000);
+  debug_printf("[F4]Test\n");
 }

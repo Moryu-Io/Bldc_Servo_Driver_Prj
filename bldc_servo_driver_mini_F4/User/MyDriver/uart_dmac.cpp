@@ -34,7 +34,7 @@ void UART_DMAC::init_rx() {
  * 
  */
 void UART_DMAC::init_tx() {
-  LL_USART_EnableIT_TC((USART_TypeDef *)usart_);
+  LL_DMA_EnableIT_TC((DMA_TypeDef *)dma_, (uint32_t)dma_ch_tx_);
   is_tx_comp = true;
   disable_tx();
 }

@@ -23,6 +23,7 @@
 #include "stm32f4xx_it.h"
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+#include "wrapper_interrupt.hpp"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -227,16 +228,20 @@ void TIM7_IRQHandler(void)
 }
 
 /**
-  * @brief This function handles USART6 global interrupt.
+  * @brief This function handles DMA2 stream6 global interrupt.
   */
-void USART6_IRQHandler(void)
+void DMA2_Stream6_IRQHandler(void)
 {
-  /* USER CODE BEGIN USART6_IRQn 0 */
+  /* USER CODE BEGIN DMA2_Stream6_IRQn 0 */
+  if(LL_DMA_IsActiveFlag_TC6(DMA2)){
+    LL_DMA_ClearFlag_TC6(DMA2);
+    USART6TX_DMATC_ITR();
+  }
+  /* USER CODE END DMA2_Stream6_IRQn 0 */
 
-  /* USER CODE END USART6_IRQn 0 */
-  /* USER CODE BEGIN USART6_IRQn 1 */
+  /* USER CODE BEGIN DMA2_Stream6_IRQn 1 */
 
-  /* USER CODE END USART6_IRQn 1 */
+  /* USER CODE END DMA2_Stream6_IRQn 1 */
 }
 
 /* USER CODE BEGIN 1 */

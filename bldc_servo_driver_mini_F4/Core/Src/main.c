@@ -30,7 +30,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "wrapper_main.hpp"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -92,25 +92,26 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
+  MX_DMA_Init();
   MX_ADC1_Init();
   MX_CAN1_Init();
   MX_DAC_Init();
   MX_ADC2_Init();
   MX_SPI3_Init();
-  MX_DMA_Init();
   MX_USART6_UART_Init();
   MX_TIM1_Init();
   MX_TIM3_Init();
   MX_TIM6_Init();
   MX_TIM7_Init();
   /* USER CODE BEGIN 2 */
-
+  cpp_wrapper_main_setup();
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+    cpp_wrapper_main_loop();
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */

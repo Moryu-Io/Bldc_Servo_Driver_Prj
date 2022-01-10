@@ -8,7 +8,7 @@ extern "C" {
 
 #include "main.h"
 
-void USART1TC_ITR();
+void USART6TX_DMATC_ITR();
 void TIM6_ITR();
 void TIM7_ITR();
 
