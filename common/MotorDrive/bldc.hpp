@@ -2,7 +2,6 @@
 #define BLDC_HPP_
 
 #include "main.h"
-#include "stm32g4xx.h"
 
 #define DRIVE_OUT_BOTH_ENABLE (2)
 #define DRIVE_OUT_LOW_ENABLE (1)
