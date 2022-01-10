@@ -1,7 +1,6 @@
 #ifndef I2CC_HPP_
 #define I2CC_HPP_
 
-#include "stm32g4xx.h"
 #include "main.h"
 
 #define BUFFER_LENGTH   (4)

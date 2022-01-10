@@ -83,6 +83,7 @@ Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_tim_ex.c
 
 CPP_SOURCES = \
 $(wildcard User/*.cpp) \
+$(wildcard User/MyDriver/*.cpp) \
 $(wildcard ./../common/ExtInterface/*.cpp) \
 $(wildcard ./../common/MotorDrive/*.cpp) \
 $(wildcard ./../common/Utility/*.cpp)
@@ -153,6 +154,7 @@ C_INCLUDES =  \
 -IDrivers/CMSIS/Include \
 -IMiddlewares/Third_Party/ARM_CMSIS/CMSIS/DSP/Include \
 -IUser \
+-IUser/MyDriver \
 -I./../common/ExtInterface \
 -I./../common/MotorDrive \
 -I./../common/Utility \
