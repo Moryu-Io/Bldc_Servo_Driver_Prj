@@ -1,0 +1,11 @@
+{
+	"folders": [
+		{
+			"path": "bldc_servo_driver_mini_F4"
+		},
+		{
+			"path": "common"
+		}
+	],
+	"settings": {}
+}
