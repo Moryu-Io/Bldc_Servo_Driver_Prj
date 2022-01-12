@@ -3,26 +3,37 @@
 #include "debug_printf.hpp"
 #include "mymath.hpp"
 #include "servo_driver_model.hpp"
+#include "spic.hpp"
 #include "uart_dmac.hpp"
-
 
 enum ADC1CH {
   Potentio,  // CH7,  PA7
   VmSens,    // CH9,  PB1
   CsRef,     // CH14, PC4
   MotorTemp, // CH15, PC5
-  McuTemp,   
+  McuTemp,
 };
 static ADCC<5> Adc1Ctrl(ADC1, DMA2, LL_DMA_STREAM_0);
 
 enum ADC2CH {
-  CurFb_U,  // CH0, PA0
-  CurFb_V,  // CH1, PA1
-  CurFb_W,  // CH2, PA2
+  CurFb_U, // CH0, PA0
+  CurFb_V, // CH1, PA1
+  CurFb_W, // CH2, PA2
 };
 static ADCC<3> Adc2Ctrl(ADC2, DMA2, LL_DMA_STREAM_2);
 
 static DACC Dac1Ctrl;
+
+class MotorAngSenser : public SPIC {
+public:
+  MotorAngSenser(SPI_TypeDef *_spi) : SPIC(_spi){};
+
+protected:
+  void select() override { LL_GPIO_ResetOutputPin(GPIOA, LL_GPIO_PIN_15); };
+  void deselect() override { LL_GPIO_SetOutputPin(GPIOA, LL_GPIO_PIN_15); };
+};
+
+static MotorAngSenser MotorAngSenserCtrl(SPI3);
 
 constexpr uint16_t DEBUG_COM_RXBUF_LENGTH = 512;
 constexpr uint16_t DEBUG_COM_TXBUF_LENGTH = 256;
@@ -37,15 +48,22 @@ void initialize_servo_driver_model() {
                            u8_DEBUG_COM_TXBUF, DEBUG_COM_TXBUF_LENGTH);
   DebugCom.init_rxtx();
 
+  MotorAngSenserCtrl.init();
+
   //Dac1Ctrl.init();
   //Adc1Ctrl.init();
   //Adc2Ctrl.init();
   //Adc1Ctrl.start();
   //Adc2Ctrl.start();
-
 }
 
 void loop_servo_driver_model() {
   LL_mDelay(1000);
+  uint8_t txbuf[4] = {0xFF,0xFF,0xFF, 0xFF};
+  uint8_t rxbuf[4] = {};
+
+  MotorAngSenserCtrl.send_bytes(txbuf, rxbuf, 4);
+  uint16_t ang[2] = {};
+  ang[0] = ((rxbuf[0] << 8) | rxbuf[1]) & 0x3FFF;
   debug_printf("[F4]Test\n");
 }
