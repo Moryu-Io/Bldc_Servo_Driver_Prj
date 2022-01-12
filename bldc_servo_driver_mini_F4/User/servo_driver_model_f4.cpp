@@ -55,6 +55,13 @@ void initialize_servo_driver_model() {
   //Adc2Ctrl.init();
   //Adc1Ctrl.start();
   //Adc2Ctrl.start();
+
+  
+  LL_TIM_EnableIT_UPDATE(TIM6);
+  LL_TIM_EnableCounter(TIM6);
+
+  LL_TIM_EnableIT_UPDATE(TIM7);
+  LL_TIM_EnableCounter(TIM7);
 }
 
 void loop_servo_driver_model() {

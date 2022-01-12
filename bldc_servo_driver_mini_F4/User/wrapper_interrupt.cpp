@@ -6,6 +6,9 @@ void USART6TX_DMATC_ITR(){
 }
 
 void TIM6_ITR() {
+    LL_GPIO_TogglePin(GPIOC, LL_GPIO_PIN_2);
 }
+
 void TIM7_ITR() {
+    LL_GPIO_TogglePin(GPIOC, LL_GPIO_PIN_3);
 }
