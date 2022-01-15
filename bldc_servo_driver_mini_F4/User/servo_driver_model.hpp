@@ -3,6 +3,11 @@
 
 #include "main.h"
 #include "com_base.hpp"
+#include "bldc.hpp"
+#include "bldc_drive_method.hpp"
+
+BLDC* get_bldc_if();
+BldcDriveMethod* get_bldcdrv_method();
 
 COM_BASE* get_debug_com();
 

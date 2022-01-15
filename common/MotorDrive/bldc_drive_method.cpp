@@ -149,7 +149,7 @@ void BldcDriveMethodSine::update() {
   float _sct_ang_deg = mymath::rad2deg(mymath::atan2f(_Vb, _Va));
 
   
-  debug_printf("%d,%d\n", (int)(_sct_ang_deg), (int)(_e_ang*100));
+  //debug_printf("%d,%d\n", (int)(_sct_ang_deg), (int)(_e_ang*100));
 
   BLDC::DriveDuty _duty = {
       .u8_U_out_enable = DRIVE_OUT_BOTH_ENABLE,
