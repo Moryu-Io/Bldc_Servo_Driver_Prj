@@ -9,7 +9,7 @@ public:
 
   void init();
 
-  void send_bytes(uint8_t *_tbuf, uint8_t *_rbuf, uint16_t _len);
+  void send_bytes(uint16_t *_tbuf, uint16_t *_rbuf, uint16_t _len);
 
 protected:
   virtual void select()   = 0;
