@@ -12,3 +12,7 @@ void TIM6_ITR() {
 void TIM7_ITR() {
     get_bldcdrv_method()->update();
 }
+
+void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan){
+    
+}
