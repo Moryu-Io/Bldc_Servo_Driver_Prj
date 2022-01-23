@@ -45,11 +45,17 @@ public:
     /* PWM */
     LL_TIM_EnableUpdateEvent(TIM1);
     LL_TIM_EnableCounter(TIM1);
+    LL_TIM_SetRepetitionCounter(TIM1, 1);
     TIM1->BDTR |= TIM_BDTR_MOE;
     TIM1->CCR1 = 0;
     TIM1->CCR2 = 0;
     TIM1->CCR3 = 0;
     LL_GPIO_SetOutputPin(GPIOB, LL_GPIO_PIN_13); // PWML HIGH
+
+    /* ADC用トリガタイマ */
+    LL_TIM_EnableCounter(TIM3);
+    LL_TIM_CC_EnableChannel(TIM3, LL_TIM_CHANNEL_CH1);
+    TIM3->CCR1 = 1900;
 
     LL_GPIO_SetOutputPin(GPIOA, LL_GPIO_PIN_6); // 3PWM Mode
     LL_mDelay(1);
@@ -57,6 +63,7 @@ public:
 
     Dac1Ctrl.init();
     Dac1Ctrl.set_dac_chB(4095);
+    Dac1Ctrl.set_dac_chA(4095);
   };
 
   void set_drive_duty(DriveDuty &_Vol) override {
@@ -74,11 +81,11 @@ public:
     //float fl_elec_ang_deg  = (float)tim_count * 360.0f * 0.000001f;
     float fl_elec_ang_deg  = 0;
 
-    uint8_t txbuf[2] = {0xFF,0xFF};
-    uint8_t rxbuf[2] = {};
+    uint16_t txdata = 0xFFFF;
+    uint16_t rxdata = 0;
 
-    MotorAngSenserCtrl.send_bytes(txbuf, rxbuf, 2);
-    uint16_t ang = ((rxbuf[0] << 8) | rxbuf[1]) & 0x3FFF;
+    MotorAngSenserCtrl.send_bytes(&txdata, &rxdata, 1);
+    uint16_t ang = rxdata & 0x3FFF;
     fl_elec_ang_deg = (float)(16383 - ang - 1380) * 0.241713972f + 90.0f;
 
     return fl_elec_ang_deg;
@@ -162,6 +169,11 @@ void initialize_servo_driver_model() {
 
   MotorAngSenserCtrl.init();
 
+  
+  Adc1Ctrl.init();
+  Adc2Ctrl.init();
+  Adc1Ctrl.start();
+  Adc2Ctrl.start();
   GmblBldc.init();
 
   //Dac1Ctrl.init();
