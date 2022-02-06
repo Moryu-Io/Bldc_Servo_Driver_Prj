@@ -341,7 +341,7 @@ Entry Wire Line
 Wire Bus Line
 	10300 5450 10350 5450
 Text HLabel 10350 5450 2    50   BiDi ~ 0
-MCU_ANALOG[0..3]
+MCU_ANALOG[0..2]
 Wire Wire Line
 	9200 4700 10350 4700
 Text HLabel 10350 4700 2    50   Output ~ 0
@@ -349,32 +349,32 @@ MCU_BEMF_GPIO
 Text Label 9200 4700 0    50   ~ 0
 BEMF_GPIO
 Wire Wire Line
-	2600 1500 1500 1500
-Text Label 2600 1500 2    50   ~ 0
+	2600 1800 1500 1800
+Text Label 2600 1800 2    50   ~ 0
 CAN1_TX
-Text Label 1500 1500 0    50   ~ 0
+Text Label 1500 1800 0    50   ~ 0
 MCU_COM_BUS0
 Entry Wire Line
-	1500 1500 1400 1400
+	1500 1800 1400 1700
 Wire Wire Line
-	2600 1600 1500 1600
-Text Label 2600 1600 2    50   ~ 0
+	2600 1900 1500 1900
+Text Label 2600 1900 2    50   ~ 0
 CAN1_RX
-Text Label 1500 1600 0    50   ~ 0
+Text Label 1500 1900 0    50   ~ 0
 MCU_COM_BUS1
 Entry Wire Line
-	1500 1600 1400 1500
+	1500 1900 1400 1800
 Wire Wire Line
-	2600 1700 1500 1700
-Text Label 2600 1700 2    50   ~ 0
+	2600 2000 1500 2000
+Text Label 2600 2000 2    50   ~ 0
 CAN_EN
-Text Label 1500 1700 0    50   ~ 0
+Text Label 1500 2000 0    50   ~ 0
 MCU_COM_BUS2
 Entry Wire Line
-	1500 1700 1400 1600
+	1500 2000 1400 1900
 Wire Bus Line
-	1400 1300 1350 1300
-Text HLabel 1350 1300 0    50   BiDi ~ 0
+	1400 1600 1350 1600
+Text HLabel 1350 1600 0    50   BiDi ~ 0
 MCU_COM_BUS[0..4]
 Wire Wire Line
 	2600 1000 1500 1000
@@ -395,11 +395,11 @@ Entry Wire Line
 Wire Bus Line
 	1400 800  1350 800 
 Text HLabel 1350 800  0    50   BiDi ~ 0
-MCU_SWD_BUS[0..2]
+MCU_SWD_BUS[0..3]
 Wire Wire Line
 	4800 1150 3700 1150
 Text Label 4800 1150 2    50   ~ 0
-SPI3_MOSI
+SPI1_MOSI
 Text Label 3700 1150 0    50   ~ 0
 MCU_SPI_BUS0
 Entry Wire Line
@@ -407,7 +407,7 @@ Entry Wire Line
 Wire Wire Line
 	4800 1250 3700 1250
 Text Label 4800 1250 2    50   ~ 0
-SPI3_MISO
+SPI1_MISO
 Text Label 3700 1250 0    50   ~ 0
 MCU_SPI_BUS1
 Entry Wire Line
@@ -415,7 +415,7 @@ Entry Wire Line
 Wire Wire Line
 	4800 1350 3700 1350
 Text Label 4800 1350 2    50   ~ 0
-SPI3_SCK
+SPI1_SCK
 Text Label 3700 1350 0    50   ~ 0
 MCU_SPI_BUS2
 Entry Wire Line
@@ -431,23 +431,23 @@ Entry Wire Line
 Text Label 3700 1450 0    50   ~ 0
 MCU_SPI_BUS3
 Text Label 4800 1450 2    50   ~ 0
-SPI3_CS
+SPI1_CS
 Wire Wire Line
-	2600 1800 1500 1800
-Text Label 2600 1800 2    50   ~ 0
+	2600 2100 1500 2100
+Text Label 2600 2100 2    50   ~ 0
 USART1_TX
-Text Label 1500 1800 0    50   ~ 0
+Text Label 1500 2100 0    50   ~ 0
 MCU_COM_BUS3
 Entry Wire Line
-	1500 1800 1400 1700
+	1500 2100 1400 2000
 Wire Wire Line
-	2600 1900 1500 1900
-Text Label 2600 1900 2    50   ~ 0
+	2600 2200 1500 2200
+Text Label 2600 2200 2    50   ~ 0
 USART1_RX
-Text Label 1500 1900 0    50   ~ 0
+Text Label 1500 2200 0    50   ~ 0
 MCU_COM_BUS4
 Entry Wire Line
-	1500 1900 1400 1800
+	1500 2200 1400 2100
 Wire Wire Line
 	9300 6300 10350 6300
 Text Label 9300 6300 0    50   ~ 0
@@ -460,14 +460,6 @@ Text Label 9650 5950 0    50   ~ 0
 MCU_ANALOG2
 Entry Wire Line
 	10200 5950 10300 5850
-Wire Wire Line
-	9150 6050 10200 6050
-Text Label 9150 6050 0    50   ~ 0
-DAC1CH2
-Text Label 9650 6050 0    50   ~ 0
-MCU_ANALOG3
-Entry Wire Line
-	10200 6050 10300 5950
 Wire Wire Line
 	2600 1200 1500 1200
 Text Label 2600 1200 2    50   ~ 0
@@ -798,7 +790,7 @@ Wire Wire Line
 Text Label 4550 6000 0    50   ~ 0
 DAC1CH1
 Text Label 4550 6100 0    50   ~ 0
-DAC1CH2
+SPI1_SCK
 Wire Wire Line
 	5300 5950 5300 6600
 Text Label 5200 6600 1    50   ~ 0
@@ -1068,11 +1060,11 @@ Wire Wire Line
 Wire Wire Line
 	5900 3050 5900 2500
 Text Label 6100 2500 3    50   ~ 0
-SPI3_SCK
+SWO
 Text Label 6000 2500 3    50   ~ 0
-SPI3_MISO
+SPI1_MISO
 Text Label 5900 2500 3    50   ~ 0
-SPI3_MOSI
+SPI1_MOSI
 Wire Wire Line
 	6200 3050 6200 2500
 Wire Wire Line
@@ -1080,7 +1072,7 @@ Wire Wire Line
 Text Label 6200 2500 3    50   ~ 0
 aaa
 Text Label 6400 2500 3    50   ~ 0
-SPI3_CS
+SPI1_CS
 Wire Wire Line
 	6900 3950 7450 3950
 Wire Wire Line
@@ -1602,6 +1594,14 @@ Wire Wire Line
 	7950 2500 7950 2550
 Text Label 7650 2500 0    50   ~ 0
 SCREF
+Wire Wire Line
+	2600 1300 1500 1300
+Text Label 2600 1300 2    50   ~ 0
+SWO
+Text Label 1500 1300 0    50   ~ 0
+MCU_SWD_BUS3
+Entry Wire Line
+	1400 1200 1500 1300
 Wire Bus Line
 	10350 1700 10350 2050
 Wire Bus Line
@@ -1615,15 +1615,15 @@ Wire Bus Line
 Wire Bus Line
 	10350 4900 10350 5200
 Wire Bus Line
-	1400 800  1400 1100
-Wire Bus Line
 	10350 700  10350 1050
 Wire Bus Line
 	10350 1150 10350 1450
 Wire Bus Line
+	1400 800  1400 1200
+Wire Bus Line
 	3600 950  3600 1350
 Wire Bus Line
-	1400 1300 1400 1800
+	1400 1600 1400 2100
 Wire Bus Line
 	10300 5450 10300 5950
 $EndSCHEMATC

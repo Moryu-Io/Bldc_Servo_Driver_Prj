@@ -158,76 +158,57 @@ Entry Wire Line
 Wire Bus Line
 	7600 3750 7500 3750
 Text HLabel 7500 3750 0    50   BiDi ~ 0
-ANALOG[0..3]
-Text HLabel 1300 1500 0    50   BiDi ~ 0
-SWD_BUS[0..2]
+ANALOG[0..2]
+Text HLabel 1300 800  0    50   BiDi ~ 0
+SWD_BUS[0..3]
 Wire Bus Line
-	1300 1500 1400 1500
+	1300 800  1400 800 
 Entry Wire Line
-	1400 1600 1500 1700
+	1400 900  1500 1000
 Entry Wire Line
-	1400 1750 1500 1850
+	1400 1050 1500 1150
 Entry Wire Line
-	1400 1900 1500 2000
-$Comp
-L Connector_Generic:Conn_01x05 J1
-U 1 1 604EB715
-P 2750 1900
-F 0 "J1" H 2830 1942 50  0000 L CNN
-F 1 "Conn_01x05" H 2830 1851 50  0000 L CNN
-F 2 "Connector_JST:JST_SH_SM05B-SRSS-TB_1x05-1MP_P1.00mm_Horizontal" H 2750 1900 50  0001 C CNN
-F 3 "~" H 2750 1900 50  0001 C CNN
-	1    2750 1900
-	1    0    0    -1  
-$EndComp
+	1400 1200 1500 1300
 Wire Wire Line
-	2550 1700 1500 1700
+	2550 1000 1500 1000
 Wire Wire Line
-	2550 1800 1600 1800
-Wire Wire Line
-	1600 1800 1600 1850
-Wire Wire Line
-	1600 1850 1500 1850
-Wire Wire Line
-	2550 2000 1500 2000
-Text Label 1550 1700 0    50   ~ 0
+	2550 1300 1500 1300
+Text Label 1550 1000 0    50   ~ 0
 SWD_BUS2
-Text Label 2250 1700 0    50   ~ 0
+Text Label 2250 1000 0    50   ~ 0
 nRESET
-Text Label 1600 1800 0    50   ~ 0
+Text Label 1600 1150 0    50   ~ 0
 SWD_BUS1
-Text Label 2250 1800 0    50   ~ 0
+Text Label 2250 1150 0    50   ~ 0
 SWDIO
-Text Label 1600 2000 0    50   ~ 0
+Text Label 1600 1300 0    50   ~ 0
 SWD_BUS0
-Text Label 2250 2000 0    50   ~ 0
+Text Label 2250 1300 0    50   ~ 0
 SWCLK
 $Comp
 L power:GND #PWR013
 U 1 1 604EFC15
-P 2250 1900
-F 0 "#PWR013" H 2250 1650 50  0001 C CNN
-F 1 "GND" H 2255 1727 50  0000 C CNN
-F 2 "" H 2250 1900 50  0001 C CNN
-F 3 "" H 2250 1900 50  0001 C CNN
-	1    2250 1900
+P 3850 950
+F 0 "#PWR013" H 3850 700 50  0001 C CNN
+F 1 "GND" H 3855 777 50  0000 C CNN
+F 2 "" H 3850 950 50  0001 C CNN
+F 3 "" H 3850 950 50  0001 C CNN
+	1    3850 950 
 	0    1    1    0   
 $EndComp
 Wire Wire Line
-	2250 1900 2550 1900
+	3850 950  4150 950 
 $Comp
 L power:+3.3V #PWR014
 U 1 1 604F0F66
-P 2250 2100
-F 0 "#PWR014" H 2250 1950 50  0001 C CNN
-F 1 "+3.3V" H 2265 2273 50  0000 C CNN
-F 2 "" H 2250 2100 50  0001 C CNN
-F 3 "" H 2250 2100 50  0001 C CNN
-	1    2250 2100
+P 3200 1350
+F 0 "#PWR014" H 3200 1200 50  0001 C CNN
+F 1 "+3.3V" H 3215 1523 50  0000 C CNN
+F 2 "" H 3200 1350 50  0001 C CNN
+F 3 "" H 3200 1350 50  0001 C CNN
+	1    3200 1350
 	0    -1   -1   0   
 $EndComp
-Wire Wire Line
-	2250 2100 2550 2100
 Text HLabel 1300 2600 0    50   BiDi ~ 0
 COM_BUS[0..4]
 Wire Bus Line
@@ -417,12 +398,8 @@ Text Label 9300 4100 0    50   ~ 0
 HALL_AD_B
 Entry Wire Line
 	7700 4800 7600 4700
-Entry Wire Line
-	7700 4900 7600 4800
 Text Label 7800 4800 0    50   ~ 0
 ANALOG2
-Text Label 7800 4900 0    50   ~ 0
-ANALOG3
 $Comp
 L Connector:TestPoint TP1
 U 1 1 6054A863
@@ -434,25 +411,10 @@ F 3 "~" H 9250 4800 50  0001 C CNN
 	1    9050 4800
 	0    1    1    0   
 $EndComp
-$Comp
-L Connector:TestPoint TP2
-U 1 1 6054B7EF
-P 9050 4900
-F 0 "TP2" V 9004 5088 50  0000 L CNN
-F 1 "TestPoint" V 9095 5088 50  0000 L CNN
-F 2 "TestPoint:TestPoint_Pad_D1.0mm" H 9250 4900 50  0001 C CNN
-F 3 "~" H 9250 4900 50  0001 C CNN
-	1    9050 4900
-	0    1    1    0   
-$EndComp
 Wire Wire Line
 	7700 4800 9050 4800
-Wire Wire Line
-	7700 4900 9050 4900
 Text Label 8650 4800 0    50   ~ 0
 DAC_CH1
-Text Label 8650 4900 0    50   ~ 0
-DAC_CH2
 $Comp
 L SamacSys_Parts:TLT9251VLEXUMA1 IC6
 U 1 1 60556213
@@ -707,14 +669,80 @@ Wire Wire Line
 	8250 1550 9250 1550
 Wire Wire Line
 	8250 1450 9250 1450
+Entry Wire Line
+	1500 1600 1400 1500
+Text Label 2000 1600 2    50   ~ 0
+SWD_BUS3
+Wire Wire Line
+	1500 1600 2550 1600
+Text Label 2550 1600 2    50   ~ 0
+SWO
+$Comp
+L SamacSys_Parts:1-2328702-0 J1
+U 1 1 6201D2F6
+P 5150 1850
+F 0 "J1" H 5650 685 50  0000 C CNN
+F 1 "1-2328702-0" H 5650 776 50  0000 C CNN
+F 2 "SamacSys_Parts:123287020" H 6000 1950 50  0001 L CNN
+F 3 "https://datasheet.datasheetarchive.com/originals/distributors/DKDS42/DSANUWW0052081.pdf" H 6000 1850 50  0001 L CNN
+F 4 "AMP - TE CONNECTIVITY - 1-2328702-0 - CONNECTOR, FPC, R/A, 10POS, 1ROW, 0.5MM" H 6000 1750 50  0001 L CNN "Description"
+F 5 "1.05" H 6000 1650 50  0001 L CNN "Height"
+F 6 "571-1-2328702-0" H 6000 1550 50  0001 L CNN "Mouser Part Number"
+F 7 "https://www.mouser.co.uk/ProductDetail/TE-Connectivity/1-2328702-0?qs=w%2Fv1CP2dgqo2Dg4sQQnZ1g%3D%3D" H 6000 1450 50  0001 L CNN "Mouser Price/Stock"
+F 8 "TE Connectivity" H 6000 1350 50  0001 L CNN "Manufacturer_Name"
+F 9 "1-2328702-0" H 6000 1250 50  0001 L CNN "Manufacturer_Part_Number"
+	1    5150 1850
+	-1   0    0    1   
+$EndComp
+$Comp
+L power:GND #PWR0127
+U 1 1 62025B0C
+P 3850 1850
+F 0 "#PWR0127" H 3850 1600 50  0001 C CNN
+F 1 "GND" H 3855 1677 50  0000 C CNN
+F 2 "" H 3850 1850 50  0001 C CNN
+F 3 "" H 3850 1850 50  0001 C CNN
+	1    3850 1850
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	3850 1850 4150 1850
+Wire Wire Line
+	4150 1250 3700 1250
+Wire Wire Line
+	4150 1450 3700 1450
+Wire Wire Line
+	4150 1550 3700 1550
+Wire Wire Line
+	4150 1650 3700 1650
+Wire Wire Line
+	4150 1750 3700 1750
+Wire Wire Line
+	4150 1150 3850 1150
+Text Label 3850 1150 0    50   ~ 0
+SWO
+Text Label 3700 1250 0    50   ~ 0
+nRESET
+Text Label 3700 1450 0    50   ~ 0
+SWDIO
+Text Label 3700 1550 0    50   ~ 0
+SWCLK
+Text Label 3700 1650 0    50   ~ 0
+USART_TX
+Text Label 3700 1750 0    50   ~ 0
+USART_RX
+Wire Wire Line
+	3200 1350 4150 1350
+Wire Wire Line
+	1500 1150 2550 1150
 Wire Bus Line
 	9200 1750 9200 2250
-Wire Bus Line
-	1400 1500 1400 1900
 Wire Bus Line
 	9350 1250 9350 1550
 Wire Bus Line
 	1400 2600 1400 3100
+Wire Bus Line
+	1400 800  1400 1500
 Wire Bus Line
 	7600 3750 7600 4800
 $EndSCHEMATC
