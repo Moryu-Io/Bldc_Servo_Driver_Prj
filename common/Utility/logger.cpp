@@ -161,7 +161,7 @@ void print_LogData_byFLOAT() {
  * 
  */
 void clear_LogAddressArray() {
-  memset(u32p_Logging_address, 0, LOG_ADDRESS_MAX_NUM);
+  memset(u32p_Logging_address, 0, LOG_ADDRESS_MAX_NUM*4);
   u8_Log_Variable_num = 0;
 }
 
