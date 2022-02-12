@@ -2,6 +2,7 @@
 
 #include "wrapper_main.hpp"
 #include "servo_driver_model.hpp"
+#include "logger.hpp"
 
 void cpp_wrapper_main_setup(void) {
   initialize_servo_driver_model();
@@ -22,7 +23,9 @@ void TIM6_ITR() {
 }
 
 void TIM7_ITR() {
-    get_bldcdrv_method()->update();
+  get_bldcdrv_method()->update();
+
+  LOG::routine();
 }
 
 void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan){

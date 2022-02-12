@@ -91,7 +91,7 @@ uint16_t UART_DMAC::get_rxbytes(uint8_t *_arr, uint16_t _size) {
     return 0;
   }
   // DMAを無効化
-  LL_DMA_DisableStream((DMA_TypeDef *)dma_, (uint32_t)dma_ch_rx_);
+  // LL_DMA_DisableStream((DMA_TypeDef *)dma_, (uint32_t)dma_ch_rx_);
 
   /* サイズチェックとデータコピー */
   uint16_t _rxbuf_size = get_rxBuf_datasize();
@@ -109,7 +109,7 @@ uint16_t UART_DMAC::get_rxbytes(uint8_t *_arr, uint16_t _size) {
   u16_rxBuf_tail_ = (u16_rxBuf_tail_ + _size) & (u16_rxBuf_len_ - 1);
 
   // DMAの有効化
-  LL_DMA_EnableStream((DMA_TypeDef *)dma_, (uint32_t)dma_ch_rx_);
+  // LL_DMA_EnableStream((DMA_TypeDef *)dma_, (uint32_t)dma_ch_rx_);
 
   return _size;
 }

@@ -7,6 +7,7 @@
 #include "uart_dmac.hpp"
 #include "bldc.hpp"
 #include "bldc_drive_method.hpp"
+#include "logger.hpp"
 
 enum ADC1CH {
   Potentio,  // CH7,  PA7
@@ -200,5 +201,27 @@ void loop_servo_driver_model() {
     .Id = 0.0f,
   };
   get_bldcdrv_method()->set(inputVol);
+
+  if(!DebugCom.is_rxBuf_empty()){
+    uint8_t _u8_c = 0;
+    DebugCom.get_rxbyte(_u8_c);
+    switch(_u8_c){
+      case 's':
+        LOG::disable_logging();
+        LOG::clear_LogData();
+        LOG::clear_LogAddressArray();
+        LOG::put_LogAddress((uint32_t*)&TIM1->CCR1);
+        LOG::put_LogAddress((uint32_t*)&TIM1->CCR2);
+        LOG::put_LogAddress((uint32_t*)&TIM1->CCR3);
+        LOG::put_LogAddress((uint32_t*)&TIM1->CCR4);
+        LOG::enable_logging();
+        break;
+      case 'p':
+        LOG::disable_logging();
+        LOG::print_LogData_byINT();
+        break;
+
+    };
+  }
   
 }

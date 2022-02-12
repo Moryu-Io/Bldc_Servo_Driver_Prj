@@ -13,4 +13,9 @@ void debug_printf(const char *format, Args const &...args){
     debug_com->set_txbytes(print_buf, u8_print_size);
 }
 
+inline void debug_print(char* _buf, uint16_t _size){
+    COM_BASE* debug_com = get_debug_com();
+    debug_com->set_txbytes((uint8_t*)_buf, _size);
+}
+
 #endif
