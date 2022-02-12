@@ -2,6 +2,7 @@
 #define BLDC_DRIVE_METHOD_HPP_
 
 #include "bldc.hpp"
+#include "controller.hpp"
 
 class BldcDriveMethod {
 public:
@@ -46,13 +47,22 @@ public:
   BldcDriveMethodSine(BLDC *_bldc) : BldcDriveMethod(_bldc){};
 
   void update() override;
+
+protected:
+  void conv_sv(float _Va, float _Vb, BLDC::DrivePhase& _duty_uvw);
 };
 
-class BldcDriveMethodVector : BldcDriveMethod {
+class BldcDriveMethodVector : public BldcDriveMethodSine {
 public:
-  BldcDriveMethodVector(BLDC *_bldc) : BldcDriveMethod(_bldc){};
+  BldcDriveMethodVector(BLDC *_bldc) : BldcDriveMethodSine(_bldc),
+    pid_iq(10000.0f, 8.0f, 2.0f, 0.0f, 2.0f),
+    pid_id(10000.0f, 8.0f, 2.0f, 0.0f, 2.0f) {};
 
   void update() override;
+
+protected:
+  PID pid_iq;
+  PID pid_id;
 };
 
 #endif

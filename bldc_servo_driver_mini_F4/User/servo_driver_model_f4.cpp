@@ -70,14 +70,22 @@ public:
   };
 
   void update() override {
-    /* 電流測定 */
-    fl_now_current_.U = Curr_Gain_ADtoA * (Adc2Ctrl.get_adc_data(ADC2CH::CurFb_U) - 2048);
-    fl_now_current_.V = Curr_Gain_ADtoA * (Adc2Ctrl.get_adc_data(ADC2CH::CurFb_V) - 2048);
-    fl_now_current_.W = Curr_Gain_ADtoA * (Adc2Ctrl.get_adc_data(ADC2CH::CurFb_W) - 2048);
+    /* 電気角測定 */
+    uint16_t txdata = 0xFFFF;
+    uint16_t rxdata = 0;
 
-    FL_DEBUG_LOG_BUF[0] = fl_now_current_.U;
-    FL_DEBUG_LOG_BUF[1] = fl_now_current_.V;
-    FL_DEBUG_LOG_BUF[2] = fl_now_current_.W;
+    MotorAngSenserCtrl.send_bytes(&txdata, &rxdata, 1);
+    uint16_t ang = rxdata & 0x3FFF;
+    fl_now_elec_ang_ = (float)(16383 - ang - 1380) * 0.241713972f + 90.0f;
+
+    /* 電流測定 */
+    now_current_.U = Curr_Gain_ADtoA * (Adc2Ctrl.get_adc_data(ADC2CH::CurFb_U) - 2048);
+    now_current_.V = Curr_Gain_ADtoA * (Adc2Ctrl.get_adc_data(ADC2CH::CurFb_V) - 2048);
+    now_current_.W = Curr_Gain_ADtoA * (Adc2Ctrl.get_adc_data(ADC2CH::CurFb_W) - 2048);
+
+    FL_DEBUG_LOG_BUF[0] = now_current_.U;
+    FL_DEBUG_LOG_BUF[1] = now_current_.V;
+    FL_DEBUG_LOG_BUF[2] = now_current_.W;
   };
 
   void set_drive_duty(DriveDuty &_Vol) override {
@@ -89,21 +97,6 @@ public:
     TIM1->CCR3      = w_duty;
     set_enable_register(_Vol.u8_U_out_enable, _Vol.u8_V_out_enable, _Vol.u8_W_out_enable);
   };
-
-  float get_elec_angle() override {
-    //int32_t tim_count = TIM2->CNT % 1000000;
-    //float fl_elec_ang_deg  = (float)tim_count * 360.0f * 0.000001f;
-    float fl_elec_ang_deg  = 0;
-
-    uint16_t txdata = 0xFFFF;
-    uint16_t rxdata = 0;
-
-    MotorAngSenserCtrl.send_bytes(&txdata, &rxdata, 1);
-    uint16_t ang = rxdata & 0x3FFF;
-    fl_elec_ang_deg = (float)(16383 - ang - 1380) * 0.241713972f + 90.0f;
-
-    return fl_elec_ang_deg;
-  }
 
   bool get_fault_state() override {
     return !LL_GPIO_IsInputPinSet(GPIOB, LL_GPIO_PIN_10);
@@ -165,7 +158,8 @@ static PM3505 GmblBldc;
 BLDC *get_bldc_if() { return &GmblBldc; };
 
 static BldcDriveMethodSine  bldc_drv_method_sine(&GmblBldc);
-BldcDriveMethod *           get_bldcdrv_method() { return &bldc_drv_method_sine; };
+static BldcDriveMethodVector  bldc_drv_method_vector(&GmblBldc);
+BldcDriveMethod *           get_bldcdrv_method() { return &bldc_drv_method_vector; };
 
 constexpr uint16_t DEBUG_COM_RXBUF_LENGTH = 512;
 constexpr uint16_t DEBUG_COM_TXBUF_LENGTH = 256;
@@ -210,12 +204,11 @@ void initialize_servo_driver_model() {
 void loop_servo_driver_model() {
   LL_mDelay(100);
   BldcDriveMethod::Ref inputVol = {
-    .Vq = 1.0f,
+    .Vq = 0.0f,
     .Vd = 0.0f,
-    .Iq = 0.0f,
+    .Iq = 0.1f,
     .Id = 0.0f,
   };
-  get_bldcdrv_method()->set(inputVol);
 
   if(!DebugCom.is_rxBuf_empty()){
     uint8_t _u8_c = 0;
@@ -234,7 +227,9 @@ void loop_servo_driver_model() {
         LOG::disable_logging();
         LOG::print_LogData_byFLOAT();
         break;
-
+      case 'd':
+        get_bldcdrv_method()->set(inputVol);
+      break;
     };
   }
   

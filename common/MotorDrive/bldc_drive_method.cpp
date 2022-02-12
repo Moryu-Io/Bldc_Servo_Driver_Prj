@@ -146,10 +146,6 @@ void BldcDriveMethodSine::update() {
 
   float _Va          = InRef_.Vd * _cos - InRef_.Vq * _sin;
   float _Vb          = InRef_.Vd * _sin + InRef_.Vq * _cos;
-  float _sct_ang_deg = mymath::rad2deg(mymath::atan2f(_Vb, _Va));
-
-  
-  //debug_printf("%d,%d\n", (int)(_sct_ang_deg), (int)(_e_ang*100));
 
   BLDC::DriveDuty _duty = {
       .u8_U_out_enable = DRIVE_OUT_BOTH_ENABLE,
@@ -158,58 +154,101 @@ void BldcDriveMethodSine::update() {
       .Duty            = {},
   };
 
+  conv_sv(_Va, _Vb, _duty.Duty);
+
+  p_bldc_->set_drive_duty(_duty);
+}
+
+
+void BldcDriveMethodSine::conv_sv(float _Va, float _Vb, BLDC::DrivePhase& _duty_uvw) {
+  float _sct_ang_deg = mymath::rad2deg(mymath::atan2f(_Vb, _Va));
+
   if(_sct_ang_deg < -120.0f) {
     /* Sector 3 */
     float _V1 = -_Va + _Vb * 0.57735027f;  // -Va + (Vb/cos(30deg))*sin(30deg)
     float _V2 = -_Vb * 1.154700539f;       // -Vb / cos(30deg)
     float _V3 = (p_bldc_->get_Vm() - (_V1 + _V2)) * 0.5f;
-    _duty.Duty.U = _V3;
-    _duty.Duty.V = _V1 + _V3;
-    _duty.Duty.W = _V1 + _V2 + _V3;
+    _duty_uvw.U = _V3;
+    _duty_uvw.V = _V1 + _V3;
+    _duty_uvw.W = _V1 + _V2 + _V3;
   } else if(_sct_ang_deg < -60.0f) {
     /* Sector 4 */
     float _V1 = -_Va - _Vb * 0.57735027f; // -Va - (Vb/cos(30deg))*sin(30deg)
     float _V2 =  _Va - _Vb * 0.57735027f; //  Va - (Vb/cos(30deg))*sin(30deg)
     float _V3 = (p_bldc_->get_Vm() - (_V1 + _V2)) * 0.5f;
-    _duty.Duty.U = _V2 + _V3;
-    _duty.Duty.V = _V3;
-    _duty.Duty.W = _V1 + _V2 +_V3;
+    _duty_uvw.U = _V2 + _V3;
+    _duty_uvw.V = _V3;
+    _duty_uvw.W = _V1 + _V2 +_V3;
   } else if(_sct_ang_deg < 0.0f) {
     /* Sector 5 */
     float _V1 = _Va + _Vb * 0.57735027f;   // Va + (Vb/cos(30deg))*sin(30deg)
     float _V2 = -_Vb * 1.154700539f;       // -Vb / cos(30deg)
     float _V3 = (p_bldc_->get_Vm() - (_V1 + _V2)) * 0.5f;
-    _duty.Duty.U = _V1 + _V2 + _V3;
-    _duty.Duty.V = _V3;
-    _duty.Duty.W = _V2 + _V3;
+    _duty_uvw.U = _V1 + _V2 + _V3;
+    _duty_uvw.V = _V3;
+    _duty_uvw.W = _V2 + _V3;
   } else  if(_sct_ang_deg < 60.0f) {
     /* Sector 0 */
     float _V1 = _Va - _Vb * 0.57735027f; // Va - (Vb/cos(30deg))*sin(30deg)
     float _V2 = _Vb * 1.154700539f;      // Vb / cos(30deg)
     float _V3 = (p_bldc_->get_Vm() - (_V1 + _V2)) * 0.5f;
-    _duty.Duty.U = _V1 + _V2 + _V3;
-    _duty.Duty.V = _V2 + _V3;
-    _duty.Duty.W = _V3;
+    _duty_uvw.U = _V1 + _V2 + _V3;
+    _duty_uvw.V = _V2 + _V3;
+    _duty_uvw.W = _V3;
   } else if(_sct_ang_deg < 120.0f) {
     /* Sector 1 */
     float _V1 =  _Va + _Vb * 0.57735027f; //  Va + (Vb/cos(30deg))*sin(30deg)
     float _V2 = -_Va + _Vb * 0.57735027f; // -Va + (Vb/cos(30deg))*sin(30deg)
     float _V3 = (p_bldc_->get_Vm() - (_V1 + _V2)) * 0.5f;
-    _duty.Duty.U = _V1 + _V3;
-    _duty.Duty.V = _V1 + _V2 + _V3;
-    _duty.Duty.W = _V3;
+    _duty_uvw.U = _V1 + _V3;
+    _duty_uvw.V = _V1 + _V2 + _V3;
+    _duty_uvw.W = _V3;
   } else {
     /* Sector 2 */
     float _V1 = _Vb * 1.154700539f;       //  Vb / cos(30deg)
     float _V2 = -_Va - _Vb * 0.57735027f; // -Va - (Vb/cos(30deg))*sin(30deg)
     float _V3 = (p_bldc_->get_Vm() - (_V1 + _V2)) * 0.5f;
-    _duty.Duty.U = _V3;
-    _duty.Duty.V = _V1 + _V2 + _V3;
-    _duty.Duty.W = _V2 + _V3;
+    _duty_uvw.U = _V3;
+    _duty_uvw.V = _V1 + _V2 + _V3;
+    _duty_uvw.W = _V2 + _V3;
   }
-  
-  p_bldc_->set_drive_duty(_duty);
+
 }
 
 void BldcDriveMethodVector::update() {
+  float _e_ang = mymath::normalize_rad_0to2pi(
+                  mymath::deg2rad( p_bldc_->get_elec_angle() ) );
+  float _cos   = mymath::cosf(_e_ang);
+  float _sin   = mymath::sinf(_e_ang);
+
+  BLDC::DrivePhase nowCurr = p_bldc_->get_currnet();
+
+  /* Clark変換 */
+  float _Ia = nowCurr.U;
+  float _Ib = (nowCurr.U + 2.0f*nowCurr.V) * 0.57735027f; // (U + 2V) / sqrt(3)
+
+  /* Park変換 */
+  float _Id =  _Ia * _cos + _Ib * _sin;
+  float _Iq = -_Ia * _sin + _Ib * _cos;
+
+  /* 電流PI制御量計算 */
+  pid_id.set_target(InRef_.Id);
+  pid_iq.set_target(InRef_.Iq);
+  float _Vd = pid_id.update(_Id);
+  float _Vq = pid_iq.update(_Iq);
+
+  /* 逆Park変換 */
+  float _Va          = _Vd * _cos - _Vq * _sin;
+  float _Vb          = _Vd * _sin + _Vq * _cos;
+
+  BLDC::DriveDuty _duty = {
+      .u8_U_out_enable = DRIVE_OUT_BOTH_ENABLE,
+      .u8_V_out_enable = DRIVE_OUT_BOTH_ENABLE,
+      .u8_W_out_enable = DRIVE_OUT_BOTH_ENABLE,
+      .Duty            = {},
+  };
+
+  conv_sv(_Va, _Vb, _duty.Duty);
+
+  p_bldc_->set_drive_duty(_duty);
 }
