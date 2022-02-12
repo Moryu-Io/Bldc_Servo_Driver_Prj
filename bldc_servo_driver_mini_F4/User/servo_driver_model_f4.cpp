@@ -9,6 +9,8 @@
 #include "bldc_drive_method.hpp"
 #include "logger.hpp"
 
+static float FL_DEBUG_LOG_BUF[4] = {};
+
 enum ADC1CH {
   Potentio,  // CH7,  PA7
   VmSens,    // CH9,  PB1
@@ -64,7 +66,18 @@ public:
 
     Dac1Ctrl.init();
     Dac1Ctrl.set_dac_chB(4095);
-    Dac1Ctrl.set_dac_chA(4095);
+    Dac1Ctrl.set_dac_chA(3072); // 1V/A
+  };
+
+  void update() override {
+    /* 電流測定 */
+    fl_now_current_.U = Curr_Gain_ADtoA * (Adc2Ctrl.get_adc_data(ADC2CH::CurFb_U) - 2048);
+    fl_now_current_.V = Curr_Gain_ADtoA * (Adc2Ctrl.get_adc_data(ADC2CH::CurFb_V) - 2048);
+    fl_now_current_.W = Curr_Gain_ADtoA * (Adc2Ctrl.get_adc_data(ADC2CH::CurFb_W) - 2048);
+
+    FL_DEBUG_LOG_BUF[0] = fl_now_current_.U;
+    FL_DEBUG_LOG_BUF[1] = fl_now_current_.V;
+    FL_DEBUG_LOG_BUF[2] = fl_now_current_.W;
   };
 
   void set_drive_duty(DriveDuty &_Vol) override {
@@ -101,6 +114,7 @@ public:
 
 private:
   const float Vm_inv = 1.0f / 12.0f;
+  const float Curr_Gain_ADtoA = 3.3f/4096.0f;  // 3.3V / 4096AD * 1 A/V
 
   inline void set_enable_register(uint8_t Uenable, uint8_t Venable, uint8_t Wenable) {
     ///*
@@ -161,6 +175,7 @@ static UART_DMAC   DebugCom(USART6, DMA2, LL_DMA_STREAM_1, LL_DMA_STREAM_6);
 
 COM_BASE *get_debug_com() { return &DebugCom; };
 
+
 void initialize_servo_driver_model() {
   LL_TIM_EnableCounter(TIM2);
   
@@ -210,15 +225,14 @@ void loop_servo_driver_model() {
         LOG::disable_logging();
         LOG::clear_LogData();
         LOG::clear_LogAddressArray();
-        LOG::put_LogAddress((uint32_t*)&TIM1->CCR1);
-        LOG::put_LogAddress((uint32_t*)&TIM1->CCR2);
-        LOG::put_LogAddress((uint32_t*)&TIM1->CCR3);
-        LOG::put_LogAddress((uint32_t*)&TIM1->CCR4);
+        LOG::put_LogAddress((uint32_t*)&FL_DEBUG_LOG_BUF[0]);
+        LOG::put_LogAddress((uint32_t*)&FL_DEBUG_LOG_BUF[1]);
+        LOG::put_LogAddress((uint32_t*)&FL_DEBUG_LOG_BUF[2]);
         LOG::enable_logging();
         break;
       case 'p':
         LOG::disable_logging();
-        LOG::print_LogData_byINT();
+        LOG::print_LogData_byFLOAT();
         break;
 
     };

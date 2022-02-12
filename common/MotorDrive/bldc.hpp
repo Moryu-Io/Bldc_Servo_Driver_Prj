@@ -25,6 +25,7 @@ public:
   };
 
   virtual void init() = 0;
+  virtual void update(){};
 
   virtual void hall_itr_callback(){};
 
