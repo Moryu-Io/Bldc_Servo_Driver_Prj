@@ -202,7 +202,7 @@ void initialize_servo_driver_model() {
 }
 
 void loop_servo_driver_model() {
-  LL_mDelay(100);
+  LL_mDelay(10);
   BldcDriveMethod::Ref inputVol = {
     .Vq = 0.0f,
     .Vd = 0.0f,
@@ -222,13 +222,13 @@ void loop_servo_driver_model() {
         LOG::put_LogAddress((uint32_t*)&FL_DEBUG_LOG_BUF[1]);
         LOG::put_LogAddress((uint32_t*)&FL_DEBUG_LOG_BUF[2]);
         LOG::enable_logging();
+        get_bldcdrv_method()->set(inputVol);
         break;
       case 'p':
         LOG::disable_logging();
         LOG::print_LogData_byFLOAT();
         break;
       case 'd':
-        get_bldcdrv_method()->set(inputVol);
       break;
     };
   }
