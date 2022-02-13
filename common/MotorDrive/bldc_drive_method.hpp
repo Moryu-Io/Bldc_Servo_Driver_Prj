@@ -15,8 +15,9 @@ public:
     float Id;
   };
 
-  /* 入力 */
+  /* 入力値 */
   virtual void set(Ref &_ref) { InRef_ = _ref; };
+          Ref  get()          { return InRef_; };
 
   /* 更新処理関数 */
   virtual void update() = 0;
@@ -28,6 +29,7 @@ protected:
   Ref InRef_;
 
   BLDC *p_bldc_;
+
 };
 
 class BldcDriveMethod6Step : public BldcDriveMethod {
@@ -55,8 +57,8 @@ protected:
 class BldcDriveMethodVector : public BldcDriveMethodSine {
 public:
   BldcDriveMethodVector(BLDC *_bldc) : BldcDriveMethodSine(_bldc),
-    pid_iq(10000.0f, 30.0f, 15.0f, 0.0f, 0.3f),
-    pid_id(10000.0f, 30.0f, 15.0f, 0.0f, 0.3f) {};
+    pid_iq(10000.0f, 20.0f, 15.0f, 0.0f, 0.3f),
+    pid_id(10000.0f, 20.0f, 15.0f, 0.0f, 0.3f) {};
 
   void update() override;
 

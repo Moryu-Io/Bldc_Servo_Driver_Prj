@@ -40,7 +40,7 @@ public:
         now_error_ = now_tgt_ - now_val_;
 
         // 積分計算
-        Integ_ += Igain_ * now_error_ * dt_;
+        Integ_ += now_error_ * dt_;
         Integ_ = (Integ_ >= I_limit_) ? I_limit_ : ((Integ_ <= -I_limit_) ? -I_limit_ : Integ_);
 
         // 制御量計算
