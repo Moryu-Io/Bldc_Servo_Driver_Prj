@@ -23,10 +23,8 @@ void TIM6_ITR() {
 }
 
 void TIM7_ITR() {
-  get_bldc_if()->update();
-  get_bldcdrv_method()->update();
+  get_bldcservo_manager()->update();
 
-  
   LOG::routine();
 }
 

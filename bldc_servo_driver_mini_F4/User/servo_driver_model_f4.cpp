@@ -8,6 +8,7 @@
 #include "bldc.hpp"
 #include "bldc_drive_method.hpp"
 #include "logger.hpp"
+#include "bldc_servo_manager.hpp"
 
 static float FL_DEBUG_LOG_BUF[4] = {};
 
@@ -76,6 +77,7 @@ public:
 
     MotorAngSenserCtrl.send_bytes(&txdata, &rxdata, 1);
     uint16_t ang = rxdata & 0x3FFF;
+    fl_now_rotor_ang_ = (float)ang * 360.0f / (float)16384 - 180.0f;
     fl_now_elec_ang_ = (float)(16383 - ang - 1380) * 0.241713972f + 90.0f;
 
     /* 電流測定 */
@@ -161,6 +163,22 @@ static BldcDriveMethodSine  bldc_drv_method_sine(&GmblBldc);
 static BldcDriveMethodVector  bldc_drv_method_vector(&GmblBldc);
 BldcDriveMethod *           get_bldcdrv_method() { return &bldc_drv_method_vector; };
 
+static PID AngleController(10000.0f, 0.001f, 0.0f, 0.0f, 10.0f);
+controller* get_poscontroller() {return &AngleController; };
+
+static IIR1 AngleCountrollerOut_filter(0.99f,0.005f,0.005f);
+
+BldcServoManager::ConfigParams bldc_manager_config = {
+  .p_bldc       = &GmblBldc,
+  .p_bldc_drv   = &bldc_drv_method_vector,
+  .p_pos_ctrl   = &AngleController,
+  .p_posout_lpf = &AngleCountrollerOut_filter,
+};
+
+static BldcServoManager bldc_manager(bldc_manager_config);
+BldcServoManager* get_bldcservo_manager() { return &bldc_manager; };
+
+
 constexpr uint16_t DEBUG_COM_RXBUF_LENGTH = 512;
 constexpr uint16_t DEBUG_COM_TXBUF_LENGTH = 256;
 static uint8_t     u8_DEBUG_COM_RXBUF[DEBUG_COM_RXBUF_LENGTH];
@@ -206,9 +224,11 @@ void loop_servo_driver_model() {
   BldcDriveMethod::Ref inputVol = {
     .Vq = 0.0f,
     .Vd = 0.0f,
-    .Iq = 0.1f,
+    .Iq = 0.15f,
     .Id = 0.0f,
   };
+
+  // debug_printf("%0.1f\n", GmblBldc.get_angle());
 
   if(!DebugCom.is_rxBuf_empty()){
     uint8_t _u8_c = 0;
@@ -222,14 +242,26 @@ void loop_servo_driver_model() {
         LOG::put_LogAddress((uint32_t*)&FL_DEBUG_LOG_BUF[1]);
         LOG::put_LogAddress((uint32_t*)&FL_DEBUG_LOG_BUF[2]);
         LOG::enable_logging();
-        get_bldcdrv_method()->set(inputVol);
         break;
       case 'p':
         LOG::disable_logging();
         LOG::print_LogData_byFLOAT();
         break;
+      case 't':
+        get_bldcdrv_method()->set(inputVol);
+        break;
       case 'd':
-      break;
+        bldc_manager.servo_enable();
+        break;
+      case 'f':
+        bldc_manager.servo_disable();
+        break;
+      case 'z':
+        AngleController.set_target(0.0f);
+        break;
+      case 'x':
+        AngleController.set_target(60.0f);
+        break;
     };
   }
   

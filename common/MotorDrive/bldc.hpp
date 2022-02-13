@@ -34,6 +34,7 @@ public:
   virtual uint8_t  get_hall_state() { return u8_now_hall_state_; };
   virtual uint32_t get_hall_count() { return u16_hall_counter_; };
   virtual float    get_elec_angle() { return fl_now_elec_ang_; }
+  virtual float    get_angle()      { return fl_now_rotor_ang_; }
   virtual float    get_Vm()         { return 12.0f; }
   virtual float    get_VmInv()      { return 1.0f/12.0f; }
           DrivePhase get_currnet()  { return now_current_; };
@@ -46,6 +47,7 @@ protected:
   int8_t     s8_now_motor_dir_;
   uint16_t   u16_hall_counter_;
   float      fl_now_elec_ang_;
+  float      fl_now_rotor_ang_;
   DrivePhase now_current_;
   DrivePhase fl_now_bev_;
 };
