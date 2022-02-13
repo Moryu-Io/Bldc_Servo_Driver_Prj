@@ -77,7 +77,7 @@ public:
 
     MotorAngSenserCtrl.send_bytes(&txdata, &rxdata, 1);
     uint16_t ang = rxdata & 0x3FFF;
-    fl_now_rotor_ang_ = (float)ang * 360.0f / (float)16384 - 180.0f;
+    fl_now_rotor_ang_ = -(float)ang * 360.0f / (float)16384 + 180.0f;
     fl_now_elec_ang_ = (float)(16383 - ang - 1380) * 0.241713972f + 90.0f;
 
     /* 電流測定 */
@@ -163,7 +163,7 @@ static BldcDriveMethodSine  bldc_drv_method_sine(&GmblBldc);
 static BldcDriveMethodVector  bldc_drv_method_vector(&GmblBldc);
 BldcDriveMethod *           get_bldcdrv_method() { return &bldc_drv_method_vector; };
 
-static PID AngleController(10000.0f, 0.001f, 0.0f, 0.0f, 10.0f);
+static PID AngleController(10000.0f, 0.005f, 0.1f, 0.0f, 0.5f);
 controller* get_poscontroller() {return &AngleController; };
 
 static IIR1 AngleCountrollerOut_filter(0.99f,0.005f,0.005f);
@@ -228,7 +228,7 @@ void loop_servo_driver_model() {
     .Id = 0.0f,
   };
 
-  // debug_printf("%0.1f\n", GmblBldc.get_angle());
+  debug_printf("%0.1f\n", GmblBldc.get_angle());
 
   if(!DebugCom.is_rxBuf_empty()){
     uint8_t _u8_c = 0;
@@ -238,9 +238,10 @@ void loop_servo_driver_model() {
         LOG::disable_logging();
         LOG::clear_LogData();
         LOG::clear_LogAddressArray();
-        LOG::put_LogAddress((uint32_t*)&FL_DEBUG_LOG_BUF[0]);
-        LOG::put_LogAddress((uint32_t*)&FL_DEBUG_LOG_BUF[1]);
-        LOG::put_LogAddress((uint32_t*)&FL_DEBUG_LOG_BUF[2]);
+        LOG::put_LogAddress(&bldc_manager.u32_status_memory[0]);
+        LOG::put_LogAddress(&bldc_manager.u32_status_memory[1]);
+        LOG::put_LogAddress(&bldc_manager.u32_status_memory[2]);
+        LOG::put_LogAddress(&bldc_manager.u32_status_memory[3]);
         LOG::enable_logging();
         break;
       case 'p':
