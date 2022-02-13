@@ -237,6 +237,14 @@ void BldcDriveMethodVector::update() {
   float _Vd = pid_id.update(_Id);
   float _Vq = pid_iq.update(_Iq);
 
+  /* 情報の保存 */
+  p_bldc_->fl_calc_Iq_meas_ = _Iq;
+  p_bldc_->fl_calc_Id_meas_ = _Id;
+  p_bldc_->fl_calc_Iq_tgt_  = InRef_.Iq;
+  p_bldc_->fl_calc_Id_tgt_  = InRef_.Id;
+  p_bldc_->fl_calc_Vq_      = _Vq;
+  p_bldc_->fl_calc_Vd_      = _Vd;
+
   /* 逆Park変換 */
   float _Va          = _Vd * _cos - _Vq * _sin;
   float _Vb          = _Vd * _sin + _Vq * _cos;

@@ -25,4 +25,32 @@ void BldcServoManager::update(){
         config_.p_bldc_drv->update();
     }
 
+    set_status_memory();
+
+}
+
+#define CONV_U32TYPE(x) (*((uint32_t*)&(x)))
+
+void BldcServoManager::set_status_memory(){
+    switch(u8_status_type){
+        case 0x00:
+            u32_status_memory[0] = 0;
+            u32_status_memory[1] = 0;
+            u32_status_memory[2] = 0;
+            u32_status_memory[3] = 0;
+            break;
+        case 0x01:
+            u32_status_memory[0] = CONV_U32TYPE(config_.p_bldc->fl_calc_Iq_tgt_);
+            u32_status_memory[1] = CONV_U32TYPE(config_.p_bldc->fl_calc_Id_tgt_);
+            u32_status_memory[2] = CONV_U32TYPE(config_.p_bldc->fl_calc_Iq_meas_);
+            u32_status_memory[3] = CONV_U32TYPE(config_.p_bldc->fl_calc_Id_meas_);
+            break;
+        default:
+            u32_status_memory[0] = 0;
+            u32_status_memory[1] = 0;
+            u32_status_memory[2] = 0;
+            u32_status_memory[3] = 0;
+            break;
+
+    }
 }

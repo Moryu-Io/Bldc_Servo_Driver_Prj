@@ -42,6 +42,14 @@ public:
   virtual bool get_fault_state() { return false; };
   virtual bool get_ready_state() { return true; }
 
+  /* 外部で計算されたBLDC関連情報の保存場所 */
+  float fl_calc_Iq_meas_;
+  float fl_calc_Id_meas_;
+  float fl_calc_Iq_tgt_;
+  float fl_calc_Id_tgt_;
+  float fl_calc_Vq_;
+  float fl_calc_Vd_;
+
 protected:
   uint8_t    u8_now_hall_state_;
   int8_t     s8_now_motor_dir_;
@@ -49,7 +57,7 @@ protected:
   float      fl_now_elec_ang_;
   float      fl_now_rotor_ang_;
   DrivePhase now_current_;
-  DrivePhase fl_now_bev_;
+  DrivePhase now_bev_;
 };
 
 #endif

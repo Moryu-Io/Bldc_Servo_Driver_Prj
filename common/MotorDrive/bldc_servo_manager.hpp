@@ -22,12 +22,19 @@ public:
 
     void servo_enable(){  is_servo_enable = true;  };
     void servo_disable(){ is_servo_enable = false; };
+    
+    void set_status_type(uint8_t _type){ u8_status_type = _type; };
+
+    uint32_t u32_status_memory[4];
 
 protected:
     ConfigParams& config_;
 
 private:
+    void set_status_memory();
+
     bool is_servo_enable = false;
+    uint8_t u8_status_type = 0;
 
 
 };
