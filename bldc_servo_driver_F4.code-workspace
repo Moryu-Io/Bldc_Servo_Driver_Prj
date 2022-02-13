@@ -5,6 +5,9 @@
 		},
 		{
 			"path": "common"
+		},
+		{
+			"path": "python"
 		}
 	],
 	"settings": {}
