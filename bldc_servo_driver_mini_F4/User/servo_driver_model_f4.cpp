@@ -163,10 +163,10 @@ static BldcDriveMethodSine  bldc_drv_method_sine(&GmblBldc);
 static BldcDriveMethodVector  bldc_drv_method_vector(&GmblBldc);
 BldcDriveMethod *           get_bldcdrv_method() { return &bldc_drv_method_vector; };
 
-static PID AngleController(10000.0f, 0.005f, 0.1f, 0.0f, 0.5f);
+static PID AngleController(10000.0f, 0.01f, 0.1f, 0.0f, 0.5f);
 controller* get_poscontroller() {return &AngleController; };
 
-static IIR1 AngleCountrollerOut_filter(0.99f,0.005f,0.005f);
+static IIR1 AngleCountrollerOut_filter(0.70f,0.15f,0.15f);
 
 BldcServoManager::ConfigParams bldc_manager_config = {
   .p_bldc       = &GmblBldc,
@@ -221,14 +221,8 @@ void initialize_servo_driver_model() {
 
 void loop_servo_driver_model() {
   LL_mDelay(10);
-  BldcDriveMethod::Ref inputVol = {
-    .Vq = 0.0f,
-    .Vd = 0.0f,
-    .Iq = 0.15f,
-    .Id = 0.0f,
-  };
 
-  debug_printf("%0.1f\n", GmblBldc.get_angle());
+  // debug_printf("%0.1f\n", GmblBldc.get_angle());
 
   if(!DebugCom.is_rxBuf_empty()){
     uint8_t _u8_c = 0;
@@ -247,9 +241,6 @@ void loop_servo_driver_model() {
       case 'p':
         LOG::disable_logging();
         LOG::print_LogData_byFLOAT();
-        break;
-      case 't':
-        get_bldcdrv_method()->set(inputVol);
         break;
       case 'd':
         bldc_manager.servo_enable();
