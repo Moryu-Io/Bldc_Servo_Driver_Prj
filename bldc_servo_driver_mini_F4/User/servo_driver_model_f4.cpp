@@ -8,7 +8,11 @@
 #include "bldc.hpp"
 #include "bldc_drive_method.hpp"
 #include "logger.hpp"
+#include "iir.hpp"
 #include "bldc_servo_manager.hpp"
+
+#include "bldc_mode_base.hpp"
+#include "bldc_mode_pos_control.hpp"
 
 static float FL_DEBUG_LOG_BUF[4] = {};
 
@@ -167,15 +171,18 @@ static PID AngleController(10000.0f, 0.01f, 0.1f, 0.0f, 0.5f);
 controller* get_poscontroller() {return &AngleController; };
 
 static IIR1 AngleCountrollerOut_filter(0.70f,0.15f,0.15f);
+static TargetInterp AngleTargetInterp;
 
-BldcServoManager::ConfigParams bldc_manager_config = {
-  .p_bldc       = &GmblBldc,
+BldcModePosControl::Parts bldc_mode_posctrl_parts = {
   .p_bldc_drv   = &bldc_drv_method_vector,
   .p_pos_ctrl   = &AngleController,
   .p_posout_lpf = &AngleCountrollerOut_filter,
+  .p_tgt_interp = &AngleTargetInterp,
 };
+static BldcModePosControl mode_pos_control(bldc_mode_posctrl_parts);
+static BldcModePowerOff   mode_off;
 
-static BldcServoManager bldc_manager(bldc_manager_config);
+static BldcServoManager bldc_manager(&mode_off);
 BldcServoManager* get_bldcservo_manager() { return &bldc_manager; };
 
 
@@ -197,18 +204,11 @@ void initialize_servo_driver_model() {
 
   MotorAngSenserCtrl.init();
 
-  
   Adc1Ctrl.init();
   Adc2Ctrl.init();
   Adc1Ctrl.start();
   Adc2Ctrl.start();
   GmblBldc.init();
-
-  //Dac1Ctrl.init();
-  //Adc1Ctrl.init();
-  //Adc2Ctrl.init();
-  //Adc1Ctrl.start();
-  //Adc2Ctrl.start();
 
   /* 100Hz */
   LL_TIM_EnableIT_UPDATE(TIM6);
@@ -243,10 +243,10 @@ void loop_servo_driver_model() {
         LOG::print_LogData_byFLOAT();
         break;
       case 'd':
-        bldc_manager.servo_enable();
+        bldc_manager.set_mode(&mode_pos_control);
         break;
       case 'f':
-        bldc_manager.servo_disable();
+        bldc_manager.set_mode(&mode_off);
         break;
       case 'z':
         AngleController.set_target(0.0f);
