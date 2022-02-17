@@ -1,20 +1,21 @@
 #include "adcc.hpp"
 #include "dacc.hpp"
-#include "debug_printf.hpp"
-#include "mymath.hpp"
-#include "servo_driver_model.hpp"
 #include "spic.hpp"
 #include "uart_dmac.hpp"
-#include "bldc.hpp"
-#include "bldc_drive_method.hpp"
+#include "debug_printf.hpp"
 #include "logger.hpp"
 #include "iir.hpp"
-#include "bldc_servo_manager.hpp"
+#include "mymath.hpp"
+#include "controller.hpp"
 
+#include "servo_driver_model.hpp"
+
+#include "bldc.hpp"
+#include "bldc_drive_method.hpp"
 #include "bldc_mode_base.hpp"
 #include "bldc_mode_pos_control.hpp"
+#include "bldc_servo_manager.hpp"
 
-static float FL_DEBUG_LOG_BUF[4] = {};
 
 enum ADC1CH {
   Potentio,  // CH7,  PA7
@@ -53,6 +54,7 @@ public:
     /* PWM */
     LL_TIM_EnableUpdateEvent(TIM1);
     LL_TIM_EnableCounter(TIM1);
+    // カウント開始してからRCレジスタを変えることで、UEVタイミングを変更
     LL_TIM_SetRepetitionCounter(TIM1, 1);
     TIM1->BDTR |= TIM_BDTR_MOE;
     TIM1->CCR1 = 0;
@@ -60,7 +62,9 @@ public:
     TIM1->CCR3 = 0;
     LL_GPIO_SetOutputPin(GPIOB, LL_GPIO_PIN_13); // PWML HIGH
 
-    /* ADC用トリガタイマ */
+    /* ADC用トリガタイマ(TIM3) */
+    /* このタイマはTIM1のUEVでカウンタリセットされ */
+    /* OC1REFのトリガー出力でADC3を駆動する */
     LL_TIM_EnableCounter(TIM3);
     LL_TIM_CC_EnableChannel(TIM3, LL_TIM_CHANNEL_CH1);
     TIM3->CCR1 = 1900;
@@ -71,7 +75,7 @@ public:
 
     Dac1Ctrl.init();
     Dac1Ctrl.set_dac_chB(4095);
-    Dac1Ctrl.set_dac_chA(3072); // 1V/A
+    Dac1Ctrl.set_dac_chA(3072); // Current Sens Gain : 1V/A
   };
 
   void update() override {
@@ -80,18 +84,22 @@ public:
     uint16_t rxdata = 0;
 
     MotorAngSenserCtrl.send_bytes(&txdata, &rxdata, 1);
-    uint16_t ang = rxdata & 0x3FFF;
-    fl_now_rotor_ang_ = -(float)ang * 360.0f / (float)16384 + 180.0f;
-    fl_now_elec_ang_ = (float)(16383 - ang - 1380) * 0.241713972f + 90.0f;
+    int32_t ang       = rxdata & 0x3FFF;    // 14bit Absolute Encoder
+    int32_t delta_ang = ang - s32_pre_angle_raw;
+    delta_ang =  (delta_ang > 0x1FFF)  ? (delta_ang - 0x3FFF)
+               :((delta_ang < -0x1FFF) ? (delta_ang + 0x3FFF)
+                                        : delta_ang );
+    s32_pre_angle_raw = ang;
+    // s32_angle_rotor_count_ += delta_ang;
+    s32_angle_rotor_count_ -= delta_ang;  // 逆方向のため
+
+    fl_now_out_ang_deg_  = (float)(s32_angle_rotor_count_) * Angle_Gain_CNTtoDeg;
+    fl_now_elec_ang_deg_ = (float)(16383 - ang - 1380) * 0.241713972f + 90.0f;
 
     /* 電流測定 */
     now_current_.U = Curr_Gain_ADtoA * (Adc2Ctrl.get_adc_data(ADC2CH::CurFb_U) - 2048);
     now_current_.V = Curr_Gain_ADtoA * (Adc2Ctrl.get_adc_data(ADC2CH::CurFb_V) - 2048);
     now_current_.W = Curr_Gain_ADtoA * (Adc2Ctrl.get_adc_data(ADC2CH::CurFb_W) - 2048);
-
-    FL_DEBUG_LOG_BUF[0] = now_current_.U;
-    FL_DEBUG_LOG_BUF[1] = now_current_.V;
-    FL_DEBUG_LOG_BUF[2] = now_current_.W;
   };
 
   void set_drive_duty(DriveDuty &_Vol) override {
@@ -107,6 +115,7 @@ public:
   bool get_fault_state() override {
     return !LL_GPIO_IsInputPinSet(GPIOB, LL_GPIO_PIN_10);
   };
+
   bool get_ready_state() override {
     return true;
   }
@@ -114,6 +123,9 @@ public:
 private:
   const float Vm_inv = 1.0f / 12.0f;
   const float Curr_Gain_ADtoA = 3.3f/4096.0f;  // 3.3V / 4096AD * 1 A/V
+  const float Angle_Gain_CNTtoDeg = 360.0f / 16384.0f / 1.0f;
+
+  int32_t s32_pre_angle_raw = 0;
 
   inline void set_enable_register(uint8_t Uenable, uint8_t Venable, uint8_t Wenable) {
     ///*
@@ -160,16 +172,13 @@ private:
 };
 
 static PM3505 GmblBldc;
-
 BLDC *get_bldc_if() { return &GmblBldc; };
 
-static BldcDriveMethodSine  bldc_drv_method_sine(&GmblBldc);
-static BldcDriveMethodVector  bldc_drv_method_vector(&GmblBldc);
-BldcDriveMethod *           get_bldcdrv_method() { return &bldc_drv_method_vector; };
+static BldcDriveMethodSine   bldc_drv_method_sine(&GmblBldc);
+static BldcDriveMethodVector bldc_drv_method_vector(&GmblBldc);
+BldcDriveMethod* get_bldcdrv_method() { return &bldc_drv_method_vector; };
 
 static PID AngleController(10000.0f, 0.01f, 0.1f, 0.0f, 0.5f);
-controller* get_poscontroller() {return &AngleController; };
-
 static IIR1 AngleCountrollerOut_filter(0.70f,0.15f,0.15f);
 static TargetInterp AngleTargetInterp;
 
@@ -186,6 +195,7 @@ static BldcServoManager bldc_manager(&mode_off);
 BldcServoManager* get_bldcservo_manager() { return &bldc_manager; };
 
 
+/***************************** DEBUG ***********************************/
 constexpr uint16_t DEBUG_COM_RXBUF_LENGTH = 512;
 constexpr uint16_t DEBUG_COM_TXBUF_LENGTH = 256;
 static uint8_t     u8_DEBUG_COM_RXBUF[DEBUG_COM_RXBUF_LENGTH];
@@ -193,6 +203,7 @@ static uint8_t     u8_DEBUG_COM_TXBUF[DEBUG_COM_TXBUF_LENGTH];
 static UART_DMAC   DebugCom(USART6, DMA2, LL_DMA_STREAM_1, LL_DMA_STREAM_6);
 
 COM_BASE *get_debug_com() { return &DebugCom; };
+/***********************************************************************/
 
 
 void initialize_servo_driver_model() {
@@ -222,7 +233,7 @@ void initialize_servo_driver_model() {
 void loop_servo_driver_model() {
   LL_mDelay(10);
 
-  // debug_printf("%0.1f\n", GmblBldc.get_angle());
+  // debug_printf("%0.1f\n", GmblBldc.get_out_angle());
 
   if(!DebugCom.is_rxBuf_empty()){
     uint8_t _u8_c = 0;

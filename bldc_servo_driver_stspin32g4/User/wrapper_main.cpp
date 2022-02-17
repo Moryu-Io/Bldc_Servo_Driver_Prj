@@ -10,7 +10,7 @@ void cpp_wrapper_main_setup(void) {
 }
 
 void cpp_wrapper_main_loop(void) {
-  volatile uint32_t enc_cnt   = get_bldc_if()->get_hall_count();
+  volatile int32_t enc_cnt   = get_bldc_if()->get_angle_count();
   volatile uint32_t enc_state = get_bldc_if()->get_hall_state();
   volatile bool falut_sts   = get_bldc_if()->get_fault_state();
   volatile bool ready_sts = get_bldc_if()->get_ready_state();

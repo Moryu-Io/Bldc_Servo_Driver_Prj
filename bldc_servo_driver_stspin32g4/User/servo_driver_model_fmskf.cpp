@@ -94,7 +94,7 @@ public:
       break;
     }
 
-    u16_hall_counter_ += s8_now_motor_dir_;
+    s32_angle_rotor_count_ += s8_now_motor_dir_;
 
     /* 電気角キャリブレーション用(いずれ自動化) */
     //uint16_t HallAd_A = Adc2Ctrl.get_adc_data(ADC2CH::AD_A);
@@ -117,14 +117,13 @@ public:
     set_enable_register(_Vol.u8_U_out_enable, _Vol.u8_V_out_enable, _Vol.u8_W_out_enable);
   };
 
-  float get_elec_angle() override {
+  void update() override {
     uint16_t HallAd_A = Adc2Ctrl.get_adc_data(ADC2CH::AD_A);
     uint16_t HallAd_B = Adc2Ctrl.get_adc_data(ADC2CH::AD_B);
     float hallad_center_shift_A = (float)HallAd_A - 2048;
     float hallad_center_shift_B = (float)HallAd_B - 2048;
     float fl_hall_atan_deg = mymath::rad2deg(mymath::atan2f(hallad_center_shift_A, hallad_center_shift_B));
-    float fl_elec_ang_deg  = (fl_hall_atan_deg - 71.5f + 22.5f) * 4.0f;  // 機械角→電気角変換
-    return fl_elec_ang_deg;
+    float fl_now_elec_ang_deg_  = (fl_hall_atan_deg - 71.5f + 22.5f) * 4.0f;  // 機械角→電気角変換
   }
 
   bool get_fault_state() override {
@@ -252,6 +251,7 @@ void loop_servo_driver_model() {
   //uint16_t HallAd_A = Adc2Ctrl.get_adc_data(ADC2CH::AD_A);
   //uint16_t HallAd_B = Adc2Ctrl.get_adc_data(ADC2CH::AD_B);
   //Dac1Ctrl.set_dacs(HallAd_A, HallAd_B);
+  MxnBldc.update();
   bldc_drv_method_sine.update();
   //debug_printf("%d \n", (int)(MxnBldc.get_elec_angle()));
 }

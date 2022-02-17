@@ -17,6 +17,7 @@ void BldcModePowerOff::update(){
         .Duty            = {},
     };
 
+    BldcModeBase::P_BLDC_->update();
     BldcModeBase::P_BLDC_->set_drive_duty(_duty);
 }
 

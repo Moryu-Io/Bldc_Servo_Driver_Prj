@@ -1,15 +1,15 @@
 #include "bldc_mode_pos_control.hpp"
 
-
-void BldcModePosControl::init(){
-
+void BldcModePosControl::init()
+{
 }
 
+void BldcModePosControl::update()
+{
 
-void BldcModePosControl::update(){
     P_BLDC_->update();
 
-    parts_.p_posout_lpf->update(parts_.p_pos_ctrl->update(P_BLDC_->get_angle()));
+    parts_.p_posout_lpf->update(parts_.p_pos_ctrl->update(P_BLDC_->get_out_angle()));
 
     BldcDriveMethod::Ref inputVol = {
         .Vq = 0.0f,
@@ -19,6 +19,4 @@ void BldcModePosControl::update(){
     };
     parts_.p_bldc_drv->set(inputVol);
     parts_.p_bldc_drv->update();
-
 }
-

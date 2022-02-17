@@ -221,7 +221,7 @@ void BldcDriveMethodVector::update() {
   float _cos   = mymath::cosf(_e_ang);
   float _sin   = mymath::sinf(_e_ang);
 
-  BLDC::DrivePhase nowCurr = p_bldc_->get_currnet();
+  BLDC::DrivePhase nowCurr = p_bldc_->get_current();
 
   /* Clark変換 */
   float _Ia = nowCurr.U;

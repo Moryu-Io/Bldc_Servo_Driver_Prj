@@ -7,20 +7,23 @@
 #define DRIVE_OUT_LOW_ENABLE (1)
 #define DRIVE_OUT_DISABLE (0)
 
-class BLDC {
+class BLDC
+{
 public:
   BLDC(){};
 
-  struct DrivePhase {
+  struct DrivePhase
+  {
     float U;
     float V;
     float W;
   };
 
-  struct DriveDuty {
-    uint8_t    u8_U_out_enable;
-    uint8_t    u8_V_out_enable;
-    uint8_t    u8_W_out_enable;
+  struct DriveDuty
+  {
+    uint8_t u8_U_out_enable;
+    uint8_t u8_V_out_enable;
+    uint8_t u8_W_out_enable;
     DrivePhase Duty;
   };
 
@@ -31,13 +34,12 @@ public:
 
   virtual void set_drive_duty(DriveDuty &_Vol) = 0;
 
-  virtual uint8_t  get_hall_state() { return u8_now_hall_state_; };
-  virtual uint32_t get_hall_count() { return u16_hall_counter_; };
-  virtual float    get_elec_angle() { return fl_now_elec_ang_; }
-  virtual float    get_angle()      { return fl_now_rotor_ang_; }
-  virtual float    get_Vm()         { return 12.0f; }
-  virtual float    get_VmInv()      { return 1.0f/12.0f; }
-          DrivePhase get_currnet()  { return now_current_; };
+  uint8_t    get_hall_state() { return u8_now_hall_state_; }
+  int32_t    get_angle_count(){ return s32_angle_rotor_count_; }
+  float      get_elec_angle() { return fl_now_elec_ang_deg_; }
+  float      get_out_angle()  { return fl_now_out_ang_deg_; }
+  float      get_Vm()         { return fl_Vm_; }
+  DrivePhase get_current()    { return now_current_; };
 
   virtual bool get_fault_state() { return false; };
   virtual bool get_ready_state() { return true; }
@@ -51,13 +53,17 @@ public:
   float fl_calc_Vd_;
 
 protected:
-  uint8_t    u8_now_hall_state_;
-  int8_t     s8_now_motor_dir_;
-  uint16_t   u16_hall_counter_;
-  float      fl_now_elec_ang_;
-  float      fl_now_rotor_ang_;
+  uint8_t  u8_now_hall_state_;
+  int8_t   s8_now_motor_dir_;
+  int32_t  s32_angle_rotor_count_;
+  float    fl_now_elec_ang_deg_;
+  float    fl_now_out_ang_deg_;
   DrivePhase now_current_;
   DrivePhase now_bev_;
+
+  float fl_Vm_;
+  float fl_gear_ratio_inv_;
+
 };
 
 #endif
