@@ -78,6 +78,10 @@ public:
     Dac1Ctrl.set_dac_chA(3072); // Current Sens Gain : 1V/A
   };
 
+  void update_lowrate() override {
+    fl_Vm_ = Adc1Ctrl.get_adc_data(ADC1CH::VmSens) * Vm_Gain_ADtoV;
+  };
+
   void update() override {
     /* 電気角測定 */
     uint16_t txdata = 0xFFFF;
@@ -122,6 +126,7 @@ public:
 
 private:
   const float Vm_inv = 1.0f / 12.0f;
+  const float Vm_Gain_ADtoV = 3.3f/4096.0f * (325.0f + 33.0f) / 33.0f;
   const float Curr_Gain_ADtoA = 3.3f/4096.0f;  // 3.3V / 4096AD * 1 A/V
   const float Angle_Gain_CNTtoDeg = 360.0f / 16384.0f / 1.0f;
 
@@ -233,7 +238,8 @@ void initialize_servo_driver_model() {
 void loop_servo_driver_model() {
   LL_mDelay(10);
 
-  // debug_printf("%0.1f\n", GmblBldc.get_out_angle());
+  GmblBldc.update_lowrate();
+  //debug_printf("%0.1f\n", GmblBldc.get_Vm());
 
   if(!DebugCom.is_rxBuf_empty()){
     uint8_t _u8_c = 0;

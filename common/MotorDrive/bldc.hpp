@@ -29,7 +29,7 @@ public:
 
   virtual void init() = 0;
   virtual void update(){};
-
+  virtual void update_lowrate(){};
   virtual void hall_itr_callback(){};
 
   virtual void set_drive_duty(DriveDuty &_Vol) = 0;
@@ -39,6 +39,7 @@ public:
   float      get_elec_angle() { return fl_now_elec_ang_deg_; }
   float      get_out_angle()  { return fl_now_out_ang_deg_; }
   float      get_Vm()         { return fl_Vm_; }
+  float      get_tempr_deg()  { return fl_temperature_deg; }
   DrivePhase get_current()    { return now_current_; };
 
   virtual bool get_fault_state() { return false; };
@@ -62,7 +63,7 @@ protected:
   DrivePhase now_bev_;
 
   float fl_Vm_;
-  float fl_gear_ratio_inv_;
+  float fl_temperature_deg;
 
 };
 
