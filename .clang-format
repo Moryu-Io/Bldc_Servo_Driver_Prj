@@ -9,3 +9,4 @@ AllowShortFunctionsOnASingleLine : 'All'
 AlignConsecutiveAssignments : true
 AlignConsecutiveDeclarations : true
 AlignTrailingComments : true
+IndentWidth : 2
