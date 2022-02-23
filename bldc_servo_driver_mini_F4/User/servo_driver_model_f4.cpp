@@ -1,4 +1,7 @@
+#include "can.h"
+
 #include "adcc.hpp"
+#include "canc.hpp"
 #include "dacc.hpp"
 #include "spic.hpp"
 #include "uart_dmac.hpp"
@@ -208,6 +211,10 @@ static BldcServoManager bldc_manager(&mode_off);
 BldcServoManager* get_bldcservo_manager() { return &bldc_manager; };
 
 
+/************************ CAN INTERFACE ******************************/
+CANC CanIf(&hcan1, 0x001);
+/*********************************************************************/
+
 /***************************** DEBUG ***********************************/
 constexpr uint16_t DEBUG_COM_RXBUF_LENGTH = 512;
 constexpr uint16_t DEBUG_COM_TXBUF_LENGTH = 256;
@@ -225,6 +232,8 @@ void initialize_servo_driver_model() {
   DebugCom.init_constparam(u8_DEBUG_COM_RXBUF, DEBUG_COM_RXBUF_LENGTH,
                            u8_DEBUG_COM_TXBUF, DEBUG_COM_TXBUF_LENGTH);
   DebugCom.init_rxtx();
+  LL_GPIO_ResetOutputPin(GPIOC, LL_GPIO_PIN_13);
+  CanIf.init();
 
   MotorAngSenserCtrl.init();
 
@@ -244,10 +253,24 @@ void initialize_servo_driver_model() {
 }
 
 void loop_servo_driver_model() {
-  LL_mDelay(10);
+  LL_mDelay(100);
 
   GmblBldc.update_lowrate();
   //debug_printf("%0.1f\n", GmblBldc.get_Vm());
+
+  uint32_t u32_r_cmd_id = 0;
+  uint8_t txd[8] = {};
+  uint8_t rxd[8] = {};
+  uint8_t dlc;
+
+  if(CanIf.getFillLevelRxMailboxes() > 0){
+    CanIf.receive(u32_r_cmd_id,dlc,rxd);
+    for(int i=0;i<8;i++) txd[i] = rxd[7-i];
+    
+    CanIf.transmit(u32_r_cmd_id+1, txd);
+  }
+  //CanIf.transmit(u32_r_cmd_id+1, txd);
+
 
   if(!DebugCom.is_rxBuf_empty()){
     uint8_t _u8_c = 0;
