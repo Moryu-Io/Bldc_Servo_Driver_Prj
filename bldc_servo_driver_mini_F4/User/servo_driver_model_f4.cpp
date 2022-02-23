@@ -14,6 +14,7 @@
 #include "bldc_drive_method.hpp"
 #include "bldc_mode_base.hpp"
 #include "bldc_mode_pos_control.hpp"
+#include "bldc_mode_test.hpp"
 #include "bldc_servo_manager.hpp"
 
 
@@ -196,6 +197,13 @@ BldcModePosControl::Parts bldc_mode_posctrl_parts = {
 static BldcModePosControl mode_pos_control(bldc_mode_posctrl_parts);
 static BldcModePowerOff   mode_off;
 
+/************************ MODE TEST ******************************/
+BldcModeTestCurrStep::Parts bldc_mode_test_currstep_parts = {
+  .p_bldc_drv   = &bldc_drv_method_vector,
+};
+static BldcModeTestCurrStep   mode_test_curr_step(bldc_mode_test_currstep_parts);
+/*****************************************************************/
+
 static BldcServoManager bldc_manager(&mode_off);
 BldcServoManager* get_bldcservo_manager() { return &bldc_manager; };
 
@@ -257,7 +265,9 @@ void loop_servo_driver_model() {
         break;
       case 'p':
         LOG::disable_logging();
+        debug_printf("Start\n");
         LOG::print_LogData_byFLOAT();
+        debug_printf("End\n");
         break;
       case 'd':
         bldc_manager.set_mode(&mode_pos_control);
@@ -270,6 +280,16 @@ void loop_servo_driver_model() {
         break;
       case 'x':
         AngleController.set_target(60.0f);
+        break;
+      case 'c':
+        {
+        while(DebugCom.get_rxBuf_datasize() < 8){;};
+        float _fl_buf[2];
+        DebugCom.get_rxbytes((uint8_t*)_fl_buf, 8);
+        bldc_mode_test_currstep_parts.fl_tgt_Iq_A = _fl_buf[0];
+        bldc_mode_test_currstep_parts.fl_tgt_Id_A = _fl_buf[1];
+        bldc_manager.set_mode(&mode_test_curr_step);
+        }
         break;
     };
   }
