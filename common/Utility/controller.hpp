@@ -40,11 +40,11 @@ public:
         now_error_ = now_tgt_ - now_val_;
 
         // 積分計算
-        Integ_ += now_error_ * dt_;
+        Integ_ += Igain_ * dt_ * now_error_;
         Integ_ = (Integ_ >= I_limit_) ? I_limit_ : ((Integ_ <= -I_limit_) ? -I_limit_ : Integ_);
 
         // 制御量計算
-        now_ctrl_ = Pgain_ * now_error_ + Igain_ * Integ_;
+        now_ctrl_ = Pgain_ * now_error_ + Integ_;
 
         prev_val_ = now_val_;
         prev_error_ = now_error_;

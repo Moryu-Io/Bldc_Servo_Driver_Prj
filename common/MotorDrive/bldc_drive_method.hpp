@@ -57,8 +57,8 @@ protected:
 class BldcDriveMethodVector : public BldcDriveMethodSine {
 public:
   BldcDriveMethodVector(BLDC *_bldc) : BldcDriveMethodSine(_bldc),
-    pid_iq(10000.0f, 20.0f, 15.0f, 0.0f, 0.3f),
-    pid_id(10000.0f, 20.0f, 15.0f, 0.0f, 0.3f) {};
+    pid_iq(10000.0f, 8.0f, 10000.0f, 0.0f, 5.0f),
+    pid_id(10000.0f, 8.0f, 10000.0f, 0.0f, 5.0f) {};
 
   void update() override;
 
