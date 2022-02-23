@@ -2,7 +2,7 @@
 
 
 BldcServoManager::BldcServoManager(BldcModeBase* _p_initMode)
-    : p_nowMode_(_p_initMode), is_mode_lock_(false), u8_status_type()
+    : p_nowMode_(_p_initMode), p_preMode_(_p_initMode), is_mode_lock_(false), u8_status_type()
 {
 
 }
@@ -11,6 +11,7 @@ BldcServoManager::BldcServoManager(BldcModeBase* _p_initMode)
 void BldcServoManager::set_mode(BldcModeBase* _p_mode){
     is_mode_lock_ = true;
     p_nowMode_->end();
+    p_preMode_ = p_nowMode_;
     p_nowMode_ = _p_mode;
     p_nowMode_->init();
     is_mode_lock_ = false;
@@ -23,6 +24,10 @@ void BldcServoManager::update(){
     p_nowMode_->update();
 
     set_status_memory();
+
+    if(p_nowMode_->isCompleted()){
+        set_mode(p_preMode_);
+    }
 
 }
 

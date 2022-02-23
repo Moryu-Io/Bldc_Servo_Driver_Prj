@@ -23,6 +23,7 @@ private:
     void set_status_memory();
 
     BldcModeBase* p_nowMode_;
+    BldcModeBase* p_preMode_;
     bool    is_mode_lock_;
     uint8_t u8_status_type;
 
