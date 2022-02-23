@@ -3,9 +3,9 @@
 
 #include "debug_printf.hpp"
 
-#define LOG_SIZE_BYTES (4 * 4096)            // LOGバッファの最大byte数
+#define LOG_SIZE_BYTES (6 * 4096)            // LOGバッファの最大byte数
 #define LOG_SIZE_UINT32 (LOG_SIZE_BYTES / 4) // LOGバッファの最大数(4byte単位)
-#define LOG_ADDRESS_MAX_NUM (4)              // LOGする変数の最大数
+#define LOG_ADDRESS_MAX_NUM (6)              // LOGする変数の最大数
 
 /**
  * @brief Logger

@@ -187,6 +187,6 @@ void enable_logging() {
  * @brief ロギングを終了する
  * 
  */
-void disable_logging() { state_logging = true; }
+void disable_logging() { state_logging = false; }
 
 } // namespace LOG
