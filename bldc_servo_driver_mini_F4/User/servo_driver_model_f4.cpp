@@ -200,6 +200,9 @@ BldcModePosControl::Parts bldc_mode_posctrl_parts = {
 static BldcModePosControl mode_pos_control(bldc_mode_posctrl_parts);
 static BldcModePowerOff   mode_off;
 
+BldcModeBase* get_bldcmode_off() { return &mode_off; };
+BldcModeBase* get_bldcmode_posctrl() { return &mode_pos_control; };
+
 /************************ MODE TEST ******************************/
 BldcModeTestCurrStep::Parts bldc_mode_test_currstep_parts = {
   .p_bldc_drv   = &bldc_drv_method_vector,

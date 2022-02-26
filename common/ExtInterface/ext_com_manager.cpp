@@ -5,10 +5,12 @@
 #include "com_base.hpp"
 #include "servo_driver_model.hpp"
 
-void getSummaryStatus(RES_MESSAGE &msg);
+void getStatusSummary(RES_MESSAGE &msg);
+void getStatusMoveAngle(RES_MESSAGE &msg);
 
 void ext_com_manage_main() {
-  EXT_COM_BASE *p_extcom = get_ext_com();
+  EXT_COM_BASE     *p_extcom  = get_ext_com();
+  BldcServoManager *p_bldcmng = get_bldcservo_manager();
 
   uint32_t u32_r_cmd_id = 0;
   uint8_t  dlc;
@@ -25,13 +27,17 @@ void ext_com_manage_main() {
 
     switch(cmdid) {
     case CMD_ID_REQ_TORQUE_ON: {
-
+      p_bldcmng->set_mode(get_bldcmode_posctrl());
     } break;
     case CMD_ID_REQ_TORQUE_OFF: {
-
+      p_bldcmng->set_mode(get_bldcmode_off());
     } break;
     case CMD_ID_REQ_MOVE_ANGLE: {
 
+    } break;
+    case CMD_ID_RES_STATUS_MOVE_ANGLE: {
+      getStatusMoveAngle(unResMsg);
+      bRes = true;
     } break;
 
     default:
@@ -41,20 +47,18 @@ void ext_com_manage_main() {
     /* Summary要求ビットが立っている場合 */
     if(IS_REQ_STATUS_SUMMARY(u32_r_cmd_id)) {
       cmdid = CMD_ID_RES_STATUS_SUMMARY;
-      getSummaryStatus(unResMsg);
+      getStatusSummary(unResMsg);
       bRes = true;
     }
 
     /* Resが必要なら返す */
-    if(bRes && (p_extcom->getFreeLevelTxMailboxes() > 0)){
-        p_extcom->transmit(cmdid, unResMsg.u8_data);
+    if(bRes && (p_extcom->getFreeLevelTxMailboxes() > 0)) {
+      p_extcom->transmit(cmdid, unResMsg.u8_data);
     }
-
   }
 }
 
-
-void getSummaryStatus(RES_MESSAGE &msg) {
+void getStatusSummary(RES_MESSAGE &msg) {
   BLDC *p_bldc = get_bldc_if();
 
   msg.resSummary.s16_out_ang_deg_Q4 = static_cast<int16_t>(p_bldc->get_out_angle() * 16);
@@ -62,4 +66,12 @@ void getSummaryStatus(RES_MESSAGE &msg) {
   msg.resSummary.s8_motor_vol_V_Q3  = static_cast<int8_t>(p_bldc->fl_calc_Vq_ * 8);
   msg.resSummary.u8_vm_V_Q3         = static_cast<uint8_t>(p_bldc->get_Vm() * 8);
   msg.resSummary.s8_motor_tempr_deg = static_cast<int8_t>(p_bldc->get_tempr_deg());
+}
+
+void getStatusMoveAngle(RES_MESSAGE &msg) {
+  BLDC *p_bldc = get_bldc_if();
+
+  msg.resStsMvAng.s16_out_ang_deg_Q4 = static_cast<int16_t>(p_bldc->get_out_angle() * 16);
+  msg.resStsMvAng.s16_tgt_ang_deg_Q4 = 0;
+  msg.resStsMvAng.u16_movetime_ms    = 0;
 }
