@@ -5,12 +5,20 @@
 #include "ext_com_manager.hpp"
 #include "logger.hpp"
 
+#include "debug_printf.hpp"
+
+volatile uint32_t u32_tim7_end_cnt = 0;
+
+
+
 void cpp_wrapper_main_setup(void) {
   initialize_servo_driver_model();
 }
 
 void cpp_wrapper_main_loop(void) {
   loop_servo_driver_model();
+
+  // debug_printf("%d\n", u32_tim7_end_cnt);
 }
 
 
@@ -25,6 +33,8 @@ void TIM6_ITR() {
 
 void TIM7_ITR() {
   get_bldcservo_manager()->update();
+
+  u32_tim7_end_cnt = TIM7->CNT;
 
   LOG::routine();
 }
