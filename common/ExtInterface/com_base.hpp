@@ -21,4 +21,20 @@ public:
   virtual void rx_callback() = 0;
 };
 
+class EXT_COM_BASE{
+public:
+  EXT_COM_BASE(){};
+
+  /* 通信用処理 */
+  virtual bool transmit(uint32_t _cmd_id, uint8_t *_txd) = 0;
+  virtual bool receive(uint32_t &_cmd_id, uint8_t &_dlc, uint8_t *_rxd) = 0;
+
+  /* フラグ管理 */
+  virtual uint32_t getFreeLevelTxMailboxes() = 0; 
+  virtual uint32_t getFillLevelRxMailboxes() = 0;
+
+};
+
+
+
 #endif

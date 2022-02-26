@@ -11,6 +11,7 @@ BLDC* get_bldc_if();
 BldcDriveMethod* get_bldcdrv_method();
 BldcServoManager* get_bldcservo_manager();
 
+EXT_COM_BASE* get_ext_com();
 COM_BASE* get_debug_com();
 
 void initialize_servo_driver_model();

@@ -213,6 +213,8 @@ BldcServoManager* get_bldcservo_manager() { return &bldc_manager; };
 
 /************************ CAN INTERFACE ******************************/
 CANC CanIf(&hcan1, 0x001);
+
+EXT_COM_BASE* get_ext_com() { return &CanIf; };
 /*********************************************************************/
 
 /***************************** DEBUG ***********************************/
@@ -257,19 +259,6 @@ void loop_servo_driver_model() {
 
   GmblBldc.update_lowrate();
   //debug_printf("%0.1f\n", GmblBldc.get_Vm());
-
-  uint32_t u32_r_cmd_id = 0;
-  uint8_t txd[8] = {};
-  uint8_t rxd[8] = {};
-  uint8_t dlc;
-
-  if(CanIf.getFillLevelRxMailboxes() > 0){
-    CanIf.receive(u32_r_cmd_id,dlc,rxd);
-    for(int i=0;i<8;i++) txd[i] = rxd[7-i];
-    
-    CanIf.transmit(u32_r_cmd_id+1, txd);
-  }
-  //CanIf.transmit(u32_r_cmd_id+1, txd);
 
 
   if(!DebugCom.is_rxBuf_empty()){

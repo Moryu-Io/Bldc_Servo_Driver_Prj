@@ -2,6 +2,7 @@
 
 #include "wrapper_main.hpp"
 #include "servo_driver_model.hpp"
+#include "ext_com_manager.hpp"
 #include "logger.hpp"
 
 void cpp_wrapper_main_setup(void) {
@@ -19,7 +20,7 @@ void USART6TX_DMATC_ITR(){
 }
 
 void TIM6_ITR() {
-
+  ext_com_manage_main();
 }
 
 void TIM7_ITR() {
