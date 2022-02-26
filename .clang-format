@@ -8,5 +8,6 @@ AllowShortLoopsOnASingleLine : true
 AllowShortFunctionsOnASingleLine : 'All'
 AlignConsecutiveAssignments : true
 AlignConsecutiveDeclarations : true
+AlignConsecutiveBitFields : true
 AlignTrailingComments : true
 IndentWidth : 2
