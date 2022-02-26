@@ -20,7 +20,7 @@ struct REQ_TORQUE_OFF {
 
 #define CMD_ID_REQ_MOVE_ANGLE (0x0010)
 struct REQ_MOVE_ANGLE {
-  int32_t  u32_tgt_ang_deg_Q16;
+  int32_t  s32_tgt_ang_deg_Q16;
   uint16_t u16_movetime_ms;
   uint16_t u16_currlim_A_Q8;
 };

@@ -14,6 +14,7 @@ public:
     void update();
 
     void set_mode(BldcModeBase* _p_mode);
+    void set_instr_buf(BldcModeBase::Instr* _p_instr);
     
     void set_status_type(uint8_t _type){ u8_status_type = _type; };
 
@@ -27,6 +28,8 @@ private:
     bool    is_mode_lock_;
     uint8_t u8_status_type;
 
+    BldcModeBase::Instr un_mode_instr;
+    bool  is_updated_instr;
 
 };
 

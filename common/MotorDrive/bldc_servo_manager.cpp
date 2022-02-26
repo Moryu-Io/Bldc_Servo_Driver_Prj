@@ -21,6 +21,11 @@ void BldcServoManager::set_mode(BldcModeBase* _p_mode){
 void BldcServoManager::update(){
     if(is_mode_lock_) return;
 
+    if(is_updated_instr){
+        p_nowMode_->set_Instruction(&un_mode_instr);
+        is_updated_instr = false;
+    }
+
     p_nowMode_->update();
 
     set_status_memory();
@@ -29,6 +34,12 @@ void BldcServoManager::update(){
         set_mode(p_preMode_);
     }
 
+}
+
+
+void BldcServoManager::set_instr_buf(BldcModeBase::Instr* _p_instr){
+    un_mode_instr = *_p_instr;
+    is_updated_instr = true;
 }
 
 

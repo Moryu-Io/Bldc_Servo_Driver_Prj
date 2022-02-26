@@ -33,6 +33,10 @@ void ext_com_manage_main() {
       p_bldcmng->set_mode(get_bldcmode_off());
     } break;
     case CMD_ID_REQ_MOVE_ANGLE: {
+      BldcModeBase::Instr _instr           = {};
+      _instr.InstrPosCtrl.s32_tgt_pos      = unReqMsg.reqMvAng.s32_tgt_ang_deg_Q16;
+      _instr.InstrPosCtrl.s32_move_time_ms = (int32_t)unReqMsg.reqMvAng.u16_movetime_ms;
+      p_bldcmng->set_instr_buf(&_instr);
 
     } break;
     case CMD_ID_RES_STATUS_MOVE_ANGLE: {

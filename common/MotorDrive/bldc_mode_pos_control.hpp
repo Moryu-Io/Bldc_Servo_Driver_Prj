@@ -27,6 +27,7 @@ public:
     void update() override;
     void end() override {};
 
+    virtual void set_Instruction(Instr *p_instr);
     virtual void get_status_1(Status *p_mem);
 
 protected:

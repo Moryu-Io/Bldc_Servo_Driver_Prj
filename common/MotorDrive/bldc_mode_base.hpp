@@ -22,6 +22,15 @@ public:
 
     static BLDC* P_BLDC_;
 
+    union Instr{
+        struct M_PosCtrl{
+            int32_t s32_tgt_pos;
+            int32_t s32_move_time_ms;
+        }InstrPosCtrl;
+    };
+
+    virtual void set_Instruction(Instr *p_instr){};
+
     union Status{
         struct M_PosCtrl_1{
             int16_t  s16_tgt_ang_deg_Q4;
