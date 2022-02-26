@@ -27,6 +27,8 @@ public:
     void update() override;
     void end() override {};
 
+    virtual void get_status_1(Status *p_mem);
+
 protected:
     Parts& parts_;
 

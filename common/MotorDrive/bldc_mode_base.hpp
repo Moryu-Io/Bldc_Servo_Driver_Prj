@@ -20,10 +20,17 @@ public:
 
     virtual bool isCompleted(){ return false; };
 
-    virtual void get_status_1(uint32_t *p_mem){};
-    virtual void get_status_2(uint32_t *p_mem){};
-
     static BLDC* P_BLDC_;
+
+    union Status{
+        struct M_PosCtrl_1{
+            int16_t  s16_tgt_ang_deg_Q4;
+            uint16_t u16_movetime_ms;
+        } stsPosCtrl_1;
+    };
+
+    virtual void get_status_1(Status *p_mem){};
+    virtual void get_status_2(Status *p_mem){};
 
 };
 

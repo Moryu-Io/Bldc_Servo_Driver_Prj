@@ -41,10 +41,8 @@ void BldcServoManager::set_status_memory(){
             u32_status_memory[3] = CONV_U32TYPE(BldcModeBase::P_BLDC_->fl_calc_Id_meas_);
             break;
         case 0x01:
-            p_nowMode_->get_status_1(u32_status_memory);
             break;
         case 0x02:
-            p_nowMode_->get_status_2(u32_status_memory);
             break;
         default:
             u32_status_memory[0] = 0;
