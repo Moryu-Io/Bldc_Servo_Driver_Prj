@@ -20,6 +20,8 @@
 #include "bldc_mode_test.hpp"
 #include "bldc_servo_manager.hpp"
 
+#include "flash_interface.hpp"
+
 
 enum ADC1CH {
   Potentio,  // CH7,  PA7
@@ -187,7 +189,7 @@ static BldcDriveMethodSine   bldc_drv_method_sine(&GmblBldc);
 static BldcDriveMethodVector bldc_drv_method_vector(&GmblBldc);
 BldcDriveMethod* get_bldcdrv_method() { return &bldc_drv_method_vector; };
 
-static PID AngleController(10000.0f, 0.01f, 0.1f, 0.0f, 0.5f);
+static PID AngleController(10000.0f, 0.01f, 0.0001f, 0.0f, 0.5f);
 static IIR1 AngleCountrollerOut_filter(0.70f,0.15f,0.15f);
 static TargetInterp AngleTargetInterp;
 
@@ -220,6 +222,14 @@ CANC CanIf(&hcan1, 0x001);
 EXT_COM_BASE* get_ext_com() { return &CanIf; };
 /*********************************************************************/
 
+/************************ FLASH INTERFACE ******************************/
+FlashIF FlashIf(FLASH_SECTOR_11, 0x080E0000);
+
+FlashIF* get_flash_if() { return &FlashIf; };
+/*********************************************************************/
+
+
+
 /***************************** DEBUG ***********************************/
 constexpr uint16_t DEBUG_COM_RXBUF_LENGTH = 512;
 constexpr uint16_t DEBUG_COM_TXBUF_LENGTH = 256;
@@ -233,10 +243,18 @@ COM_BASE *get_debug_com() { return &DebugCom; };
 
 void initialize_servo_driver_model() {
   LL_TIM_EnableCounter(TIM2);
+
+  FlashIf.load(); // RAMへ展開
+  if(FlashIf.mirrorRam.var.u8_is_reset_flash == 0xFF){
+    // Flashがリセットされている場合は初期値で埋める
+    FlashIf.mirrorRam.var = C_FlashInitParams.var;
+    // FlashIf.save();
+  }
   
   DebugCom.init_constparam(u8_DEBUG_COM_RXBUF, DEBUG_COM_RXBUF_LENGTH,
                            u8_DEBUG_COM_TXBUF, DEBUG_COM_TXBUF_LENGTH);
   DebugCom.init_rxtx();
+  
   LL_GPIO_ResetOutputPin(GPIOC, LL_GPIO_PIN_13);
   CanIf.init();
 
@@ -287,7 +305,7 @@ void loop_servo_driver_model() {
       case 'd':
         bldc_manager.set_mode(&mode_pos_control);
         break;
-      case 'f':
+      case 'e':
         bldc_manager.set_mode(&mode_off);
         break;
       case 'z':
@@ -295,6 +313,37 @@ void loop_servo_driver_model() {
         break;
       case 'x':
         AngleController.set_target(60.0f);
+        break;
+      case 'f':
+        {
+        while(DebugCom.get_rxBuf_datasize() < 1){;};
+        uint8_t _u8_flash_cmd = 0;
+        DebugCom.get_rxbyte(_u8_flash_cmd);
+        switch (_u8_flash_cmd)
+        {
+        case 's':
+          FlashIf.save();
+          break;
+        case 'r':
+          FlashIf.erase();
+          FlashIf.load();
+          break;
+        case 'p':
+          {
+            int _size = sizeof(FlashIf.mirrorRam);
+            for(int i=0; i < _size/4; i++){
+              debug_printf("%04x:%02x,%02x,%02x,%02x\n", i*4, 
+                                                        FlashIf.mirrorRam.u8_d[4*i], 
+                                                        FlashIf.mirrorRam.u8_d[4*i+1],
+                                                        FlashIf.mirrorRam.u8_d[4*i+2],
+                                                        FlashIf.mirrorRam.u8_d[4*i+3]);
+            }
+          }
+          break;
+        default:
+          break;
+        };
+        }
         break;
       case 'c':
         {

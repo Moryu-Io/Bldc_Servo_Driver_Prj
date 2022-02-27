@@ -79,6 +79,7 @@ CPP_SOURCES = \
 $(wildcard User/*.cpp) \
 $(wildcard User/MyDriver/*.cpp) \
 $(wildcard ./../common/ExtInterface/*.cpp) \
+$(wildcard ./../common/FlashInterface/*.cpp) \
 $(wildcard ./../common/MotorDrive/*.cpp) \
 $(wildcard ./../common/Utility/*.cpp)
 
@@ -150,6 +151,7 @@ C_INCLUDES =  \
 -IUser \
 -IUser/MyDriver \
 -I./../common/ExtInterface \
+-I./../common/FlashInterface \
 -I./../common/MotorDrive \
 -I./../common/Utility
 
