@@ -219,7 +219,9 @@ BldcServoManager* get_bldcservo_manager() { return &bldc_manager; };
 /************************ CAN INTERFACE ******************************/
 CANC CanIf(&hcan1, 0x001);
 
-EXT_COM_BASE* get_ext_com() { return &CanIf; };
+EXT_COM_BASE* p_ExtCom = &CanIf;
+
+EXT_COM_BASE* get_ext_com() { return p_ExtCom; };
 /*********************************************************************/
 
 /************************ FLASH INTERFACE ******************************/
@@ -236,6 +238,7 @@ constexpr uint16_t DEBUG_COM_TXBUF_LENGTH = 256;
 static uint8_t     u8_DEBUG_COM_RXBUF[DEBUG_COM_RXBUF_LENGTH];
 static uint8_t     u8_DEBUG_COM_TXBUF[DEBUG_COM_TXBUF_LENGTH];
 static UART_DMAC   DebugCom(USART6, DMA2, LL_DMA_STREAM_1, LL_DMA_STREAM_6);
+static EXT_DEBUG_CAN_COM DebugComPretendCan((COM_BASE*)&DebugCom);
 
 COM_BASE *get_debug_com() { return &DebugCom; };
 /***********************************************************************/
@@ -361,7 +364,18 @@ void loop_servo_driver_model() {
         };
         }
         break;
-      case 'c':
+      case 'c': // 模擬CAN通信
+        {
+        while(DebugCom.get_rxBuf_datasize() < 13){;};
+        EXT_DEBUG_CAN_COM::RcvData _rcv = {};
+        DebugCom.get_rxbytes((uint8_t*)&_rcv, 13);
+        DebugComPretendCan.setReceiveData(&_rcv);
+        p_ExtCom = &DebugComPretendCan; // CANinterfaceを付け替え
+        while(DebugComPretendCan.getFillLevelRxMailboxes()){;}; // CAN処理待ち
+        p_ExtCom = &CanIf;  // CANinterfaceを元に戻す
+        }
+        break;
+      case 't':
         {
         while(DebugCom.get_rxBuf_datasize() < 8){;};
         float _fl_buf[2];
