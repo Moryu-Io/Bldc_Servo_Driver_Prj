@@ -8,10 +8,10 @@ class TargetInterp {
 public:
     TargetInterp(){};
 
-    void set_target(int32_t val, uint32_t mtime){
+    void set_target(int32_t val, int32_t mtime){
         mtime = (mtime == 0) ? 1 : mtime;
         uint8_t _u8_writePage = u8_nowReadPage_ ^ 1;
-        input_[_u8_writePage].u32_move_time_servocnt = mtime;
+        input_[_u8_writePage].s32_move_time_servocnt = mtime;
         input_[_u8_writePage].s32_tgt_final = val;
         input_[_u8_writePage].s32_move_step = ((val - s32_now_target_) >= 0) ? (val - s32_now_target_ + mtime - 1) / mtime  // 切り上げ
                                                                              : (val - s32_now_target_ - mtime + 1) / mtime; // 切り下げ
@@ -43,7 +43,7 @@ public:
 private:
     struct InputParams{
         int32_t  s32_tgt_final;
-        uint32_t u32_move_time_servocnt;
+        int32_t  s32_move_time_servocnt;
         int32_t  s32_move_step;
     };
 

@@ -7,23 +7,20 @@
 #define DRIVE_OUT_LOW_ENABLE (1)
 #define DRIVE_OUT_DISABLE (0)
 
-class BLDC
-{
+class BLDC {
 public:
   BLDC(){};
 
-  struct DrivePhase
-  {
+  struct DrivePhase {
     float U;
     float V;
     float W;
   };
 
-  struct DriveDuty
-  {
-    uint8_t u8_U_out_enable;
-    uint8_t u8_V_out_enable;
-    uint8_t u8_W_out_enable;
+  struct DriveDuty {
+    uint8_t    u8_U_out_enable;
+    uint8_t    u8_V_out_enable;
+    uint8_t    u8_W_out_enable;
     DrivePhase Duty;
   };
 
@@ -34,13 +31,16 @@ public:
 
   virtual void set_drive_duty(DriveDuty &_Vol) = 0;
 
+  void set_ref_ont_angle(float _ref_ang) { fl_ref_out_ang_deg_ = _ref_ang; }
+
   uint8_t    get_hall_state() { return u8_now_hall_state_; }
-  int32_t    get_angle_count(){ return s32_angle_rotor_count_; }
+  int32_t    get_angle_count() { return s32_angle_rotor_count_; }
   float      get_elec_angle() { return fl_now_elec_ang_deg_; }
-  float      get_out_angle()  { return fl_now_out_ang_deg_; }
-  float      get_Vm()         { return fl_Vm_; }
-  float      get_tempr_deg()  { return fl_temperature_deg; }
-  DrivePhase get_current()    { return now_current_; };
+  float      get_out_angle() { return fl_now_out_ang_deg_ - fl_ref_out_ang_deg_; }
+  float      get_raw_out_angle() { return fl_now_out_ang_deg_; }
+  float      get_Vm() { return fl_Vm_; }
+  float      get_tempr_deg() { return fl_temperature_deg; }
+  DrivePhase get_current() { return now_current_; };
 
   virtual bool get_fault_state() { return false; };
   virtual bool get_ready_state() { return true; }
@@ -54,17 +54,18 @@ public:
   float fl_calc_Vd_;
 
 protected:
-  uint8_t  u8_now_hall_state_;
-  int8_t   s8_now_motor_dir_;
-  int32_t  s32_angle_rotor_count_;
-  float    fl_now_elec_ang_deg_;
-  float    fl_now_out_ang_deg_;
+  uint8_t    u8_now_hall_state_;
+  int8_t     s8_now_motor_dir_;
+  int32_t    s32_angle_rotor_count_;
+  float      fl_now_elec_ang_deg_;
+  float      fl_now_out_ang_deg_;
   DrivePhase now_current_;
   DrivePhase now_bev_;
 
   float fl_Vm_;
   float fl_temperature_deg;
 
+  float fl_ref_out_ang_deg_;
 };
 
 #endif

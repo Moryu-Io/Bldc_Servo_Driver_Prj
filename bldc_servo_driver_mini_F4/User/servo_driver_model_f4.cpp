@@ -189,7 +189,7 @@ static BldcDriveMethodSine   bldc_drv_method_sine(&GmblBldc);
 static BldcDriveMethodVector bldc_drv_method_vector(&GmblBldc);
 BldcDriveMethod* get_bldcdrv_method() { return &bldc_drv_method_vector; };
 
-static PID AngleController(10000.0f, 0.01f, 0.0001f, 0.0f, 0.5f);
+static PID AngleController(10000.0f, 0.05f, 0.001f, 0.0f, 0.5f);
 static IIR1 AngleCountrollerOut_filter(0.70f,0.15f,0.15f);
 static TargetInterp AngleTargetInterp;
 
@@ -309,10 +309,26 @@ void loop_servo_driver_model() {
         bldc_manager.set_mode(&mode_off);
         break;
       case 'z':
-        AngleController.set_target(0.0f);
+        {
+        BldcModeBase::Instr instr = {
+          .InstrPosCtrl = {
+            .s32_tgt_pos = -30 << 16,
+            .s32_move_time_ms = 200,
+          },
+        };
+        mode_pos_control.set_Instruction(&instr);
+        }
         break;
       case 'x':
-        AngleController.set_target(60.0f);
+        {
+        BldcModeBase::Instr instr = {
+          .InstrPosCtrl = {
+            .s32_tgt_pos = -120 << 16,
+            .s32_move_time_ms = 200,
+          },
+        };
+        mode_pos_control.set_Instruction(&instr);
+        }
         break;
       case 'f':
         {
