@@ -18,6 +18,7 @@ Id_TARGET_A = 0
 def start_test(ser:serial.Serial):
     Cmd_List = []
     Cmd_List.append(b't')
+    Cmd_List.append(b'c')
 
     IqTgtHex = struct.pack('<f', float(Iq_TARGET_A))
     IdTgtHex = struct.pack('<f', float(Id_TARGET_A))
