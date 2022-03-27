@@ -104,7 +104,7 @@ public:
     s32_angle_rotor_count_ -= delta_ang;  // 逆方向のため
 
     fl_now_out_ang_deg_  = (float)(s32_angle_rotor_count_) * Angle_Gain_CNTtoDeg;
-    fl_now_elec_ang_deg_ = (float)(16383 - ang - 1380) * 0.241713972f + 90.0f;
+    fl_now_elec_ang_deg_ = ((float)(ang - s32_elec_angle_offset_CNT_) * fl_elec_angle_gain_CNTtoDeg_ - 90.0f)*(float)s8_elec_angle_dir_;
 
     /* 電流測定 */
     now_current_.U = Curr_Gain_ADtoA * (Adc2Ctrl.get_adc_data(ADC2CH::CurFb_U) - 2048);
@@ -136,7 +136,7 @@ private:
   const float Curr_Gain_ADtoA = 3.3f/4096.0f;  // 3.3V / 4096AD * 1 A/V
   const float Angle_Gain_CNTtoDeg = 360.0f / 16384.0f / 1.0f;
 
-  int32_t s32_pre_angle_raw = 0;
+
 
   inline void set_enable_register(uint8_t Uenable, uint8_t Venable, uint8_t Wenable) {
     ///*
@@ -189,7 +189,7 @@ static BldcDriveMethodSine   bldc_drv_method_sine(&GmblBldc);
 static BldcDriveMethodVector bldc_drv_method_vector(&GmblBldc);
 BldcDriveMethod* get_bldcdrv_method() { return &bldc_drv_method_vector; };
 
-static PID AngleController(10000.0f, 0.05f, 0.001f, 0.0f, 0.5f);
+static PID AngleController(10000.0f, 0.1f, 0.001f, 0.0f, 1.0f);
 static IIR1 AngleCountrollerOut_filter(0.70f,0.15f,0.15f);
 static TargetInterp AngleTargetInterp;
 
@@ -204,13 +204,6 @@ static BldcModePowerOff   mode_off;
 
 BldcModeBase* get_bldcmode_off() { return &mode_off; };
 BldcModeBase* get_bldcmode_posctrl() { return &mode_pos_control; };
-
-/************************ MODE TEST ******************************/
-BldcModeTestCurrStep::Parts bldc_mode_test_currstep_parts = {
-  .p_bldc_drv   = &bldc_drv_method_vector,
-};
-static BldcModeTestCurrStep   mode_test_curr_step(bldc_mode_test_currstep_parts);
-/*****************************************************************/
 
 static BldcServoManager bldc_manager(&mode_off);
 BldcServoManager* get_bldcservo_manager() { return &bldc_manager; };
@@ -230,6 +223,17 @@ FlashIF FlashIf(FLASH_SECTOR_11, 0x080E0000);
 FlashIF* get_flash_if() { return &FlashIf; };
 /*********************************************************************/
 
+/************************ MODE TEST ******************************/
+BldcModeTestElecAngle::Parts bldc_mode_test_elecang_parts = {
+  .p_bldc_drv   = &bldc_drv_method_sine,
+  .p_flashif    = &FlashIf,
+};
+BldcModeTestCurrStep::Parts bldc_mode_test_currstep_parts = {
+  .p_bldc_drv   = &bldc_drv_method_vector,
+};
+static BldcModeTestElecAngle  mode_test_elec_ang(bldc_mode_test_elecang_parts);
+static BldcModeTestCurrStep   mode_test_curr_step(bldc_mode_test_currstep_parts);
+/*****************************************************************/
 
 
 /***************************** DEBUG ***********************************/
@@ -251,7 +255,7 @@ void initialize_servo_driver_model() {
   if(FlashIf.mirrorRam.var.u8_is_reset_flash == 0xFF){
     // Flashがリセットされている場合は初期値で埋める
     FlashIf.mirrorRam.var = C_FlashInitParams.var;
-    // FlashIf.save();
+    FlashIf.save();
   }
   
   DebugCom.init_constparam(u8_DEBUG_COM_RXBUF, DEBUG_COM_RXBUF_LENGTH,
@@ -269,6 +273,11 @@ void initialize_servo_driver_model() {
   Adc2Ctrl.start();
   GmblBldc.init();
 
+  /* パラメータ書き込み(暫定) */
+  GmblBldc.set_elec_angle_gain(FlashIf.mirrorRam.var.fl_elec_angle_gain_CNTtoDeg);
+  GmblBldc.set_elec_angle_offset(FlashIf.mirrorRam.var.s32_elec_angle_offset_CNT);
+  GmblBldc.set_elec_angle_dir(FlashIf.mirrorRam.var.s8_elec_angle_dir);
+
   /* 100Hz */
   LL_TIM_EnableIT_UPDATE(TIM6);
   LL_TIM_EnableCounter(TIM6);
@@ -282,7 +291,8 @@ void loop_servo_driver_model() {
   LL_mDelay(100);
 
   GmblBldc.update_lowrate();
-  //debug_printf("%0.1f\n", GmblBldc.get_Vm());
+  //debug_printf("%0.1f,%0.1f,%d,%d,%d\n", GmblBldc.get_out_angle(), GmblBldc.fl_calc_Vq_, TIM1->CCR1, TIM1->CCR2, TIM1->CCR3);
+  //debug_printf("%0.1f,%0.1f\n", GmblBldc.get_out_angle(), GmblBldc.get_elec_angle());
 
 
   if(!DebugCom.is_rxBuf_empty()){
@@ -359,6 +369,15 @@ void loop_servo_driver_model() {
             }
           }
           break;
+        case 'w':
+          {
+            while(DebugCom.get_rxBuf_datasize() < 3){;};
+            uint8_t _u8_write_data[3] = {};
+            DebugCom.get_rxbytes(_u8_write_data, 3);
+            uint16_t u16_addr = _u8_write_data[0] | (_u8_write_data[1] << 8);
+            FlashIf.mirrorRam.u8_d[u16_addr] = _u8_write_data[2];
+          }
+          break;
         default:
           break;
         };
@@ -377,12 +396,26 @@ void loop_servo_driver_model() {
         break;
       case 't':
         {
-        while(DebugCom.get_rxBuf_datasize() < 8){;};
-        float _fl_buf[2];
-        DebugCom.get_rxbytes((uint8_t*)_fl_buf, 8);
-        bldc_mode_test_currstep_parts.fl_tgt_Iq_A = _fl_buf[0];
-        bldc_mode_test_currstep_parts.fl_tgt_Id_A = _fl_buf[1];
-        bldc_manager.set_mode(&mode_test_curr_step);
+        while(DebugCom.get_rxBuf_datasize() < 1){;};
+        uint8_t _u8_test_cmd = 0;
+        DebugCom.get_rxbyte(_u8_test_cmd);
+        switch (_u8_test_cmd)
+        {
+        case 'c':        
+          while(DebugCom.get_rxBuf_datasize() < 8){;};
+          float _fl_buf[2];
+          DebugCom.get_rxbytes((uint8_t*)_fl_buf, 8);
+          bldc_mode_test_currstep_parts.fl_tgt_Iq_A = _fl_buf[0];
+          bldc_mode_test_currstep_parts.fl_tgt_Id_A = _fl_buf[1];
+          bldc_manager.set_mode(&mode_test_curr_step);
+          break;
+        case 'e':
+          bldc_manager.set_mode(&mode_test_elec_ang);
+          break;
+        default:
+          break;
+        }
+
         }
         break;
     };

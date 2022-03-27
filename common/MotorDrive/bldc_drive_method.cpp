@@ -234,8 +234,9 @@ void BldcDriveMethodVector::update() {
   /* 電流PI制御量計算 */
   pid_id.set_target(InRef_.Id);
   pid_iq.set_target(InRef_.Iq);
-  float _Vd = pid_id.update(_Id);
-  float _Vq = pid_iq.update(_Iq);
+  float _vm = p_bldc_->get_Vm();
+  float _Vd = mymath::satf(pid_id.update(_Id), _vm, -_vm);
+  float _Vq = mymath::satf(pid_iq.update(_Iq), _vm, -_vm);
 
   /* 情報の保存 */
   p_bldc_->fl_calc_Iq_meas_ = _Iq;

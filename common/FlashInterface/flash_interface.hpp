@@ -19,8 +19,10 @@ union FlashSaveParams {
     uint16_t u16_can_device_id;
     uint8_t  u8_dummy_0012_001F[14];
     /* BLDC Config */
-    float   fl_elec_angle_offset;
-    uint8_t u8_dummy_0024_004F[44];
+    int32_t s32_elec_angle_offset_CNT;
+    float   fl_elec_angle_gain_CNTtoDeg;
+    int8_t  s8_elec_angle_dir;
+    uint8_t u8_dummy_0029_004F[39];
     /* Current Control */
     float   fl_Iq_Pgain;
     float   fl_Iq_Igain;

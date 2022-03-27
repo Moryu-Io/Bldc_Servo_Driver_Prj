@@ -6,6 +6,39 @@
 #include "controller.hpp"
 #include "iir.hpp"
 #include "target_interp.hpp"
+#include "flash_interface.hpp"
+
+/**
+ * @brief BLDC電気角測定テスト
+ * 
+ */
+class BldcModeTestElecAngle : public BldcModeBase {
+public:
+    struct Parts{
+        BldcDriveMethod* p_bldc_drv;
+        FlashIF* p_flashif;
+    };
+
+    BldcModeTestElecAngle(Parts& _parts)
+        : parts_(_parts) {};
+
+    void init() override;
+    void update() override;
+    void end() override;
+
+    bool isCompleted() override { return is_comp_; };
+
+protected:
+    Parts& parts_;
+
+    bool is_comp_;
+    int32_t s32_ElecOffsetSum;
+    uint32_t u32_test_cnt_;
+    const uint32_t U32_TEST_STABLE_COUNT  = 1000000;
+    const uint32_t U32_TEST_AVARAGE_COUNT_SHIFT = 8;
+
+};
+
 
 /**
  * @brief BLDC電流制御ステップ応答テスト
