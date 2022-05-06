@@ -9,7 +9,7 @@ bool FlashIF::erase() {
 
   EraseInitStruct.TypeErase = FLASH_TYPEERASE_PAGES;
   EraseInitStruct.Banks     = FLASH_BANK_1;
-  EraseInitStruct.Page      = 127;
+  EraseInitStruct.Page      = 255;
   EraseInitStruct.NbPages   = 1;
 
   HAL_StatusTypeDef ret = HAL_FLASHEx_Erase(&EraseInitStruct, &error_sector);
