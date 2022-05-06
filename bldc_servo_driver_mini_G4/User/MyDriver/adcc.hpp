@@ -17,6 +17,10 @@ public:
   }
 
   virtual void start() {
+    LL_ADC_StartCalibration(adcx_, LL_ADC_SINGLE_ENDED);
+    while (LL_ADC_IsCalibrationOnGoing(adcx_) != 0){};
+    LL_mDelay(1);
+
     LL_ADC_Enable(adcx_);
     LL_DMA_EnableChannel(dmax_, dma_ch_);
     LL_ADC_REG_StartConversion(adcx_);
