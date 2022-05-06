@@ -32,6 +32,8 @@ void CANC::init(uint16_t _id) {
 
   HAL_FDCAN_ConfigFilter(p_hcan_, &_filter);
 
+  HAL_FDCAN_ConfigGlobalFilter(p_hcan_, FDCAN_REJECT, FDCAN_REJECT, FDCAN_FILTER_REMOTE, FDCAN_FILTER_REMOTE);
+
   // deviceIDの保存
   u16_CanDeviceId_ = _id;
 
