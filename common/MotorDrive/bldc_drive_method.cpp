@@ -234,7 +234,7 @@ void BldcDriveMethodVector::update() {
   /* 電流PI制御量計算 */
   pid_id.set_target(InRef_.Id);
   pid_iq.set_target(InRef_.Iq);
-  float _vm = p_bldc_->get_Vm();
+  float _vm = p_bldc_->get_Vm() * 0.8660254f;
   float _Vd = mymath::satf(pid_id.update(_Id), _vm, -_vm);
   float _Vq = mymath::satf(pid_iq.update(_Iq), _vm, -_vm);
 
