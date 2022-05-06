@@ -2,7 +2,7 @@
 
 
 BldcServoManager::BldcServoManager(BldcModeBase* _p_initMode)
-    : p_nowMode_(_p_initMode), p_preMode_(_p_initMode), is_mode_lock_(false), u8_status_type()
+    : p_nowMode_(_p_initMode), p_preMode_(_p_initMode), is_mode_lock_(false), u8_status_type(1)
 {
 
 }
@@ -52,6 +52,13 @@ void BldcServoManager::set_status_memory(){
             u32_status_memory[3] = CONV_U32TYPE(BldcModeBase::P_BLDC_->fl_calc_Id_meas_);
             break;
         case 0x01:
+            {
+            BLDC::DrivePhase _cur = BldcModeBase::P_BLDC_->get_current();
+            u32_status_memory[0] = CONV_U32TYPE(_cur.U);
+            u32_status_memory[1] = CONV_U32TYPE(_cur.V);
+            u32_status_memory[2] = CONV_U32TYPE(_cur.W);
+            u32_status_memory[3] = 0;
+            }
             break;
         case 0x02:
             break;
