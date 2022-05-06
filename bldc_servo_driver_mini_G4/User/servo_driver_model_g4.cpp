@@ -73,7 +73,8 @@ public:
     /* OC1REFのトリガー出力でADC1,2を駆動する */
     LL_TIM_EnableCounter(TIM3);
     LL_TIM_CC_EnableChannel(TIM3, LL_TIM_CHANNEL_CH1);
-    TIM3->CCR1 = 1900;
+    //TIM3->CCR1 = 1900;
+    TIM3->CCR1 = 3900;
 
     LL_GPIO_SetOutputPin(GPIOB, LL_GPIO_PIN_15); // 3PWM Mode
     LL_mDelay(1);
@@ -85,7 +86,8 @@ public:
   };
 
   void update_lowrate() override {
-    fl_Vm_ = Adc1Ctrl.get_adc_data(ADC1CH::VmSens) * Vm_Gain_ADtoV;
+    //fl_Vm_ = Adc1Ctrl.get_adc_data(ADC1CH::VmSens) * Vm_Gain_ADtoV;
+    fl_Vm_ = 12.0f;
   };
 
   void update() override {
@@ -107,9 +109,9 @@ public:
     fl_now_elec_ang_deg_ = ((float)(ang - s32_elec_angle_offset_CNT_) * fl_elec_angle_gain_CNTtoDeg_ - 90.0f)*(float)s8_elec_angle_dir_;
 
     /* 電流測定 */
-    now_current_.U = Curr_Gain_ADtoA * (Adc2Ctrl.get_adc_data(ADC2CH::CurFb_U) - 2048);
-    now_current_.V = Curr_Gain_ADtoA * (Adc2Ctrl.get_adc_data(ADC2CH::CurFb_V) - 2048);
-    now_current_.W = Curr_Gain_ADtoA * (Adc2Ctrl.get_adc_data(ADC2CH::CurFb_W) - 2048);
+    now_current_.U = Curr_Gain_ADtoA * ((int16_t)Adc2Ctrl.get_adc_data(ADC2CH::CurFb_U) - 2047);
+    now_current_.V = Curr_Gain_ADtoA * ((int16_t)Adc2Ctrl.get_adc_data(ADC2CH::CurFb_V) - 2047);
+    now_current_.W = Curr_Gain_ADtoA * ((int16_t)Adc2Ctrl.get_adc_data(ADC2CH::CurFb_W) - 2047);
   };
 
   void set_drive_duty(DriveDuty &_Vol) override {
@@ -132,7 +134,7 @@ public:
 
 private:
   const float Vm_inv = 1.0f / 12.0f;
-  const float Vm_Gain_ADtoV = 3.3f/4096.0f * (325.0f + 33.0f) / 33.0f;
+  const float Vm_Gain_ADtoV = 3.3f/4096.0f * (400.0f + 33.0f) / 33.0f;
   const float Curr_Gain_ADtoA = 3.3f/4096.0f;  // 3.3V / 4096AD * 1 A/V
   const float Angle_Gain_CNTtoDeg = 360.0f / 16384.0f / 1.0f;
 
@@ -189,7 +191,7 @@ static BldcDriveMethodSine   bldc_drv_method_sine(&GmblBldc);
 static BldcDriveMethodVector bldc_drv_method_vector(&GmblBldc);
 BldcDriveMethod* get_bldcdrv_method() { return &bldc_drv_method_vector; };
 
-static PID AngleController(10000.0f, 0.1f, 0.001f, 0.0f, 1.0f);
+static PID AngleController(10000.0f, 0.03f, 0.001f, 0.0f, 1.0f);
 static IIR1 AngleCountrollerOut_filter(0.70f,0.15f,0.15f);
 static TargetInterp AngleTargetInterp;
 
@@ -231,8 +233,12 @@ BldcModeTestElecAngle::Parts bldc_mode_test_elecang_parts = {
 BldcModeTestCurrStep::Parts bldc_mode_test_currstep_parts = {
   .p_bldc_drv   = &bldc_drv_method_vector,
 };
+BldcModeTestSineDriveOpen::Parts bldc_mode_test_sindrvopen_parts = {
+  .p_bldc_drv   = &bldc_drv_method_sine,
+};
 static BldcModeTestElecAngle  mode_test_elec_ang(bldc_mode_test_elecang_parts);
 static BldcModeTestCurrStep   mode_test_curr_step(bldc_mode_test_currstep_parts);
+static BldcModeTestSineDriveOpen   mode_test_sindrvopen(bldc_mode_test_sindrvopen_parts);
 /*****************************************************************/
 
 
@@ -316,6 +322,15 @@ void loop_servo_driver_model() {
         debug_printf("End\n");
         break;
       case 'd':
+        {
+        BldcModeBase::Instr instr = {
+          .InstrPosCtrl = {
+            .s32_tgt_pos = 0,
+            .s32_move_time_ms = 1000,
+          },
+        };
+        mode_pos_control.set_Instruction(&instr);
+        }
         bldc_manager.set_mode(&mode_pos_control);
         break;
       case 'e':
@@ -401,16 +416,28 @@ void loop_servo_driver_model() {
         DebugCom.get_rxbyte(_u8_test_cmd);
         switch (_u8_test_cmd)
         {
-        case 'c':        
+        case 'c':
+          {
           while(DebugCom.get_rxBuf_datasize() < 8){;};
           float _fl_buf[2];
           DebugCom.get_rxbytes((uint8_t*)_fl_buf, 8);
           bldc_mode_test_currstep_parts.fl_tgt_Iq_A = _fl_buf[0];
           bldc_mode_test_currstep_parts.fl_tgt_Id_A = _fl_buf[1];
           bldc_manager.set_mode(&mode_test_curr_step);
+          }
           break;
         case 'e':
           bldc_manager.set_mode(&mode_test_elec_ang);
+          break;
+        case 's':
+          {   
+          while(DebugCom.get_rxBuf_datasize() < 8){;};
+          float _fl_buf[2];
+          DebugCom.get_rxbytes((uint8_t*)_fl_buf, 8);
+          bldc_mode_test_sindrvopen_parts.fl_tgt_Vq_V = _fl_buf[0];
+          bldc_mode_test_sindrvopen_parts.fl_tgt_Vd_V = _fl_buf[1];
+          bldc_manager.set_mode(&mode_test_sindrvopen);
+          }
           break;
         default:
           break;

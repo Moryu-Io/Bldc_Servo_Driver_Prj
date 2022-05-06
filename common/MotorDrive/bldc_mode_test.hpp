@@ -73,5 +73,31 @@ protected:
 };
 
 
+/**
+ * @brief BLDC正弦波駆動openテスト
+ * 
+ */
+class BldcModeTestSineDriveOpen : public BldcModeBase {
+public:
+    struct Parts{
+        BldcDriveMethod* p_bldc_drv;
+        float fl_tgt_Vq_V;
+        float fl_tgt_Vd_V;
+    };
+
+    BldcModeTestSineDriveOpen(Parts& _parts)
+        : parts_(_parts) {};
+
+    void init() override{};
+    void update() override;
+    void end() override {};
+
+    bool isCompleted() override { return false; };
+
+protected:
+    Parts& parts_;
+
+};
+
 
 #endif

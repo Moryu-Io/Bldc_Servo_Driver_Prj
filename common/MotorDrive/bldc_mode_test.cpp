@@ -85,3 +85,17 @@ void BldcModeTestCurrStep::update()
     parts_.p_bldc_drv->update();
 
 }
+
+
+void BldcModeTestSineDriveOpen::update()
+{    
+    BldcDriveMethod::Ref input = {
+        .Vq =     parts_.fl_tgt_Vq_V,
+        .Vd =     parts_.fl_tgt_Vd_V,
+    };
+
+    P_BLDC_->update();
+    parts_.p_bldc_drv->set(input);
+    parts_.p_bldc_drv->update();
+
+}
