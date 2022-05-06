@@ -323,6 +323,7 @@ void loop_servo_driver_model() {
         break;
       case 'd':
         {
+        AngleTargetInterp.set_nowtarget((int32_t)(GmblBldc.get_out_angle()*(float)0x10000));
         BldcModeBase::Instr instr = {
           .InstrPosCtrl = {
             .s32_tgt_pos = 0,
@@ -330,8 +331,8 @@ void loop_servo_driver_model() {
           },
         };
         mode_pos_control.set_Instruction(&instr);
-        }
         bldc_manager.set_mode(&mode_pos_control);
+        }
         break;
       case 'e':
         bldc_manager.set_mode(&mode_off);
@@ -344,6 +345,7 @@ void loop_servo_driver_model() {
             .s32_move_time_ms = 200,
           },
         };
+
         mode_pos_control.set_Instruction(&instr);
         }
         break;

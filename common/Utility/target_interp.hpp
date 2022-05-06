@@ -8,6 +8,13 @@ class TargetInterp {
 public:
     TargetInterp(){};
 
+    /**
+     * @brief Set the nowtarget object
+     * @note 初期化用
+     * @param val 
+     */
+    void set_nowtarget(int32_t val) { s32_now_target_ = s32_pre_target_ = val; };
+
     void set_target(int32_t val, int32_t mtime){
         mtime = (mtime == 0) ? 1 : mtime;
         uint8_t _u8_writePage = u8_nowReadPage_ ^ 1;
