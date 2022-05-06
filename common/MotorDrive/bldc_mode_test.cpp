@@ -20,8 +20,8 @@ void BldcModeTestElecAngle::update()
     };
 
     P_BLDC_->update();
-    //P_BLDC_->overwrite_elec_angle_forTEST(0.0f);
-    P_BLDC_->overwrite_elec_angle_forTEST((float)(u32_test_cnt_*360/1000));
+    P_BLDC_->overwrite_elec_angle_forTEST(0.0f);
+    //P_BLDC_->overwrite_elec_angle_forTEST((float)(u32_test_cnt_*360/1000));
     parts_.p_bldc_drv->set(input);
     parts_.p_bldc_drv->update();
 

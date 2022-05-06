@@ -4,7 +4,7 @@
 #include "main.h"
 
 #define FLASH_DATA_LENGTH_BYTES (0x00400)
-#define FLASH_MAX_LENGTH_BYTES (0x20000)
+#define FLASH_MAX_LENGTH_BYTES (0x1000)
 
 union FlashSaveParams {
   uint8_t  u8_d[FLASH_DATA_LENGTH_BYTES];

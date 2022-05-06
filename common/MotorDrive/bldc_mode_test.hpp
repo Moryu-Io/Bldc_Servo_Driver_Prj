@@ -34,7 +34,7 @@ protected:
     bool is_comp_;
     int32_t s32_ElecOffsetSum;
     uint32_t u32_test_cnt_;
-    const uint32_t U32_TEST_STABLE_COUNT  = 1000000;
+    const uint32_t U32_TEST_STABLE_COUNT  = 10000;
     const uint32_t U32_TEST_AVARAGE_COUNT_SHIFT = 8;
 
 };
