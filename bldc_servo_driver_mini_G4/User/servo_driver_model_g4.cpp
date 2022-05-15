@@ -233,11 +233,15 @@ BldcModeTestElecAngle::Parts bldc_mode_test_elecang_parts = {
 BldcModeTestCurrStep::Parts bldc_mode_test_currstep_parts = {
   .p_bldc_drv   = &bldc_drv_method_vector,
 };
+BldcModeTestPosStep::Parts bldc_mode_test_posstep_parts = {
+  .p_mode_posctrl   = &mode_pos_control,
+};
 BldcModeTestSineDriveOpen::Parts bldc_mode_test_sindrvopen_parts = {
   .p_bldc_drv   = &bldc_drv_method_sine,
 };
 static BldcModeTestElecAngle  mode_test_elec_ang(bldc_mode_test_elecang_parts);
 static BldcModeTestCurrStep   mode_test_curr_step(bldc_mode_test_currstep_parts);
+static BldcModeTestPosStep    mode_test_pos_step(bldc_mode_test_posstep_parts);
 static BldcModeTestSineDriveOpen   mode_test_sindrvopen(bldc_mode_test_sindrvopen_parts);
 /*****************************************************************/
 
@@ -439,6 +443,17 @@ void loop_servo_driver_model() {
           bldc_mode_test_sindrvopen_parts.fl_tgt_Vq_V = _fl_buf[0];
           bldc_mode_test_sindrvopen_parts.fl_tgt_Vd_V = _fl_buf[1];
           bldc_manager.set_mode(&mode_test_sindrvopen);
+          }
+          break;
+        case 'p': /* 位置制御ランプ応答テスト */
+          { 
+          while(DebugCom.get_rxBuf_datasize() < 5){;};
+          uint16_t _u16_buf[3] = {};
+          DebugCom.get_rxbytes((uint8_t*)_u16_buf, 5);
+          bldc_mode_test_posstep_parts.s16_tgt_pos_deg  = (int16_t)_u16_buf[0];
+          bldc_mode_test_posstep_parts.u16_move_time_ms = _u16_buf[1];
+          bldc_mode_test_posstep_parts.u8_mabiki = (uint8_t)_u16_buf[2];
+          bldc_manager.set_mode(&mode_test_pos_step);
           }
           break;
         default:

@@ -12,6 +12,7 @@ public:
     virtual void reset() = 0;
 
     void set_target(float _tgtval) { now_tgt_ = _tgtval; };
+    float get_target() { return now_tgt_; };
 
 protected:
     float freq_ = 1.0f;

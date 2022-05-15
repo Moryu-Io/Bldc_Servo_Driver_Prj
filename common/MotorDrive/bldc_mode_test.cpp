@@ -86,6 +86,56 @@ void BldcModeTestCurrStep::update()
 
 }
 
+void BldcModeTestPosStep::init()
+{
+
+    /* 内部変数初期化 */
+    is_comp_ = false;
+    u16_test_cnt_ = 0;
+
+    /* Logging設定 */
+    LOG::disable_logging();
+    LOG::clear_LogData();
+    LOG::clear_LogAddressArray();
+    LOG::set_Mabiki_Num(parts_.u8_mabiki);
+    LOG::put_LogAddress((uint32_t*)&fl_tgt_forlog);
+    LOG::put_LogAddress((uint32_t*)&fl_pos_forlog);
+    LOG::put_LogAddress((uint32_t*)&P_BLDC_->fl_calc_Iq_tgt_);
+    LOG::put_LogAddress((uint32_t*)&P_BLDC_->fl_calc_Iq_meas_);
+    LOG::enable_logging();
+
+    /* 位置制御モードの初期化 */
+    parts_.p_mode_posctrl->init();
+}
+
+
+void BldcModeTestPosStep::update()
+{
+    if(u16_test_cnt_ < U16_TEST_CURR_STABLE_COUNT){
+        u16_test_cnt_++;
+    } else if(u16_test_cnt_ == U16_TEST_CURR_STABLE_COUNT){
+        BldcModeBase::Instr instr = {
+            .InstrPosCtrl = {
+                .s32_tgt_pos      = parts_.s16_tgt_pos_deg << 16,
+                .s32_move_time_ms = parts_.u16_move_time_ms,
+            },
+        };
+        parts_.p_mode_posctrl->set_Instruction(&instr);
+        u16_test_cnt_++;
+    } else if(u16_test_cnt_ < U16_TEST_CURR_END_COUNT) {
+        u16_test_cnt_++;
+    } else {
+        LOG::disable_logging();
+        is_comp_ = true;
+    }
+    fl_tgt_forlog = parts_.p_mode_posctrl->get_now_tgt();
+    fl_pos_forlog = P_BLDC_->get_out_angle();
+
+    /* 位置制御モードのルーチン */
+    parts_.p_mode_posctrl->update();
+
+}
+
 
 void BldcModeTestSineDriveOpen::update()
 {    
