@@ -213,6 +213,7 @@ void BldcDriveMethodSine::conv_sv(float _Va, float _Vb, BLDC::DrivePhase& _duty_
     _duty_uvw.W = _V2 + _V3;
   }
 
+  fl_outpwm_ang_deg_ = _sct_ang_deg;
 }
 
 void BldcDriveMethodVector::update() {
@@ -224,8 +225,21 @@ void BldcDriveMethodVector::update() {
   BLDC::DrivePhase nowCurr = p_bldc_->get_current();
 
   /* Clark変換 */
-  float _Ia = nowCurr.U;
-  float _Ib = (nowCurr.U + 2.0f*nowCurr.V) * 0.57735027f; // (U + 2V) / sqrt(3)
+  float _Ia = 0.0f;
+  float _Ib = 0.0f;
+  if(fl_outpwm_ang_deg_ < -60.0f){
+    /* Sector 3,4 はW線を使わない */
+    _Ia = nowCurr.U;
+    _Ib = (nowCurr.U + 2.0f*nowCurr.V) * 0.57735027f; // (U + 2V) / sqrt(3)
+  }else if(fl_outpwm_ang_deg_ < 60.0f){
+    /* Sector 5,0 はU線を使わない */
+    _Ia = -(nowCurr.V + nowCurr.W);
+    _Ib = (nowCurr.V - nowCurr.W) * 0.57735027f; // (V - W) / sqrt(3)
+  } else {
+    /* Sector 1,2 はV線を使わない */
+    _Ia = nowCurr.U;
+    _Ib = -(nowCurr.U + 2.0f*nowCurr.W) * 0.57735027f; // -(U + 2W) / sqrt(3)
+  }
 
   /* Park変換 */
   float _Id =  _Ia * _cos + _Ib * _sin;

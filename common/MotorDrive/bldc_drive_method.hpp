@@ -52,6 +52,8 @@ public:
 
 protected:
   void conv_sv(float _Va, float _Vb, BLDC::DrivePhase& _duty_uvw);
+
+  float fl_outpwm_ang_deg_;
 };
 
 class BldcDriveMethodVector : public BldcDriveMethodSine {
