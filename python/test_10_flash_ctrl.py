@@ -38,13 +38,56 @@ def write_float(ser:serial.Serial, addr, val):
         for cmd in cmdlist:
             ser.write(struct.pack('B', cmd))
 
+def change_to_pm2505(ser:serial.Serial):
+    # 小モータ用パラメータ書き換え
+    write_float(ser, 0x24, float(360*7/16384))
+    write_byte(ser, 0x28, 1)
 
 def main():
     with serial.Serial(COMnum, 115200, timeout=1) as ser:
-        write_float(ser, 0x24, float(360*7/16384))
-        write_byte(ser, 0x28, 1)
+        print(' 0:flash 表示')
+        print(' 1:flash 保存')
+        print(' 2:flash リセット')
+        print('10:位置制御PIDパラメータ書き換え')
+        mode = int(input('>> '))
 
-        print_flash(ser)
+        if mode == 0:
+            print_flash(ser)
+        elif mode == 1:
+            ser.write(b'f')
+            ser.write(b's')
+        elif mode == 2:
+            ser.write(b'f')
+            ser.write(b'r')
+        elif mode == 10:
+            pgain = input('Pゲインは? >> ')
+            igain = input('Iゲインは? >> ')
+            dgain = input('Dゲインは? >> ')
+            ilim = input('Iリミットは? >> ')
+
+            if pgain == '':
+                pass
+            else:
+                write_float(ser, 0x90,float(pgain))
+
+            if igain == '':
+                pass
+            else:
+                write_float(ser, 0x94,float(igain))
+
+            if dgain == '':
+                pass
+            else:
+                write_float(ser, 0x98,float(dgain))
+
+            if ilim == '':
+                pass
+            else:
+                write_float(ser, 0x9C,float(ilim))
+            
+            ser.write(b'f')
+            ser.write(b'd')
+
 
 if __name__ == '__main__':
     main()

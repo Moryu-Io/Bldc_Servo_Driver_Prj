@@ -258,6 +258,8 @@ COM_BASE *get_debug_com() { return &DebugCom; };
 /***********************************************************************/
 
 
+void set_flash_parameter_to_models();
+
 void initialize_servo_driver_model() {
   //LL_TIM_EnableCounter(TIM2);
 
@@ -301,7 +303,7 @@ void loop_servo_driver_model() {
   LL_mDelay(100);
 
   GmblBldc.update_lowrate();
-  //debug_printf("%0.1f,%0.1f,%d,%d,%d\n", GmblBldc.get_out_angle(), GmblBldc.fl_calc_Vq_, TIM1->CCR1, TIM1->CCR2, TIM1->CCR3);
+  //debug_printf("%0.1f,%0.1f,%0.1f,%d,%d,%d\n", GmblBldc.get_elec_angle(), GmblBldc.fl_calc_Vq_,GmblBldc.fl_calc_Vd_, TIM1->CCR1, TIM1->CCR2, TIM1->CCR3);
   //debug_printf("%0.1f,%0.1f\n", GmblBldc.get_out_angle(), GmblBldc.get_elec_angle());
 
 
@@ -399,6 +401,9 @@ void loop_servo_driver_model() {
             FlashIf.mirrorRam.u8_d[u16_addr] = _u8_write_data[2];
           }
           break;
+        case 'd': /* flashに書かれているパラメータを各所に展開 */
+          set_flash_parameter_to_models();
+          break;
         default:
           break;
         };
@@ -465,4 +470,14 @@ void loop_servo_driver_model() {
     };
   }
   
+}
+
+
+void set_flash_parameter_to_models(){
+
+  /* 位置制御器パラメータ展開 */
+  AngleController.set_PIDgain(FlashIf.mirrorRam.var.fl_PosCtrl_Pgain,
+                              FlashIf.mirrorRam.var.fl_PosCtrl_Igain,
+                              FlashIf.mirrorRam.var.fl_PosCtrl_Dgain);
+  AngleController.set_I_limit(FlashIf.mirrorRam.var.fl_PosCtrl_I_Limit);                           
 }
