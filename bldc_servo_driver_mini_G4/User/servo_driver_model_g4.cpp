@@ -192,12 +192,13 @@ static BldcDriveMethodVector bldc_drv_method_vector(&GmblBldc);
 BldcDriveMethod* get_bldcdrv_method() { return &bldc_drv_method_vector; };
 
 static PID AngleController(10000.0f, 0.03f, 0.001f, 0.0f, 1.0f);
+static PI_D AngleController_PI_D(10000.0f, 0.04f, 0.01f, 0.0003f, 1.0f, 800.0f);
 static IIR1 AngleCountrollerOut_filter(0.70f,0.15f,0.15f);
 static TargetInterp AngleTargetInterp;
 
 BldcModePosControl::Parts bldc_mode_posctrl_parts = {
   .p_bldc_drv   = &bldc_drv_method_vector,
-  .p_pos_ctrl   = &AngleController,
+  .p_pos_ctrl   = &AngleController_PI_D,
   .p_posout_lpf = &AngleCountrollerOut_filter,
   .p_tgt_interp = &AngleTargetInterp,
 };
@@ -476,8 +477,10 @@ void loop_servo_driver_model() {
 void set_flash_parameter_to_models(){
 
   /* 位置制御器パラメータ展開 */
-  AngleController.set_PIDgain(FlashIf.mirrorRam.var.fl_PosCtrl_Pgain,
+  AngleController_PI_D.set_PIDgain(FlashIf.mirrorRam.var.fl_PosCtrl_Pgain,
                               FlashIf.mirrorRam.var.fl_PosCtrl_Igain,
                               FlashIf.mirrorRam.var.fl_PosCtrl_Dgain);
-  AngleController.set_I_limit(FlashIf.mirrorRam.var.fl_PosCtrl_I_Limit);                           
+  AngleController_PI_D.set_I_limit(FlashIf.mirrorRam.var.fl_PosCtrl_I_Limit);       
+  AngleController_PI_D.set_VelLpf_CutOff(FlashIf.mirrorRam.var.fl_PosCtrl_VelLpf_CutOffFrq);    
+                
 }

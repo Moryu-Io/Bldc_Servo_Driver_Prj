@@ -39,6 +39,7 @@ union FlashSaveParams {
     float   fl_PosCtrl_Igain;
     float   fl_PosCtrl_Dgain;
     float   fl_PosCtrl_I_Limit;
+    float   fl_PosCtrl_VelLpf_CutOffFrq;
     uint8_t u8_dummy_00A0_00BF[32];
   } var;
 };
