@@ -115,7 +115,8 @@ void BldcModeTestPosStep::update()
         u16_test_cnt_++;
     } else if(u16_test_cnt_ == U16_TEST_CURR_STABLE_COUNT){
         BldcModeBase::Instr instr = {
-            .InstrPosCtrl = {
+            .InstrPosCtrl_MvAng = {
+                .u16_instr_id     = BldcModeBase::INSTR_ID_POSCTR_MOVE_ANGLE,
                 .s32_tgt_pos      = parts_.s16_tgt_pos_deg << 16,
                 .s32_move_time_ms = parts_.u16_move_time_ms,
             },

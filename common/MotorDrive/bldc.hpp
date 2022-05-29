@@ -47,6 +47,7 @@ public:
   float      get_elec_angle() { return fl_now_elec_ang_deg_; }
   float      get_out_angle() { return fl_now_out_ang_deg_ - fl_ref_out_ang_deg_; }
   float      get_raw_out_angle() { return fl_now_out_ang_deg_; }
+  float      get_ref_out_angle() { return fl_ref_out_ang_deg_; }
   float      get_Vm() { return fl_Vm_; }
   float      get_tempr_deg() { return fl_temperature_deg; }
   DrivePhase get_current() { return now_current_; };

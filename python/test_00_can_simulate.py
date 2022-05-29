@@ -4,6 +4,8 @@ import time
 
 COMnum = "COM7"
 
+DEBUG_PRINT_ON = True
+
 class CanSim_TxCmdBase:
     def __init__(self, struct_format):
         self.CmdStruct = struct.Struct(struct_format)
@@ -15,7 +17,10 @@ class CanSim_TxCmdBase:
         ser.write(b'c')  # CAN模擬コマンドフラグ送信
         cmdlist = self.CmdStruct.pack(self.CmdId, self.Dlc, *self.DataList)
         for cmd in cmdlist:
-            ser.write(struct.pack("B", cmd))
+            put_data = struct.pack("B", cmd)
+            if DEBUG_PRINT_ON:
+                print(put_data)
+            ser.write(put_data)
 
 class CanSim_TorqueOn(CanSim_TxCmdBase):
     def __init__(self):
@@ -46,6 +51,20 @@ class CanSim_MoveAngle(CanSim_TxCmdBase):
         self.DataList[1] = self.move_time_ms
         self.DataList[2] = self.current_lim_A_Q8
 
+class CanSim_AngleInit(CanSim_TxCmdBase):
+    def __init__(self):
+        self.CmdStruct = struct.Struct('<L5Bl')
+        self.CmdId = 0x8011
+        self.Dlc = 8
+        self.DataList = [0] * 5
+
+        self.set_angle_flag = 0
+        self.init_angle_deg_Q16 = 0
+
+    def generate_datalist(self):
+        self.DataList[0] = self.set_angle_flag
+
+        self.DataList[4] = self.init_angle_deg_Q16
 
 class CanSim_RtnSummary:
     def __init__(self, RtnBin):
@@ -72,20 +91,46 @@ class CanSim_RtnSummary:
 CMD_TORQUE_ON = CanSim_TorqueOn()
 CMD_TORQUE_OFF = CanSim_TorqueOff()
 CMD_MOVE_ANGLE = CanSim_MoveAngle()
+CMD_ANGLE_INIT = CanSim_AngleInit()
 
 def main():
     with serial.Serial(COMnum, 115200, timeout=1) as ser:
-        CMD_TORQUE_ON.transmit(ser)
+        print(' 0:torque on')
+        print(' 1:torque off')
+        print('10:角度移動')
+        print('11:角度初期化(現在位置)')
+        print('12:角度初期化(指定位置)')
+        mode = int(input('>> '))
+
+        if mode == 0:
+            CMD_TORQUE_ON.transmit(ser)
+        elif mode == 1:
+            CMD_TORQUE_OFF.transmit(ser)
+        elif mode == 10:
+            tgt_angle = input('指示角度[deg]は？ >> ')
+            move_ms = input('移動時間[ms]は？ >> ')
+            CMD_MOVE_ANGLE.target_angle_deg_Q16 = int(tgt_angle) << 16
+            CMD_MOVE_ANGLE.move_time_ms = int(move_ms)
+            CMD_MOVE_ANGLE.generate_datalist()
+            CMD_MOVE_ANGLE.transmit(ser)
+            time.sleep(int(move_ms)/1000 + 1)
+        elif mode == 11:
+            CMD_ANGLE_INIT.set_angle_flag = 0
+            CMD_ANGLE_INIT.generate_datalist()
+            CMD_ANGLE_INIT.transmit(ser)
+        elif mode == 12:
+            tgt_angle = input('指定角度[deg]は？ >> ')
+            CMD_ANGLE_INIT.set_angle_flag = int(1)
+            CMD_ANGLE_INIT.init_angle_deg_Q16 = int(tgt_angle) << 16
+            CMD_ANGLE_INIT.generate_datalist()
+            CMD_ANGLE_INIT.transmit(ser)
+        else:
+            CMD_TORQUE_OFF.transmit(ser)
 
         RtnSmry = CanSim_RtnSummary(ser.read(12))
         RtnSmry.print_summary()
 
         time.sleep(3)
-
-        CMD_MOVE_ANGLE.target_angle_deg_Q16 = -50 << 16
-        CMD_MOVE_ANGLE.move_time_ms = 500
-        CMD_MOVE_ANGLE.generate_datalist()
-        CMD_MOVE_ANGLE.transmit(ser)
 
 
 if __name__ == '__main__':

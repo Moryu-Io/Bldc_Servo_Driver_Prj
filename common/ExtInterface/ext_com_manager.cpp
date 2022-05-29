@@ -33,9 +33,19 @@ void ext_com_manage_main() {
       p_bldcmng->set_mode(get_bldcmode_off());
     } break;
     case CMD_ID_REQ_MOVE_ANGLE: {
-      BldcModeBase::Instr _instr           = {};
-      _instr.InstrPosCtrl.s32_tgt_pos      = unReqMsg.reqMvAng.s32_tgt_ang_deg_Q16;
-      _instr.InstrPosCtrl.s32_move_time_ms = (int32_t)unReqMsg.reqMvAng.u16_movetime_ms;
+      BldcModeBase::Instr _instr                 = {};
+      _instr.u16_instr_id                        = BldcModeBase::INSTR_ID_POSCTR_MOVE_ANGLE;
+      _instr.InstrPosCtrl_MvAng.s32_tgt_pos      = unReqMsg.reqMvAng.s32_tgt_ang_deg_Q16;
+      _instr.InstrPosCtrl_MvAng.s32_move_time_ms = (int32_t)unReqMsg.reqMvAng.u16_movetime_ms;
+      p_bldcmng->set_instr_buf(&_instr);
+
+    } break;
+    case CMD_ID_REQ_ANGLE_INIT: {
+      /* 位置制御の基準角度を初期化する */
+      BldcModeBase::Instr _instr                   = {};
+      _instr.u16_instr_id                          = BldcModeBase::INSTR_ID_POSCTR_ANGLE_INIT;
+      _instr.InstrPosCtrl_AngIni.u8_set_angle_flag = unReqMsg.reqAngIni.u8_set_angle_flag;
+      _instr.InstrPosCtrl_AngIni.s32_init_pos      = unReqMsg.reqAngIni.s32_init_ang_deg_Q16;
       p_bldcmng->set_instr_buf(&_instr);
 
     } break;

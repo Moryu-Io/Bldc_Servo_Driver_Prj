@@ -332,7 +332,8 @@ void loop_servo_driver_model() {
         {
         AngleTargetInterp.set_nowtarget((int32_t)(GmblBldc.get_out_angle()*(float)0x10000));
         BldcModeBase::Instr instr = {
-          .InstrPosCtrl = {
+          .InstrPosCtrl_MvAng = {
+            .u16_instr_id = BldcModeBase::INSTR_ID_POSCTR_MOVE_ANGLE,
             .s32_tgt_pos = 0,
             .s32_move_time_ms = 1000,
           },
@@ -347,7 +348,8 @@ void loop_servo_driver_model() {
       case 'z':
         {
         BldcModeBase::Instr instr = {
-          .InstrPosCtrl = {
+          .InstrPosCtrl_MvAng = {
+            .u16_instr_id = BldcModeBase::INSTR_ID_POSCTR_MOVE_ANGLE,
             .s32_tgt_pos = -30 << 16,
             .s32_move_time_ms = 200,
           },
@@ -359,7 +361,8 @@ void loop_servo_driver_model() {
       case 'x':
         {
         BldcModeBase::Instr instr = {
-          .InstrPosCtrl = {
+          .InstrPosCtrl_MvAng = {
+            .u16_instr_id = BldcModeBase::INSTR_ID_POSCTR_MOVE_ANGLE,
             .s32_tgt_pos = -120 << 16,
             .s32_move_time_ms = 200,
           },
