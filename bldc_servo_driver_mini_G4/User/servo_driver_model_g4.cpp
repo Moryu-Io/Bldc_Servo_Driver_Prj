@@ -271,14 +271,17 @@ void initialize_servo_driver_model() {
     FlashIf.mirrorRam.var = C_FlashInitParams.var;
     FlashIf.save();
   }
+
+  /* パラメータ展開*/
+  set_flash_parameter_to_models();
   
   DebugCom.init_constparam(u8_DEBUG_COM_RXBUF, DEBUG_COM_RXBUF_LENGTH,
                            u8_DEBUG_COM_TXBUF, DEBUG_COM_TXBUF_LENGTH);
   DebugCom.init_rxtx();
-  
+
   LL_GPIO_ResetOutputPin(GPIOC, LL_GPIO_PIN_13);
   CanIf.init();
-
+  
   MotorAngSenserCtrl.init();
 
   Adc1Ctrl.init();
@@ -286,11 +289,6 @@ void initialize_servo_driver_model() {
   Adc1Ctrl.start();
   Adc2Ctrl.start();
   GmblBldc.init();
-
-  /* パラメータ書き込み(暫定) */
-  GmblBldc.set_elec_angle_gain(FlashIf.mirrorRam.var.fl_elec_angle_gain_CNTtoDeg);
-  GmblBldc.set_elec_angle_offset(FlashIf.mirrorRam.var.s32_elec_angle_offset_CNT);
-  GmblBldc.set_elec_angle_dir(FlashIf.mirrorRam.var.s8_elec_angle_dir);
 
   /* 100Hz */
   LL_TIM_EnableIT_UPDATE(TIM6);
@@ -408,6 +406,7 @@ void loop_servo_driver_model() {
           break;
         case 'd': /* flashに書かれているパラメータを各所に展開 */
           set_flash_parameter_to_models();
+          CanIf.init(); // CAN通信初期化
           break;
         default:
           break;
@@ -485,6 +484,14 @@ void loop_servo_driver_model() {
 
 
 void set_flash_parameter_to_models(){
+  /* 通信パラメータ展開 */
+  CanIf.set_can_id(FlashIf.mirrorRam.var.u16_can_device_id);
+
+  /* HWパラメータ展開 */
+  GmblBldc.set_elec_angle_gain(FlashIf.mirrorRam.var.fl_elec_angle_gain_CNTtoDeg);
+  GmblBldc.set_elec_angle_offset(FlashIf.mirrorRam.var.s32_elec_angle_offset_CNT);
+  GmblBldc.set_elec_angle_dir(FlashIf.mirrorRam.var.s8_elec_angle_dir);
+
 
   /* 位置制御器パラメータ展開 */
   AngleController_PI_D.set_PIDgain(FlashIf.mirrorRam.var.fl_PosCtrl_Pgain,

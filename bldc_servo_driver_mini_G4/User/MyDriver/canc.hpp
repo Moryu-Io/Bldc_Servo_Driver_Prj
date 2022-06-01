@@ -20,6 +20,8 @@ public:
   bool transmit(uint32_t _cmd_id, uint8_t *_txd) override;
   bool receive(uint32_t &_cmd_id, uint8_t &_dlc, uint8_t *_rxd) override;
 
+  void set_can_id(uint16_t _id) { u16_CanDeviceId_ = _id; };
+
 protected:
   FDCAN_HandleTypeDef *p_hcan_;
 
