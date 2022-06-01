@@ -10,6 +10,7 @@
 #include "iir.hpp"
 #include "mymath.hpp"
 #include "controller.hpp"
+#include "version.hpp"
 
 #include "servo_driver_model.hpp"
 
@@ -469,6 +470,12 @@ void loop_servo_driver_model() {
           break;
         }
 
+        }
+        break;
+      case 'b':
+        {
+          print_version();
+          print_buildtime();
         }
         break;
     };

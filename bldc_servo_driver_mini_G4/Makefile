@@ -78,12 +78,16 @@ Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_ll_rcc.c \
 Core/Src/system_stm32g4xx.c  
 
 CPP_SOURCES = \
-$(wildcard User/*.cpp) \
+User/flash_initial_params.cpp \
+User/wrapper_main.cpp \
+User/servo_driver_model_g4.cpp \
 $(wildcard User/MyDriver/*.cpp) \
 $(wildcard ./../common/ExtInterface/*.cpp) \
 $(wildcard ./../common/MotorDrive/*.cpp) \
 $(wildcard ./../common/Utility/*.cpp) \
 #$(wildcard ./../common/FlashInterface/*.cpp)
+
+VER_SOURCES = User/version.cpp
 
 # ASM sources
 ASM_SOURCES =  \
@@ -135,7 +139,8 @@ AS_DEFS =
 C_DEFS =  \
 -DUSE_FULL_LL_DRIVER \
 -DUSE_HAL_DRIVER \
--DSTM32G491xx
+-DSTM32G491xx \
+-DBUILDTIME="\"`date +'%Y-%m-%d %H:%M:%S'`\""
 
 CPP_DEFS = $(C_DEFS)
 
@@ -205,6 +210,7 @@ vpath %.cpp $(sort $(dir $(CPP_SOURCES)))
 # list of ASM program objects
 OBJECTS += $(addprefix $(BUILD_DIR)/,$(notdir $(ASM_SOURCES:.s=.o)))
 vpath %.s $(sort $(dir $(ASM_SOURCES)))
+OBJECTS_V = $(OBJECTS) $(BUILD_DIR)/version.o	# version.oを含めたオブジェクト
 
 $(BUILD_DIR)/%.o: %.c Makefile | $(BUILD_DIR) 
 	$(CC) -c $(CFLAGS) -Wa,-a,-ad,-alms=$(BUILD_DIR)/$(notdir $(<:.c=.lst)) $< -o $@
@@ -215,8 +221,12 @@ $(BUILD_DIR)/%.o: %.cpp Makefile | $(BUILD_DIR)
 $(BUILD_DIR)/%.o: %.s Makefile | $(BUILD_DIR)
 	$(AS) -c $(CFLAGS) $< -o $@
 
-$(BUILD_DIR)/$(TARGET).elf: $(OBJECTS) Makefile
-	$(CC) $(OBJECTS) $(LDFLAGS) -o $@
+# version.oを作成する
+$(BUILD_DIR)/version.o: $(VER_SOURCES) Makefile $(OBJECTS) | $(BUILD_DIR)
+	$(CXX) -c $(CPPFLAGS) -Wa,-a,-ad,-alms=$(BUILD_DIR)/$(notdir $(<:.cpp=.lst)) $< -o $@
+
+$(BUILD_DIR)/$(TARGET).elf: $(OBJECTS_V) Makefile
+	$(CC) $(OBJECTS_V) $(LDFLAGS) -o $@
 	$(SZ) $@
 
 $(BUILD_DIR)/%.hex: $(BUILD_DIR)/%.elf | $(BUILD_DIR)
