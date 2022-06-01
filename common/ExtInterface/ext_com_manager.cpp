@@ -5,6 +5,8 @@
 #include "com_base.hpp"
 #include "servo_driver_model.hpp"
 
+static bool IS_ALWAYS_RES_SUMMARY = true; // 常にSummayを返すモード
+
 void getStatusSummary(RES_MESSAGE &msg);
 void getStatusMoveAngle(RES_MESSAGE &msg);
 
@@ -12,18 +14,18 @@ void ext_com_manage_main() {
   EXT_COM_BASE     *p_extcom  = get_ext_com();
   BldcServoManager *p_bldcmng = get_bldcservo_manager();
 
-  uint32_t u32_r_cmd_id = 0;
-  uint8_t  dlc;
+  REQ_MESSAGE unReqMsg     = {};
+  RES_MESSAGE unResMsg     = {};
+  bool        bRes         = false;
+  uint32_t    u32_r_cmd_id = 0;
+  uint32_t    cmdid        = 0;
+  uint8_t     dlc;
 
   if(p_extcom->getFillLevelRxMailboxes() > 0) {
     /* 受信データ有り */
-    REQ_MESSAGE unReqMsg = {};
-    RES_MESSAGE unResMsg = {};
-    bool        bRes     = false;
-
     p_extcom->receive(u32_r_cmd_id, dlc, unReqMsg.u8_data);
 
-    uint32_t cmdid = EXTRACT_CMD_ID(u32_r_cmd_id);
+    cmdid = EXTRACT_CMD_ID(u32_r_cmd_id);
 
     switch(cmdid) {
     case CMD_ID_REQ_TORQUE_ON: {
@@ -57,18 +59,19 @@ void ext_com_manage_main() {
     default:
       break;
     }
+  }
 
-    /* Summary要求ビットが立っている場合 */
-    if(IS_REQ_STATUS_SUMMARY(u32_r_cmd_id)) {
-      cmdid = CMD_ID_RES_STATUS_SUMMARY;
-      getStatusSummary(unResMsg);
-      bRes = true;
-    }
+  /* この周期でまだResを作成していない(bRes == False)
+   * and (Summary要求ビットが立っている or 常にSummayを返す) 場合 */
+  if(!bRes && (IS_REQ_STATUS_SUMMARY(u32_r_cmd_id) || IS_ALWAYS_RES_SUMMARY)) {
+    cmdid = CMD_ID_RES_STATUS_SUMMARY;
+    getStatusSummary(unResMsg);
+    bRes = true;
+  }
 
-    /* Resが必要なら返す */
-    if(bRes && (p_extcom->getFreeLevelTxMailboxes() > 0)) {
-      p_extcom->transmit(cmdid, unResMsg.u8_data);
-    }
+  /* Resが必要なら返す */
+  if(bRes && (p_extcom->getFreeLevelTxMailboxes() > 0)) {
+    p_extcom->transmit(cmdid, unResMsg.u8_data);
   }
 }
 
