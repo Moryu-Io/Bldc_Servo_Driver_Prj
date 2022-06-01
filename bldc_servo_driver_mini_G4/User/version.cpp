@@ -1,7 +1,7 @@
 #include "version.hpp"
 #include "debug_printf.hpp"
 
-static const uint16_t U16_FW_VERSION = 0x0000;
+static const uint16_t U16_FW_VERSION = 0x0100;
 
 
 void print_version(){
