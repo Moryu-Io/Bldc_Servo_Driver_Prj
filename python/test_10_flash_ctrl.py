@@ -49,6 +49,7 @@ def main():
         print(' 1:flash 保存')
         print(' 2:flash リセット')
         print('10:位置制御PIDパラメータ書き換え')
+        print('20:CAN ID書き換え')
         mode = int(input('>> '))
 
         if mode == 0:
@@ -87,6 +88,9 @@ def main():
             
             ser.write(b'f')
             ser.write(b'd')
+        elif mode == 20:
+            id = input('CAN IDは? >> ')
+            write_byte(ser, 0x10, int(id))
 
 
 if __name__ == '__main__':
