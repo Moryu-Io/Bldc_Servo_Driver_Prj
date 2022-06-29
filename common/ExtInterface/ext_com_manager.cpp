@@ -5,7 +5,9 @@
 #include "com_base.hpp"
 #include "servo_driver_model.hpp"
 
-static bool IS_ALWAYS_RES_SUMMARY = true; // 常にSummayを返すモード
+static bool IS_ALWAYS_RES_SUMMARY = false; // 常にSummayを返すモード
+static uint32_t U32_ALWAYS_RES_INTERVAL = 3; // n回に1回送信する
+static uint32_t U32_ALWAYS_RES_INTERVAL_CNT = 0; // n回に1回送信する
 
 void getStatusSummary(RES_MESSAGE &msg);
 void getStatusMoveAngle(RES_MESSAGE &msg);
@@ -69,6 +71,14 @@ void ext_com_manage_main() {
     cmdid = CMD_ID_RES_STATUS_SUMMARY;
     getStatusSummary(unResMsg);
     bRes = true;
+  }
+
+  U32_ALWAYS_RES_INTERVAL_CNT++;
+  if(!bRes && IS_ALWAYS_RES_SUMMARY && (U32_ALWAYS_RES_INTERVAL_CNT >= U32_ALWAYS_RES_INTERVAL)){
+    cmdid = CMD_ID_RES_STATUS_SUMMARY;
+    getStatusSummary(unResMsg);
+    bRes = true;
+    U32_ALWAYS_RES_INTERVAL_CNT = 0;
   }
 
   /* Resが必要なら返す */
