@@ -30,6 +30,7 @@ public:
   virtual void hall_itr_callback(){};
 
   virtual void set_drive_duty(DriveDuty &_Vol) = 0;
+  void set_current_lim(float _lim){ fl_current_lim_A_ = _lim; };
 
   /* 設定値書き込み */
   void set_ref_ont_angle(float _ref_ang) { fl_ref_out_ang_deg_ = _ref_ang; }
@@ -50,6 +51,7 @@ public:
   float      get_ref_out_angle() { return fl_ref_out_ang_deg_; }
   float      get_Vm() { return fl_Vm_; }
   float      get_tempr_deg() { return fl_temperature_deg; }
+  float      get_currlim_A() { return fl_current_lim_A_; }
   DrivePhase get_current() { return now_current_; };
 
   virtual bool get_fault_state() { return false; };
@@ -70,6 +72,7 @@ protected:
   int32_t    s32_angle_rotor_count_;
   float      fl_now_elec_ang_deg_;
   float      fl_now_out_ang_deg_;
+  float      fl_current_lim_A_;
   DrivePhase now_current_;
   DrivePhase now_bev_;
 

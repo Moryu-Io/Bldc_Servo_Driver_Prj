@@ -1,4 +1,5 @@
 #include "bldc_mode_pos_control.hpp"
+#include "mymath.hpp"
 
 void BldcModePosControl::init() {
   // 現在位置でターゲットを設定
@@ -13,10 +14,14 @@ void BldcModePosControl::update() {
 
   parts_.p_posout_lpf->update(parts_.p_pos_ctrl->update(P_BLDC_->get_out_angle()));
 
+  float _Iq_tgt = parts_.p_posout_lpf->get_output();
+  float _Iq_lim = P_BLDC_->get_currlim_A();
+  _Iq_tgt = mymath::satf(_Iq_tgt, _Iq_lim, -_Iq_lim);
+
   BldcDriveMethod::Ref inputVol = {
       .Vq = 0.0f,
       .Vd = 0.0f,
-      .Iq = parts_.p_posout_lpf->get_output(),
+      .Iq = _Iq_tgt,
       .Id = 0.0f,
   };
   parts_.p_bldc_drv->set(inputVol);

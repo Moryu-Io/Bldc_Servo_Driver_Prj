@@ -84,6 +84,9 @@ public:
     Dac1Ctrl.init();
     Dac1Ctrl.set_dac_chB(4095);
     Dac1Ctrl.set_dac_chA(3072); // Current Sens Gain : 1V/A
+
+    /* 電流制限値 */
+    fl_current_lim_A_ = 1.0f;
   };
 
   void update_lowrate() override {

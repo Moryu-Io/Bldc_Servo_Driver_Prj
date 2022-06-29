@@ -35,10 +35,12 @@ void ext_com_manage_main() {
       p_bldcmng->set_mode(get_bldcmode_off());
     } break;
     case CMD_ID_REQ_MOVE_ANGLE: {
+      BLDC *p_bldc = get_bldc_if();
       BldcModeBase::Instr _instr                 = {};
       _instr.u16_instr_id                        = BldcModeBase::INSTR_ID_POSCTR_MOVE_ANGLE;
       _instr.InstrPosCtrl_MvAng.s32_tgt_pos      = unReqMsg.reqMvAng.s32_tgt_ang_deg_Q16;
       _instr.InstrPosCtrl_MvAng.s32_move_time_ms = (int32_t)unReqMsg.reqMvAng.u16_movetime_ms;
+      p_bldc->set_current_lim((float)unReqMsg.reqMvAng.u16_currlim_A_Q8*0.00390625f);
       p_bldcmng->set_instr_buf(&_instr);
 
     } break;
