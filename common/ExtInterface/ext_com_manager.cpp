@@ -72,7 +72,8 @@ void ext_com_manage_main() {
   }
 
   /* Resが必要なら返す */
-  if(bRes && (p_extcom->getFreeLevelTxMailboxes() > 0)) {
+  //if(bRes && (p_extcom->getFreeLevelTxMailboxes() > 0)) {
+  if(bRes) {
     p_extcom->transmit(cmdid, unResMsg.u8_data);
   }
 }
