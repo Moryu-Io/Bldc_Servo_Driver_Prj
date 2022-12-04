@@ -2,7 +2,7 @@ import serial
 import struct
 import time
 
-COMnum = "COM7"
+COMnum = "COM3"
 
 def print_flash(ser:serial.Serial):
     cmdlist = [b'f', b'p']
@@ -50,6 +50,7 @@ def main():
         print(' 2:flash リセット')
         print('10:位置制御PIDパラメータ書き換え')
         print('20:CAN ID書き換え')
+        print('21:PM2205用書き換え')
         mode = int(input('>> '))
 
         if mode == 0:
@@ -91,6 +92,8 @@ def main():
         elif mode == 20:
             id = input('CAN IDは? >> ')
             write_byte(ser, 0x10, int(id))
+        elif mode == 21:
+            change_to_pm2505(ser)
 
 
 if __name__ == '__main__':
