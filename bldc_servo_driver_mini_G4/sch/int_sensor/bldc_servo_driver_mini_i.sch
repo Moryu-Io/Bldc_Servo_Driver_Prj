@@ -1748,17 +1748,6 @@ $EndComp
 Connection ~ 3650 1750
 Wire Wire Line
 	3650 1750 3650 1900
-$Comp
-L Device:L L2
-U 1 1 6226D56E
-P 3650 2050
-F 0 "L2" H 3702 2096 50  0000 L CNN
-F 1 "4.7u" H 3702 2005 50  0000 L CNN
-F 2 "SamacSys_Parts:LPS3314332MRC" H 3650 2050 50  0001 C CNN
-F 3 "~" H 3650 2050 50  0001 C CNN
-	1    3650 2050
-	1    0    0    -1  
-$EndComp
 Wire Wire Line
 	5300 1450 5300 1500
 $Comp
@@ -1790,7 +1779,7 @@ L Device:R R19
 U 1 1 62198131
 P 5300 950
 F 0 "R19" H 5230 904 50  0000 R CNN
-F 1 "30.1k" H 5230 995 50  0000 R CNN
+F 1 "30.1k or 51k(MP2359)" H 5230 995 50  0000 R CNN
 F 2 "Resistor_SMD:R_0402_1005Metric" V 5230 950 50  0001 C CNN
 F 3 "~" H 5300 950 50  0001 C CNN
 	1    5300 950 
@@ -2037,15 +2026,16 @@ L SamacSys_Parts:STM32G491CCU6 IC4
 U 1 1 62580C78
 P 2900 6800
 F 0 "IC4" H 3750 6900 50  0000 L CNN
-F 1 "STM32G491CCU6" H 3450 6800 50  0000 L CNN
+F 1 "STM32G4xxyU" H 3450 6800 50  0000 L CNN
 F 2 "SamacSys_Parts:QFN50P700X700X60-49N-D" H 4550 7500 50  0001 L CNN
 F 3 "https://www.st.com/resource/en/datasheet/stm32g491cc.pdf" H 4550 7400 50  0001 L CNN
 F 4 "MCU 32-bit ARM Cortex M4 RISC 256KB Flash 1.8V/2.5V/3.3V 48-Pin UFQFPN EP Tray" H 4550 7300 50  0001 L CNN "Description"
 F 5 "0.6" H 4550 7200 50  0001 L CNN "Height"
-F 6 "511-STM32G491CCU6" H 4550 7100 50  0001 L CNN "Mouser Part Number"
+F 6 "" H 4550 7100 50  0001 L CNN "Mouser Part Number"
 F 7 "https://www.mouser.co.uk/ProductDetail/STMicroelectronics/STM32G491CCU6?qs=eP2BKZSCXI7DW1LAe4ydBg%3D%3D" H 4550 7000 50  0001 L CNN "Mouser Price/Stock"
 F 8 "STMicroelectronics" H 4550 6900 50  0001 L CNN "Manufacturer_Name"
-F 9 "STM32G491CCU6" H 4550 6800 50  0001 L CNN "Manufacturer_Part_Number"
+F 9 "" H 4550 6800 50  0001 L CNN "Manufacturer_Part_Number"
+F 10 "C1341847" H 2900 6800 50  0001 C CNN "LCSC"
 	1    2900 6800
 	1    0    0    -1  
 $EndComp
@@ -2350,4 +2340,80 @@ Temp_Sens
 Connection ~ 13800 4600
 Wire Wire Line
 	2300 1200 2300 1600
+$Comp
+L Connector:TestPoint TP1
+U 1 1 637BDE79
+P 1050 8550
+F 0 "TP1" H 1108 8668 50  0000 L CNN
+F 1 "TestPoint" H 1108 8577 50  0000 L CNN
+F 2 "TestPoint:TestPoint_Pad_D1.0mm" H 1250 8550 50  0001 C CNN
+F 3 "~" H 1250 8550 50  0001 C CNN
+	1    1050 8550
+	1    0    0    -1  
+$EndComp
+$Comp
+L Connector:TestPoint TP2
+U 1 1 637DA140
+P 1050 9050
+F 0 "TP2" H 1108 9168 50  0000 L CNN
+F 1 "TestPoint" H 1108 9077 50  0000 L CNN
+F 2 "TestPoint:TestPoint_Pad_D1.0mm" H 1250 9050 50  0001 C CNN
+F 3 "~" H 1250 9050 50  0001 C CNN
+	1    1050 9050
+	1    0    0    -1  
+$EndComp
+$Comp
+L Connector:TestPoint TP3
+U 1 1 637F4628
+P 1050 9550
+F 0 "TP3" H 1108 9668 50  0000 L CNN
+F 1 "TestPoint" H 1108 9577 50  0000 L CNN
+F 2 "TestPoint:TestPoint_Pad_D1.0mm" H 1250 9550 50  0001 C CNN
+F 3 "~" H 1250 9550 50  0001 C CNN
+	1    1050 9550
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:+3.3V #PWR0102
+U 1 1 63810202
+P 800 8550
+F 0 "#PWR0102" H 800 8400 50  0001 C CNN
+F 1 "+3.3V" H 815 8723 50  0000 C CNN
+F 2 "" H 800 8550 50  0001 C CNN
+F 3 "" H 800 8550 50  0001 C CNN
+	1    800  8550
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR0104
+U 1 1 6382B08B
+P 800 9550
+F 0 "#PWR0104" H 800 9300 50  0001 C CNN
+F 1 "GND" V 805 9422 50  0000 R CNN
+F 2 "" H 800 9550 50  0001 C CNN
+F 3 "" H 800 9550 50  0001 C CNN
+	1    800  9550
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	800  9550 1050 9550
+Wire Wire Line
+	800  8550 1050 8550
+Text Label 1100 9200 0    50   ~ 0
+Potentio_Sens
+Wire Wire Line
+	1100 9200 1050 9200
+Wire Wire Line
+	1050 9200 1050 9050
+$Comp
+L Device:L L2
+U 1 1 6226D56E
+P 3650 2050
+F 0 "L2" H 3702 2096 50  0000 L CNN
+F 1 "4.7u" H 3702 2005 50  0000 L CNN
+F 2 "SamacSys_Parts:LPS3314332MRC" H 3650 2050 50  0001 C CNN
+F 3 "~" H 3650 2050 50  0001 C CNN
+	1    3650 2050
+	1    0    0    -1  
+$EndComp
 $EndSCHEMATC
