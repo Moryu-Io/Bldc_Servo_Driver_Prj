@@ -23,6 +23,9 @@
 
 #include "flash_interface.hpp"
 
+/************************ VERSION ******************************/
+uint16_t U16_CHIP_LOCAL_VER = 0x0100;
+/***************************************************************/
 
 enum ADC1CH {
   Potentio,  // CH4,  PA3
@@ -476,7 +479,7 @@ void loop_servo_driver_model() {
         break;
       case 'b':
         {
-          print_version();
+          print_version(U16_CHIP_LOCAL_VER);
           print_buildtime();
         }
         break;
