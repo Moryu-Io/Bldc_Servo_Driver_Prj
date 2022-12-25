@@ -2,6 +2,7 @@
 
 #include "adcc.hpp"
 #include "canc.hpp"
+#include "pwminc.hpp"
 #include "uart_dmac.hpp"
 #include "debug_printf.hpp"
 #include "logger.hpp"
@@ -26,35 +27,64 @@ uint16_t U16_CHIP_LOCAL_VER = 0x0100;
 /***************************************************************/
 
 enum ADC1CH {
-  Potentio,  // CH4,  PA3
-  CsRef,     // CH11, PB12
-  MotorTemp, // CH12, PB1
-  VmSens,    // CH14, PB11
-  McuTemp,
+  CurFb_U,   // CH3,  PA2
+  CurFb_W,   // CH12, PB1
+  Potentio,  // CH11, PB12
+  MotorTemp, // CH5,  PB14
+  VmSens,    // CH1,  PA0
 };
 static ADCC<5> Adc1Ctrl(ADC1, DMA1, LL_DMA_CHANNEL_1);
 
 enum ADC2CH {
-  CurFb_U, // CH3, PA6
-  CurFb_V, // CH4, PA7
-  CurFb_W, // CH5, PC4
+  CurFb_V, // CH3, PA6
+  BEMF_U,  // CH17, PA4
+  BEMF_V,  // CH5, PC4
+  BEMF_W,  // CH14, PB11
 };
-static ADCC<3> Adc2Ctrl(ADC2, DMA1, LL_DMA_CHANNEL_2);
+static ADCC<4> Adc2Ctrl(ADC2, DMA1, LL_DMA_CHANNEL_2);
 
-class MotorAngSenser{
+class MotorAngSenser : public PWMINC {
 public:
-  MotorAngSenser(){};
+  using PWMINC::PWMINC;
 
-  void init(){};
+  void update() override {
+    PWMINC::update();
+
+    if(isCapEdge){
+      //uint32_t  u32_pre  = (uint32_t)U16_PRE_CNT * u16_cap_rise_edge / U16_FRAME_CNT;
+      uint32_t  u32_data = (uint32_t)u16_cap_fall_edge * U16_FRAME_CNT / u16_cap_rise_edge;
+      if(u32_data < U16_PRE_CNT){
+        // Error
+      } else {
+        u16_angle_digit_14b = (u32_data - U16_PRE_CNT) << 2;
+      }
+    }
+  }
+
+  uint16_t get_angle_cnt() { return u16_angle_digit_14b; }
+
+private:
+  const uint16_t U16_PRE_CNT   = 12 + 4;
+  const uint16_t U16_FRAME_CNT = 4119;
+
+  uint16_t u16_angle_digit_14b;
 };
 
-static MotorAngSenser MotorAngSenserCtrl;
+static MotorAngSenser MotorAngSenserCtrl(TIM2, 36, 5000);
 
+float fl_now_elec_ang_deg_debug = 0.0f;
 class PM3505: public BLDC {
 public:
   PM3505(){};
 
   void init() override {
+    /* init the motor angle senser */
+    MotorAngSenserCtrl.init();
+
+    LL_OPAMP_Enable(OPAMP1);
+    LL_OPAMP_Enable(OPAMP2);
+    LL_OPAMP_Enable(OPAMP3);
+
     /* PWM */
     LL_TIM_EnableUpdateEvent(TIM1);
     LL_TIM_EnableCounter(TIM1);
@@ -64,7 +94,7 @@ public:
     TIM1->CCR1 = 0;
     TIM1->CCR2 = 0;
     TIM1->CCR3 = 0;
-    LL_GPIO_SetOutputPin(GPIOC, LL_GPIO_PIN_6); // PWML HIGH
+    //LL_GPIO_SetOutputPin(GPIOC, LL_GPIO_PIN_6); // PWML HIGH
 
     /* ADC用トリガタイマ(TIM3) */
     /* このタイマはTIM1のUEVでカウンタリセットされ */
@@ -74,9 +104,8 @@ public:
     //TIM3->CCR1 = 1900;
     TIM3->CCR1 = 3900;
 
-    LL_GPIO_SetOutputPin(GPIOB, LL_GPIO_PIN_15); // 3PWM Mode
     LL_mDelay(1);
-    LL_GPIO_SetOutputPin(GPIOB, LL_GPIO_PIN_14); // nSleep解除
+    //LL_GPIO_SetOutputPin(GPIOB, LL_GPIO_PIN_5); // GPIO_BEMF
 
     /* 電流制限値 */
     fl_current_lim_A_ = 1.0f;
@@ -89,11 +118,9 @@ public:
 
   void update() override {
     /* 電気角測定 */
-    uint16_t txdata = 0xFFFF;
-    uint16_t rxdata = 0;
+    MotorAngSenserCtrl.update();
 
-    // MotorAngSenserCtrl.send_bytes(&txdata, &rxdata, 1);
-    int32_t ang       = rxdata & 0x3FFF;    // 14bit Absolute Encoder
+    int32_t ang       = MotorAngSenserCtrl.get_angle_cnt() & 0x3FFF;
     int32_t delta_ang = ang - s32_pre_angle_raw;
     delta_ang =  (delta_ang > 0x1FFF)  ? (delta_ang - 0x3FFF)
                :((delta_ang < -0x1FFF) ? (delta_ang + 0x3FFF)
@@ -104,11 +131,11 @@ public:
 
     fl_now_out_ang_deg_  = (float)(s32_angle_rotor_count_) * Angle_Gain_CNTtoDeg;
     fl_now_elec_ang_deg_ = ((float)(ang - s32_elec_angle_offset_CNT_) * fl_elec_angle_gain_CNTtoDeg_ - 90.0f)*(float)s8_elec_angle_dir_;
-
+fl_now_elec_ang_deg_debug = fl_now_elec_ang_deg_;
     /* 電流測定 */
-    now_current_.U = Curr_Gain_ADtoA * ((int16_t)Adc2Ctrl.get_adc_data(ADC2CH::CurFb_U) - 2047);
-    now_current_.V = Curr_Gain_ADtoA * ((int16_t)Adc2Ctrl.get_adc_data(ADC2CH::CurFb_V) - 2047);
-    now_current_.W = Curr_Gain_ADtoA * ((int16_t)Adc2Ctrl.get_adc_data(ADC2CH::CurFb_W) - 2047);
+    now_current_.U = Curr_Gain_ADtoA * ((int16_t)Adc1Ctrl.get_adc_data(ADC1CH::CurFb_U) - 2525);
+    now_current_.V = Curr_Gain_ADtoA * ((int16_t)Adc2Ctrl.get_adc_data(ADC2CH::CurFb_V) - 2513);
+    now_current_.W = Curr_Gain_ADtoA * ((int16_t)Adc1Ctrl.get_adc_data(ADC1CH::CurFb_W) - 2530);
   };
 
   void set_drive_duty(DriveDuty &_Vol) override {
@@ -132,7 +159,7 @@ public:
 private:
   const float Vm_inv = 1.0f / 12.0f;
   const float Vm_Gain_ADtoV = 3.3f/4096.0f * (400.0f + 33.0f) / 33.0f;
-  const float Curr_Gain_ADtoA = 3.3f/4096.0f;  // 3.3V / 4096AD * 1 A/V
+  const float Curr_Gain_ADtoA = 3.3f/4096.0f*5.20833f;  // 3.3V / 4096AD * 5.20833 A/V
   const float Angle_Gain_CNTtoDeg = 360.0f / 16384.0f / 1.0f;
 
 
@@ -275,8 +302,7 @@ void initialize_servo_driver_model() {
                            u8_DEBUG_COM_TXBUF, DEBUG_COM_TXBUF_LENGTH);
   DebugCom.init_rxtx();
 
-  LL_GPIO_ResetOutputPin(GPIOC, LL_GPIO_PIN_13);
-  CanIf.init();
+  //CanIf.init();
   
   MotorAngSenserCtrl.init();
 

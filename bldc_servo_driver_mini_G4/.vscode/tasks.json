@@ -72,5 +72,12 @@
             ],
             "group": "build"
         },
+        {
+            "label": "Program(g431kb_ESC)",
+            "type": "shell",
+            "command": "STM32_Programmer_CLI -c port=SWD -d g431kb_ESC/build/g431kb_ESC.elf -s",
+            "problemMatcher": [],
+            "group": "none"
+        },
     ]
 }

@@ -16,6 +16,18 @@
                 "target/stm32g4x.cfg"
             ],
             "preLaunchTask": "Build project",
+        },
+        {
+            "name": "Cortex Debug (g431kb_ESC)",
+            "cwd": "${workspaceRoot}",
+            "executable": "g431kb_ESC/build/g431kb_ESC.elf",
+            "request": "attach",
+            "type": "cortex-debug",
+            "servertype": "openocd",
+            "configFiles": [
+                "interface/stlink.cfg",
+                "target/stm32g4x.cfg"
+            ]
         }
     ]
 }
