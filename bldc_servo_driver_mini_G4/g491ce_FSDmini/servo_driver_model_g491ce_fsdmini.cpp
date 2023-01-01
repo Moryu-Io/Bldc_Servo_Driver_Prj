@@ -11,6 +11,7 @@
 #include "mymath.hpp"
 #include "controller.hpp"
 
+#include "debug_command.hpp"
 #include "servo_driver_model.hpp"
 
 #include "bldc.hpp"
@@ -248,10 +249,10 @@ BldcModeTestPosStep::Parts bldc_mode_test_posstep_parts = {
 BldcModeTestSineDriveOpen::Parts bldc_mode_test_sindrvopen_parts = {
   .p_bldc_drv   = &bldc_drv_method_sine,
 };
-static BldcModeTestElecAngle  mode_test_elec_ang(bldc_mode_test_elecang_parts);
-static BldcModeTestCurrStep   mode_test_curr_step(bldc_mode_test_currstep_parts);
-static BldcModeTestPosStep    mode_test_pos_step(bldc_mode_test_posstep_parts);
-static BldcModeTestSineDriveOpen   mode_test_sindrvopen(bldc_mode_test_sindrvopen_parts);
+BldcModeTestElecAngle  mode_test_elec_ang(bldc_mode_test_elecang_parts);
+BldcModeTestCurrStep   mode_test_curr_step(bldc_mode_test_currstep_parts);
+BldcModeTestPosStep    mode_test_pos_step(bldc_mode_test_posstep_parts);
+BldcModeTestSineDriveOpen   mode_test_sindrvopen(bldc_mode_test_sindrvopen_parts);
 /*****************************************************************/
 
 
@@ -267,8 +268,6 @@ COM_BASE *get_debug_com() { return &DebugCom; };
 EXT_COM_BASE *get_debug_com_pretend_ext() { return &DebugComPretendCan; };
 /***********************************************************************/
 
-
-void set_flash_parameter_to_models();
 
 void initialize_servo_driver_model() {
   //LL_TIM_EnableCounter(TIM2);
@@ -314,9 +313,8 @@ void loop_servo_driver_model() {
   //debug_printf("%0.1f,%0.1f,%0.1f,%d,%d,%d\n", GmblBldc.get_elec_angle(), GmblBldc.fl_calc_Vq_,GmblBldc.fl_calc_Vd_, TIM1->CCR1, TIM1->CCR2, TIM1->CCR3);
   //debug_printf("%0.1f,%0.1f\n", GmblBldc.get_out_angle(), GmblBldc.get_elec_angle());
 
+  debug_command_routine();
 
-
-  
 }
 
 

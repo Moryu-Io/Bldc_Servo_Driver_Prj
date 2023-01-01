@@ -1,10 +1,18 @@
 #include "debug_command.hpp"
 #include "logger.hpp"
 #include "version.hpp"
+#include "canc.hpp"
+#include "bldc_mode_test.hpp"
+
+extern uint16_t U16_CHIP_LOCAL_VER;
+
+extern BldcModeTestElecAngle     mode_test_elec_ang;
+extern BldcModeTestCurrStep      mode_test_curr_step;
+extern BldcModeTestPosStep       mode_test_pos_step;
+extern BldcModeTestSineDriveOpen mode_test_sindrvopen;
 
 void debug_command_routine() {
   COM_BASE         *_debug_com     = get_debug_com();
-  EXT_COM_BASE     *_p_ext_com     = get_ext_com();
   BldcServoManager *_bldc_manager  = get_bldcservo_manager();
   BldcModeBase     *_mode_pos_ctrl = get_bldcmode_posctrl();
   BldcModeBase     *_mode_off      = get_bldcmode_off();
@@ -31,16 +39,25 @@ void debug_command_routine() {
       debug_printf("End\n");
       break;
     case 'd': {
-      AngleTargetInterp.set_nowtarget((int32_t)(GmblBldc.get_out_angle() * (float)0x10000));
+      BLDC *_p_bldc = get_bldc_if();
+      // まず現在位置で位置制御開始
       BldcModeBase::Instr instr = {
           .InstrPosCtrl_MvAng = {
               .u16_instr_id     = BldcModeBase::INSTR_ID_POSCTR_MOVE_ANGLE,
-              .s32_tgt_pos      = 0,
-              .s32_move_time_ms = 1000,
+              .s32_tgt_pos      = (int32_t)(_p_bldc->get_out_angle() * (float)0x10000),
+              .s32_move_time_ms = 0,
           },
       };
       _mode_pos_ctrl->set_Instruction(&instr);
       _bldc_manager->set_mode(_mode_pos_ctrl);
+
+      // 待ち
+      LL_mDelay(10);
+
+      // 0degまで移動
+      instr.InstrPosCtrl_MvAng.s32_tgt_pos      = 0;    // 0deg
+      instr.InstrPosCtrl_MvAng.s32_move_time_ms = 1000; // 1s
+      _mode_pos_ctrl->set_Instruction(&instr);
     } break;
     case 'e':
       _bldc_manager->set_mode(_mode_off);
@@ -97,7 +114,7 @@ void debug_command_routine() {
       } break;
       case 'd': /* flashに書かれているパラメータを各所に展開 */
         set_flash_parameter_to_models();
-        CanIf.init(); // CAN通信初期化
+        ((CANC*)get_ext_com_default())->init(); // CAN通信初期化(無理やり...)
         break;
       default:
         break;
@@ -105,15 +122,15 @@ void debug_command_routine() {
     } break;
     case 'c': // 模擬CAN通信
     {
-      EXT_COM_BASE* _debug_comPretendCan = get_debug_com_pretend_ext();
+      EXT_DEBUG_CAN_COM *_debug_comPretendCan = (EXT_DEBUG_CAN_COM *)get_debug_com_pretend_ext();
 
       while(_debug_com->get_rxBuf_datasize() < 13) { ; };
       EXT_DEBUG_CAN_COM::RcvData _rcv = {};
       _debug_com->get_rxbytes((uint8_t *)&_rcv, 13);
       _debug_comPretendCan->setReceiveData(&_rcv);
-      set_ext_com(_debug_comPretendCan);                          // CANinterfaceを付け替え
+      set_ext_com(_debug_comPretendCan);                            // CANinterfaceを付け替え
       while(_debug_comPretendCan->getFillLevelRxMailboxes()) { ; }; // CAN処理待ち
-      set_ext_com(get_ext_com_default());                         // CANinterfaceを元に戻す
+      set_ext_com(get_ext_com_default());                           // CANinterfaceを元に戻す
     } break;
     case 't': {
       while(_debug_com->get_rxBuf_datasize() < 1) { ; };
@@ -124,9 +141,15 @@ void debug_command_routine() {
         while(_debug_com->get_rxBuf_datasize() < 8) { ; };
         float _fl_buf[2];
         _debug_com->get_rxbytes((uint8_t *)_fl_buf, 8);
-        bldc_mode_test_currstep_parts.fl_tgt_Iq_A = _fl_buf[0];
-        bldc_mode_test_currstep_parts.fl_tgt_Id_A = _fl_buf[1];
-        _bldc_manager->set_mode(&mode_test_curr_step);
+        
+        BldcModeBase::Instr instr = {
+            .InstrTestCurrStep = {
+                .u16_instr_id = BldcModeBase::INSTR_ID_TEST_CURR_STEP,
+                .fl_tgt_Iq_A  = _fl_buf[0],
+                .fl_tgt_Id_A  = _fl_buf[1],
+            },
+        };
+        _bldc_manager->set_mode_with_instr(&mode_test_curr_step, &instr);
       } break;
       case 'e':
         _bldc_manager->set_mode(&mode_test_elec_ang);
@@ -135,19 +158,31 @@ void debug_command_routine() {
         while(_debug_com->get_rxBuf_datasize() < 8) { ; };
         float _fl_buf[2];
         _debug_com->get_rxbytes((uint8_t *)_fl_buf, 8);
-        bldc_mode_test_sindrvopen_parts.fl_tgt_Vq_V = _fl_buf[0];
-        bldc_mode_test_sindrvopen_parts.fl_tgt_Vd_V = _fl_buf[1];
-        _bldc_manager->set_mode(&mode_test_sindrvopen);
+
+        BldcModeBase::Instr instr = {
+            .InstrTestSDrvOpen = {
+                .u16_instr_id = BldcModeBase::INSTR_ID_TEST_SDRV_OPEN,
+                .fl_tgt_Vq_V  = _fl_buf[0],
+                .fl_tgt_Vd_V  = _fl_buf[1],
+            },
+        };
+        _bldc_manager->set_mode_with_instr(&mode_test_sindrvopen, &instr);
       } break;
       case 'p': /* 位置制御ランプ応答テスト */
       {
         while(_debug_com->get_rxBuf_datasize() < 5) { ; };
         uint16_t _u16_buf[3] = {};
         _debug_com->get_rxbytes((uint8_t *)_u16_buf, 5);
-        bldc_mode_test_posstep_parts.s16_tgt_pos_deg  = (int16_t)_u16_buf[0];
-        bldc_mode_test_posstep_parts.u16_move_time_ms = _u16_buf[1];
-        bldc_mode_test_posstep_parts.u8_mabiki        = (uint8_t)_u16_buf[2];
-        _bldc_manager->set_mode(&mode_test_pos_step);
+
+        BldcModeBase::Instr instr = {
+            .InstrTestPosStep = {
+                .u16_instr_id = BldcModeBase::INSTR_ID_TEST_SDRV_OPEN,
+                .s16_tgt_pos_deg  = (int16_t)_u16_buf[0],
+                .u16_move_time_ms = _u16_buf[1],
+                .u8_mabiki        = (uint8_t)_u16_buf[2],
+            },
+        };
+        _bldc_manager->set_mode_with_instr(&mode_test_pos_step, &instr);
       } break;
       default:
         break;

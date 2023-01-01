@@ -49,8 +49,6 @@ class BldcModeTestCurrStep : public BldcModeBase {
 public:
     struct Parts{
         BldcDriveMethod* p_bldc_drv;
-        float fl_tgt_Iq_A;
-        float fl_tgt_Id_A;
     };
 
     BldcModeTestCurrStep(Parts& _parts)
@@ -62,8 +60,13 @@ public:
 
     bool isCompleted() override { return is_comp_; };
 
+    void set_Instruction(Instr *p_instr) override;
+
 protected:
     Parts& parts_;
+    
+    float fl_tgt_Iq_A_;
+    float fl_tgt_Id_A_;
 
     bool is_comp_;
     uint16_t u16_test_cnt_;
@@ -79,9 +82,6 @@ class BldcModeTestPosStep : public BldcModeBase {
 public:
     struct Parts{
         BldcModePosControl* p_mode_posctrl;
-        int16_t  s16_tgt_pos_deg;
-        uint16_t u16_move_time_ms;
-        uint8_t u8_mabiki;
     };
 
     BldcModeTestPosStep(Parts& _parts)
@@ -93,8 +93,14 @@ public:
 
     bool isCompleted() override { return is_comp_; };
 
+    void set_Instruction(Instr *p_instr) override;
+
 protected:
     Parts& parts_;
+
+    int16_t  s16_tgt_pos_deg_;
+    uint16_t u16_move_time_ms_;
+    uint8_t  u8_mabiki_;
 
     bool is_comp_;
     uint16_t u16_test_cnt_;
@@ -114,8 +120,6 @@ class BldcModeTestSineDriveOpen : public BldcModeBase {
 public:
     struct Parts{
         BldcDriveMethod* p_bldc_drv;
-        float fl_tgt_Vq_V;
-        float fl_tgt_Vd_V;
     };
 
     BldcModeTestSineDriveOpen(Parts& _parts)
@@ -127,8 +131,13 @@ public:
 
     bool isCompleted() override { return false; };
 
+    void set_Instruction(Instr *p_instr) override;
+
 protected:
     Parts& parts_;
+    
+    float fl_tgt_Vq_V_;
+    float fl_tgt_Vd_V_;
 
 };
 
