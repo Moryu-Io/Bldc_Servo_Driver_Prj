@@ -17,6 +17,9 @@ public:
   virtual uint16_t get_rxbytes(uint8_t *_arr, uint16_t _size) = 0;
   virtual void     set_txbytes(uint8_t *_arr, uint16_t _size) = 0;
 
+  virtual uint16_t get_rxBuf_datasize(){ return 0;}
+  virtual bool     is_rxBuf_empty(){ return true;}
+
   /* 割り込み配置用 */
   virtual void tx_callback() = 0;
   virtual void rx_callback() = 0;
