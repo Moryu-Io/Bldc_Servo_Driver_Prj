@@ -40,6 +40,47 @@
             "problemMatcher": [],
             "group": "none"
         },
+
+        {
+            "label": "Build(g431cb_FSDmini)",
+            "type": "shell",
+            "command": "C:\\msys64\\usr\\bin\\make.exe",
+            "args": [
+                "DEBUG=1",
+                "-j3",
+                "all"
+            ],
+            "options": {
+                "cwd": "g431cb_FSDmini"
+            },
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": "build"
+        },
+        {
+            "label": "Clean(g431cb_FSDmini)",
+            "type": "shell",
+            "command": "C:\\msys64\\usr\\bin\\make.exe",
+            "args": [
+                "clean"
+            ],
+            "options": {
+                "cwd": "g431cb_FSDmini"
+            },
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": "build"
+        },
+        {
+            "label": "Program(g431cb_FSDmini)",
+            "type": "shell",
+            "command": "STM32_Programmer_CLI -c port=SWD -d g431cb_FSDmini/build/g431cb_FSDmini.elf -s",
+            "problemMatcher": [],
+            "group": "none"
+        },
+
         {
             "label": "Build(g431kb_ESC)",
             "type": "shell",
