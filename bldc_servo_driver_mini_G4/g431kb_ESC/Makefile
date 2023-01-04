@@ -78,6 +78,7 @@ Core/Src/system_stm32g4xx.c
 CPP_SOURCES = \
 ./../User/flash_initial_params.cpp \
 ./../User/wrapper_main.cpp \
+./../User/debug_command.cpp \
 servo_driver_model_g431kb_esc.cpp \
 ./../User/MyDriver/canc.cpp \
 ./../User/MyDriver/pwminc.cpp \
