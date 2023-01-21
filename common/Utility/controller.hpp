@@ -30,20 +30,27 @@ protected:
 
 class PID : public controller {
 public:
-  PID(float _c_freq, float _p_gain, float _i_gain, float _d_gain,
-      float _i_limit) : controller(_c_freq), Pgain_(_p_gain), Igain_(_i_gain), Dgain_(_d_gain),
-                        I_limit_(_i_limit){};
+  struct Gain{
+    float pg;
+    float ig;
+    float dg;
+    float ilim;
+  };
+
+public:
+  PID(float _c_freq, Gain _gain) 
+    : controller(_c_freq), gain_(_gain){};
 
   float update(float _nowval) override {
     now_val_   = _nowval;
     now_error_ = now_tgt_ - now_val_;
 
     // 積分計算
-    Integ_ += Igain_ * dt_ * now_error_;
-    Integ_ = (Integ_ >= I_limit_) ? I_limit_ : ((Integ_ <= -I_limit_) ? -I_limit_ : Integ_);
+    Integ_ += gain_.ig * dt_ * now_error_;
+    Integ_ = (Integ_ >= gain_.ilim) ? gain_.ilim : ((Integ_ <= -gain_.ilim) ? -gain_.ilim : Integ_);
 
     // 制御量計算
-    now_ctrl_ = Pgain_ * now_error_ + Integ_;
+    now_ctrl_ = gain_.pg * now_error_ + Integ_;
 
     prev_val_   = now_val_;
     prev_error_ = now_error_;
@@ -63,20 +70,14 @@ public:
     now_ctrl_ = 0.0f;
   };
 
-  void set_PIDgain(float _pg, float _ig, float _dg) {
-    Pgain_ = _pg;
-    Igain_ = _ig;
-    Dgain_ = _dg;
+  void set_PIDgain(Gain _g) {
+    gain_ = _g;
   }
-  void set_I_limit(float _i_lim) { I_limit_ = _i_lim; };
 
 private:
-  float Pgain_ = 0.0f;
-  float Igain_ = 0.0f;
-  float Dgain_ = 0.0f;
+  Gain gain_;
 
   float Integ_   = 0.0f;
-  float I_limit_ = 0.0f;
 };
 
 /**

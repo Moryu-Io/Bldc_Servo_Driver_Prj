@@ -216,7 +216,6 @@ static BldcDriveMethodSine   bldc_drv_method_sine(&GmblBldc);
 static BldcDriveMethodVector bldc_drv_method_vector(&GmblBldc);
 BldcDriveMethod* get_bldcdrv_method() { return &bldc_drv_method_vector; };
 
-static PID AngleController(10000.0f, 0.03f, 0.001f, 0.0f, 1.0f);
 static PI_D AngleController_PI_D(10000.0f, 0.04f, 0.01f, 0.0003f, 1.0f, 800.0f);
 static IIR1 AngleCountrollerOut_filter(0.70f,0.15f,0.15f);
 static TargetInterp AngleTargetInterp;
@@ -345,11 +344,38 @@ void set_flash_parameter_to_models(){
   GmblBldc.set_elec_angle_dir(FlashIf.mirrorRam.var.s8_elec_angle_dir);
 
 
+#if 0
   /* 位置制御器パラメータ展開 */
   AngleController_PI_D.set_PIDgain(FlashIf.mirrorRam.var.fl_PosCtrl_Pgain,
                               FlashIf.mirrorRam.var.fl_PosCtrl_Igain,
                               FlashIf.mirrorRam.var.fl_PosCtrl_Dgain);
   AngleController_PI_D.set_I_limit(FlashIf.mirrorRam.var.fl_PosCtrl_I_Limit);       
-  AngleController_PI_D.set_VelLpf_CutOff(FlashIf.mirrorRam.var.fl_PosCtrl_VelLpf_CutOffFrq);    
-                
+  AngleController_PI_D.set_VelLpf_CutOff(FlashIf.mirrorRam.var.fl_PosCtrl_VelLpf_CutOffFrq);
+
+  /* 電流制御器パラメータ展開 */
+  PID::Gain iq_g = {.pg   = FlashIf.mirrorRam.var.fl_Iq_Pgain,
+                    .ig   = FlashIf.mirrorRam.var.fl_Iq_Igain,
+                    .dg   = FlashIf.mirrorRam.var.fl_Iq_Dgain,
+                    .ilim = FlashIf.mirrorRam.var.fl_Iq_I_Limit};
+  PID::Gain id_g = {.pg   = FlashIf.mirrorRam.var.fl_Id_Pgain,
+                    .ig   = FlashIf.mirrorRam.var.fl_Id_Igain,
+                    .dg   = FlashIf.mirrorRam.var.fl_Id_Dgain,
+                    .ilim = FlashIf.mirrorRam.var.fl_Id_I_Limit};
+  bldc_drv_method_vector.set_iq_gain(iq_g);
+  bldc_drv_method_vector.set_id_gain(id_g);
+#else
+  AngleController_PI_D.set_PIDgain(0.01f,
+                              0.01f,
+                              0);
+  AngleController_PI_D.set_I_limit(1.0f);       
+  AngleController_PI_D.set_VelLpf_CutOff(800.0f);
+
+  PID::Gain curr_gain = {.pg   = 1.0f,
+                         .ig   = 1000.0f,
+                         .dg   = 0.0f,
+                         .ilim = 5.0f};
+  bldc_drv_method_vector.set_iq_gain(curr_gain);
+  bldc_drv_method_vector.set_id_gain(curr_gain);
+#endif
+
 }
