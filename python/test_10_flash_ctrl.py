@@ -45,8 +45,8 @@ def change_to_pm2505(ser:serial.Serial):
 
 def change_to_gim4305(ser:serial.Serial):
     # GIM4305用パラメータ書き換え
-    write_float(ser, 0x24, float(360*14/16384))
-    write_byte(ser, 0x28, 1)
+    write_float(ser, 0x24, float(-360*14/16384))
+    write_byte(ser, 0x28, -1)
 
 def main():
     with serial.Serial(COMnum, 115200, timeout=1) as ser:

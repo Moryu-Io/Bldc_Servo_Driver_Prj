@@ -73,6 +73,7 @@ private:
 
 static MotorAngSenser MotorAngSenserCtrl(TIM2, 36, 5000);
 
+float fl_now_ang_deg_debug = 0.0f;
 float fl_now_elec_ang_deg_debug = 0.0f;
 class PM3505: public BLDC {
 public:
@@ -132,6 +133,7 @@ public:
 
     fl_now_out_ang_deg_  = (float)(s32_angle_rotor_count_) * Angle_Gain_CNTtoDeg;
     fl_now_elec_ang_deg_ = ((float)(ang - s32_elec_angle_offset_CNT_) * fl_elec_angle_gain_CNTtoDeg_ - 90.0f)*(float)s8_elec_angle_dir_;
+fl_now_ang_deg_debug = fl_now_out_ang_deg_;
 fl_now_elec_ang_deg_debug = fl_now_elec_ang_deg_;
     /* 電流測定 */
     now_current_.U = Curr_Gain_ADtoA * ((int16_t)Adc1Ctrl.get_adc_data(ADC1CH::CurFb_U) - 2525);
@@ -160,8 +162,8 @@ fl_now_elec_ang_deg_debug = fl_now_elec_ang_deg_;
 private:
   const float Vm_inv = 1.0f / 12.0f;
   const float Vm_Gain_ADtoV = 3.3f/4096.0f * (400.0f + 33.0f) / 33.0f;
-  const float Curr_Gain_ADtoA = 3.3f/4096.0f*5.20833f;  // 3.3V / 4096AD * 5.20833 A/V
-  const float Angle_Gain_CNTtoDeg = 360.0f / 16384.0f / 1.0f;
+  const float Curr_Gain_ADtoA = -3.3f/4096.0f*5.20833f;  // 3.3V / 4096AD * 5.20833 A/V
+  const float Angle_Gain_CNTtoDeg = -360.0f / 16384.0f / 1.0f;
 
 
 
@@ -366,7 +368,7 @@ void set_flash_parameter_to_models(){
 #else
   AngleController_PI_D.set_PIDgain(0.01f,
                               0.01f,
-                              0);
+                              0.0003f);
   AngleController_PI_D.set_I_limit(1.0f);       
   AngleController_PI_D.set_VelLpf_CutOff(800.0f);
 
