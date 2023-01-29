@@ -18,6 +18,12 @@ struct REQ_TORQUE_OFF {
   uint8_t u8_dummy[7];
 };
 
+#define CMD_ID_REQ_TORQUE_CTRL (0x0003)
+struct REQ_TORQUE_CTRL {
+  uint8_t u8_doInitialize;
+  uint8_t u8_dummy[7];
+};
+
 #define CMD_ID_REQ_MOVE_ANGLE (0x0010)
 struct REQ_MOVE_ANGLE {
   int32_t  s32_tgt_ang_deg_Q16;
@@ -30,6 +36,12 @@ struct REQ_ANGLE_INIT {
   uint8_t u8_set_angle_flag;  // 0:現在位置を0とする, 1:指定した角度で初期化する
   uint8_t u8_dummy[3];
   int32_t s32_init_ang_deg_Q16;
+};
+
+#define CMD_ID_REQ_SET_TARGET_CURR (0x0110)
+struct REQ_SET_TARGET_CURR {
+  int32_t s32_target_iq_A_Q16;
+  int32_t s32_target_id_A_Q16;
 };
 
 #define CMD_ID_RES_STATUS_SUMMARY (0x1000)
@@ -61,8 +73,10 @@ union REQ_MESSAGE {
   uint8_t        u8_data[8];
   REQ_TORQUE_ON  reqTrqOn;
   REQ_TORQUE_OFF reqTrqOff;
+  REQ_TORQUE_CTRL reqTrqCtrl;
   REQ_MOVE_ANGLE reqMvAng;
   REQ_ANGLE_INIT reqAngIni;
+  REQ_SET_TARGET_CURR reqSetTgtCur;
 };
 
 union RES_MESSAGE {

@@ -22,8 +22,12 @@ public:
 
   static BLDC *P_BLDC_;
 
+  /* Position Control */
   static const uint16_t INSTR_ID_POSCTR_MOVE_ANGLE = 0x0010;
   static const uint16_t INSTR_ID_POSCTR_ANGLE_INIT = 0x0011;
+
+  /* Torque Control */
+  static const uint16_t INSTR_ID_TRQCTR_SET_TARGET = 0x0110;
 
   /* TestMode用 */
   static const uint16_t INSTR_ID_TEST_CURR_STEP = 0xF010;
@@ -42,6 +46,11 @@ public:
       uint8_t  u8_set_angle_flag;
       int32_t  s32_init_pos;
     } InstrPosCtrl_AngIni;
+    struct M_TrqCtrl_SetTgt {
+      uint16_t u16_instr_id;
+      float    fl_tgt_Iq_A;
+      float    fl_tgt_Id_A;
+    } InstrTrqCtrl_SetTgt;
     struct M_Test_CurrStep {
       uint16_t u16_instr_id;
       float    fl_tgt_Iq_A;

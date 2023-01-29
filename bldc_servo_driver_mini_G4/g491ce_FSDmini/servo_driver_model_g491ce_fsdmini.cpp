@@ -18,6 +18,7 @@
 #include "bldc_drive_method.hpp"
 #include "bldc_mode_base.hpp"
 #include "bldc_mode_pos_control.hpp"
+#include "bldc_mode_trq_control.hpp"
 #include "bldc_mode_test.hpp"
 #include "bldc_servo_manager.hpp"
 
@@ -209,10 +210,17 @@ BldcModePosControl::Parts bldc_mode_posctrl_parts = {
   .p_tgt_interp = &AngleTargetInterp,
 };
 static BldcModePosControl mode_pos_control(bldc_mode_posctrl_parts);
+
+BldcModeTrqControl::Parts bldc_mode_trqctrl_parts = {
+  .p_bldc_drv   = &bldc_drv_method_vector,
+};
+static BldcModeTrqControl mode_trq_control(bldc_mode_trqctrl_parts);
+
 static BldcModePowerOff   mode_off;
 
 BldcModeBase* get_bldcmode_off() { return &mode_off; };
 BldcModeBase* get_bldcmode_posctrl() { return &mode_pos_control; };
+BldcModeBase* get_bldcmode_trqctrl() { return &mode_trq_control; };
 
 static BldcServoManager bldc_manager(&mode_off);
 BldcServoManager* get_bldcservo_manager() { return &bldc_manager; };

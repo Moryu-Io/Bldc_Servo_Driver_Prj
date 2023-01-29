@@ -15,6 +15,7 @@ BldcServoManager* get_bldcservo_manager();
 
 BldcModeBase* get_bldcmode_off();
 BldcModeBase* get_bldcmode_posctrl();
+BldcModeBase* get_bldcmode_trqctrl();
 
 FlashIF* get_flash_if();
 

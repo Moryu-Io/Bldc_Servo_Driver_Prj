@@ -36,6 +36,9 @@ void ext_com_manage_main() {
     case CMD_ID_REQ_TORQUE_OFF: {
       p_bldcmng->set_mode(get_bldcmode_off());
     } break;
+    case CMD_ID_REQ_TORQUE_CTRL: {
+      p_bldcmng->set_mode(get_bldcmode_trqctrl());
+    } break;
     case CMD_ID_REQ_MOVE_ANGLE: {
       BLDC *p_bldc = get_bldc_if();
       BldcModeBase::Instr _instr                 = {};
@@ -54,6 +57,14 @@ void ext_com_manage_main() {
       _instr.InstrPosCtrl_AngIni.s32_init_pos      = unReqMsg.reqAngIni.s32_init_ang_deg_Q16;
       p_bldcmng->set_instr_buf(&_instr);
 
+    } break;
+    case CMD_ID_REQ_SET_TARGET_CURR: {
+      /* 電流制御の目標を設定する */
+      BldcModeBase::Instr _instr             = {};
+      _instr.u16_instr_id                    = BldcModeBase::INSTR_ID_TRQCTR_SET_TARGET;
+      _instr.InstrTrqCtrl_SetTgt.fl_tgt_Iq_A = (float)unReqMsg.reqSetTgtCur.s32_target_iq_A_Q16 / 65536.0f;
+      _instr.InstrTrqCtrl_SetTgt.fl_tgt_Id_A = (float)unReqMsg.reqSetTgtCur.s32_target_id_A_Q16 / 65536.0f;
+      p_bldcmng->set_instr_buf(&_instr);
     } break;
     case CMD_ID_RES_STATUS_MOVE_ANGLE: {
       getStatusMoveAngle(unResMsg);

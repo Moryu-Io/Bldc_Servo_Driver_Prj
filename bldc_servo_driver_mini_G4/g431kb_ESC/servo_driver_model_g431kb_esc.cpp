@@ -18,6 +18,7 @@
 #include "bldc_drive_method.hpp"
 #include "bldc_mode_base.hpp"
 #include "bldc_mode_pos_control.hpp"
+#include "bldc_mode_trq_control.hpp"
 #include "bldc_mode_test.hpp"
 #include "bldc_servo_manager.hpp"
 
@@ -162,7 +163,7 @@ fl_now_elec_ang_deg_debug = fl_now_elec_ang_deg_;
 private:
   const float Vm_inv = 1.0f / 12.0f;
   const float Vm_Gain_ADtoV = 3.3f/4096.0f * (400.0f + 33.0f) / 33.0f;
-  const float Curr_Gain_ADtoA = -3.3f/4096.0f*5.20833f;  // 3.3V / 4096AD * 5.20833 A/V
+  const float Curr_Gain_ADtoA = -3.3f/4096.0f*20.83f;  // 3.3V / 4096AD * 5.20833 A/V
   const float Angle_Gain_CNTtoDeg = -360.0f / 16384.0f / 1.0f;
 
 
@@ -229,10 +230,17 @@ BldcModePosControl::Parts bldc_mode_posctrl_parts = {
   .p_tgt_interp = &AngleTargetInterp,
 };
 static BldcModePosControl mode_pos_control(bldc_mode_posctrl_parts);
+
+BldcModeTrqControl::Parts bldc_mode_trqctrl_parts = {
+  .p_bldc_drv   = &bldc_drv_method_vector,
+};
+static BldcModeTrqControl mode_trq_control(bldc_mode_trqctrl_parts);
+
 static BldcModePowerOff   mode_off;
 
 BldcModeBase* get_bldcmode_off() { return &mode_off; };
 BldcModeBase* get_bldcmode_posctrl() { return &mode_pos_control; };
+BldcModeBase* get_bldcmode_trqctrl() { return &mode_trq_control; };
 
 static BldcServoManager bldc_manager(&mode_off);
 BldcServoManager* get_bldcservo_manager() { return &bldc_manager; };
@@ -372,7 +380,7 @@ void set_flash_parameter_to_models(){
   AngleController_PI_D.set_I_limit(1.0f);       
   AngleController_PI_D.set_VelLpf_CutOff(800.0f);
 
-  PID::Gain curr_gain = {.pg   = 1.0f,
+  PID::Gain curr_gain = {.pg   = 0.0f,
                          .ig   = 1000.0f,
                          .dg   = 0.0f,
                          .ilim = 5.0f};
