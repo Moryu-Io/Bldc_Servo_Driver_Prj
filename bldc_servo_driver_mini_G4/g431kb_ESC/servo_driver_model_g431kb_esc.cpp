@@ -2,6 +2,7 @@
 
 #include "adcc.hpp"
 #include "canc.hpp"
+#include "spic.hpp"
 #include "pwminc.hpp"
 #include "uart_dmac.hpp"
 #include "debug_printf.hpp"
@@ -41,13 +42,13 @@ enum ADC2CH {
   CurFb_V, // CH3, PA6
   BEMF_U,  // CH17, PA4
   BEMF_V,  // CH5, PC4
-  BEMF_W,  // CH14, PB11
+//  BEMF_W,  // CH14, PB11 -> SPI3CS
 };
-static ADCC<4> Adc2Ctrl(ADC2, DMA1, LL_DMA_CHANNEL_2);
+static ADCC<3> Adc2Ctrl(ADC2, DMA1, LL_DMA_CHANNEL_2);
 
 
 // TODO:角度補間が必要かもしれない
-class MotorAngSenser : public PWMINC {
+class OutAngSenser : public PWMINC {
 public:
   using PWMINC::PWMINC;
 
@@ -91,12 +92,21 @@ private:
   uint16_t u16_edge2ege_cnt = 10;
 };
 
-static MotorAngSenser MotorAngSenserCtrl(TIM2, 36, 5000);
+static OutAngSenser OutAngSenserCtrl(TIM2, 36, 5000);
 
 extern "C"{
-void TIM2_IRQHandler(void){ MotorAngSenserCtrl.intr(); }
+void TIM2_IRQHandler(void){ OutAngSenserCtrl.intr(); }
 }
 
+class MotorAngSenser : public SPIC {
+public:
+  MotorAngSenser(SPI_TypeDef *_spi) : SPIC(_spi){};
+
+protected:
+  void select() override { LL_GPIO_ResetOutputPin(GPIOB, LL_GPIO_PIN_11); };
+  void deselect() override { LL_GPIO_SetOutputPin(GPIOB, LL_GPIO_PIN_11); };
+};
+static MotorAngSenser MotorAngSenserCtrl(SPI3);
 
 float fl_now_ang_deg_debug = 0.0f;
 float fl_now_elec_ang_deg_debug = 0.0f;
@@ -144,10 +154,14 @@ public:
   };
 
   void update() override {
-    /* 電気角測定 */
-    MotorAngSenserCtrl.update();
+    // OutAngSenserCtrl.update();
 
-    int32_t ang       = MotorAngSenserCtrl.get_angle_cnt() & 0x3FFF;
+    /* 電気角測定 */
+    uint16_t txdata = 0xFFFF;
+    uint16_t rxdata = 0;
+
+    MotorAngSenserCtrl.send_bytes(&txdata, &rxdata, 1);
+    int32_t ang       = rxdata & 0x3FFF;    // 14bit Absolute Encoder
     int32_t delta_ang = ang - s32_pre_angle_raw;
     delta_ang =  (delta_ang > 0x1FFF)  ? (delta_ang - 0x3FFF)
                :((delta_ang < -0x1FFF) ? (delta_ang + 0x3FFF)

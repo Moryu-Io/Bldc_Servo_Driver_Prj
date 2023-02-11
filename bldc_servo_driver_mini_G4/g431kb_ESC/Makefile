@@ -85,6 +85,7 @@ servo_driver_model_g431kb_esc.cpp \
 ./../User/MyDriver/canc.cpp \
 ./../User/MyDriver/pwminc.cpp \
 ./../User/MyDriver/flash_interface.cpp \
+./../User/MyDriver/spic.cpp \
 ./../User/MyDriver/uart_dmac.cpp \
 $(wildcard ./../../common/ExtInterface/*.cpp) \
 $(wildcard ./../../common/MotorDrive/*.cpp) \
