@@ -8,8 +8,8 @@ bool FlashIF::erase() {
   uint32_t               error_sector;
 
   EraseInitStruct.TypeErase = FLASH_TYPEERASE_PAGES;
-  EraseInitStruct.Banks     = FLASH_BANK_1;
-  EraseInitStruct.Page      = 255;
+  EraseInitStruct.Banks     = u32_bank_;
+  EraseInitStruct.Page      = u32_sector_;
   EraseInitStruct.NbPages   = 1;
 
   HAL_StatusTypeDef ret = HAL_FLASHEx_Erase(&EraseInitStruct, &error_sector);

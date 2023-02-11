@@ -2,7 +2,7 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "Build project",
+            "label": "Build(g491ce_FSDmini)",
             "type": "shell",
             "command": "C:\\msys64\\usr\\bin\\make.exe",
             "args": [
@@ -10,52 +10,115 @@
                 "-j3",
                 "all"
             ],
+            "options": {
+                "cwd": "g491ce_FSDmini"
+            },
             "problemMatcher": [
                 "$gcc"
             ],
             "group": "build"
         },
         {
-            "label": "Clean",
+            "label": "Clean(g491ce_FSDmini)",
             "type": "shell",
             "command": "C:\\msys64\\usr\\bin\\make.exe",
             "args": [
                 "clean"
             ],
+            "options": {
+                "cwd": "g491ce_FSDmini"
+            },
             "problemMatcher": [
                 "$gcc"
             ],
             "group": "build"
         },
         {
-            "label": "cube_program",
+            "label": "Program(g491ce_FSDmini)",
             "type": "shell",
-            "command": "STM32_Programmer_CLI -c port=SWD -d build/bldc_servo_driver_mini_G4.elf -s",
+            "command": "STM32_Programmer_CLI -c port=SWD -d g491ce_FSDmini/build/bldc_servo_driver_mini_G4.elf -s",
             "problemMatcher": [],
             "group": "none"
         },
+
         {
-            "type": "cppbuild",
-            "label": "C/C++: arm-none-eabi-gcc.exe アクティブなファイルのビルド",
-            "command": "C:/Tools/gcc-arm-none-eabi-10-2020-q4-major/bin/arm-none-eabi-gcc.exe",
+            "label": "Build(g431cb_FSDmini)",
+            "type": "shell",
+            "command": "C:\\msys64\\usr\\bin\\make.exe",
             "args": [
-                "-fdiagnostics-color=always",
-                "-g",
-                "${file}",
-                "-o",
-                "${fileDirname}\\${fileBasenameNoExtension}.exe"
+                "DEBUG=1",
+                "-j3",
+                "all"
             ],
             "options": {
-                "cwd": "C:/Tools/gcc-arm-none-eabi-10-2020-q4-major/bin"
+                "cwd": "g431cb_FSDmini"
             },
             "problemMatcher": [
                 "$gcc"
             ],
-            "group": {
-                "kind": "build",
-                "isDefault": true
+            "group": "build"
+        },
+        {
+            "label": "Clean(g431cb_FSDmini)",
+            "type": "shell",
+            "command": "C:\\msys64\\usr\\bin\\make.exe",
+            "args": [
+                "clean"
+            ],
+            "options": {
+                "cwd": "g431cb_FSDmini"
             },
-            "detail": "デバッガーによって生成されたタスク。"
-        }
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": "build"
+        },
+        {
+            "label": "Program(g431cb_FSDmini)",
+            "type": "shell",
+            "command": "STM32_Programmer_CLI -c port=SWD -d g431cb_FSDmini/build/g431cb_FSDmini.elf -s",
+            "problemMatcher": [],
+            "group": "none"
+        },
+
+        {
+            "label": "Build(g431kb_ESC)",
+            "type": "shell",
+            "command": "C:\\msys64\\usr\\bin\\make.exe",
+            "args": [
+                "DEBUG=1",
+                "-j3",
+                "all"
+            ],
+            "options": {
+                "cwd": "g431kb_ESC"
+            },
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": "build"
+        },
+        {
+            "label": "Clean(g431kb_ESC)",
+            "type": "shell",
+            "command": "C:\\msys64\\usr\\bin\\make.exe",
+            "args": [
+                "clean"
+            ],
+            "options": {
+                "cwd": "g431kb_ESC"
+            },
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": "build"
+        },
+        {
+            "label": "Program(g431kb_ESC)",
+            "type": "shell",
+            "command": "STM32_Programmer_CLI -c port=SWD -d g431kb_ESC/build/g431kb_ESC.elf -s",
+            "problemMatcher": [],
+            "group": "none"
+        },
     ]
 }

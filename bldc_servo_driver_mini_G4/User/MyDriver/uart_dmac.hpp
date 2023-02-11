@@ -30,8 +30,8 @@ public:
   };
 
   uint16_t get_rxBuf_head();
-  uint16_t get_rxBuf_datasize();
-  bool     is_rxBuf_empty();
+  virtual uint16_t get_rxBuf_datasize();
+  virtual bool     is_rxBuf_empty();
 
   /* 通信用処理 */
   virtual uint16_t get_rxbyte(uint8_t &_d);

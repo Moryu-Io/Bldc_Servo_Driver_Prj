@@ -48,46 +48,46 @@ Core/Src/tim.c \
 Core/Src/usart.c \
 Core/Src/stm32g4xx_it.c \
 Core/Src/stm32g4xx_hal_msp.c \
-Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_ll_utils.c \
-Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_ll_exti.c \
-Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_ll_gpio.c \
-Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_ll_adc.c \
-Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_ll_dma.c \
-Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal.c \
-Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_rcc.c \
-Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_rcc_ex.c \
-Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash.c \
-Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ex.c \
-Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c \
-Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_gpio.c \
-Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_exti.c \
-Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_dma.c \
-Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_dma_ex.c \
-Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_pwr.c \
-Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_pwr_ex.c \
-Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_cortex.c \
-Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_ll_cordic.c \
-Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_ll_dac.c \
-Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_fdcan.c \
-Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_ll_spi.c \
-Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_tim.c \
-Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_tim_ex.c \
-Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_ll_tim.c \
-Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_ll_usart.c \
-Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_ll_rcc.c \
+./../Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_ll_utils.c \
+./../Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_ll_exti.c \
+./../Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_ll_gpio.c \
+./../Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_ll_adc.c \
+./../Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_ll_dma.c \
+./../Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal.c \
+./../Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_rcc.c \
+./../Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_rcc_ex.c \
+./../Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash.c \
+./../Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ex.c \
+./../Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_flash_ramfunc.c \
+./../Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_gpio.c \
+./../Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_exti.c \
+./../Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_dma.c \
+./../Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_dma_ex.c \
+./../Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_pwr.c \
+./../Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_pwr_ex.c \
+./../Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_cortex.c \
+./../Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_ll_cordic.c \
+./../Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_ll_dac.c \
+./../Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_fdcan.c \
+./../Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_ll_spi.c \
+./../Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_tim.c \
+./../Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_tim_ex.c \
+./../Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_ll_tim.c \
+./../Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_ll_usart.c \
+./../Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_ll_rcc.c \
 Core/Src/system_stm32g4xx.c  
 
 CPP_SOURCES = \
-User/flash_initial_params.cpp \
-User/wrapper_main.cpp \
-User/servo_driver_model_g4.cpp \
-$(wildcard User/MyDriver/*.cpp) \
-$(wildcard ./../common/ExtInterface/*.cpp) \
-$(wildcard ./../common/MotorDrive/*.cpp) \
-$(wildcard ./../common/Utility/*.cpp) \
-#$(wildcard ./../common/FlashInterface/*.cpp)
+./../User/flash_initial_params.cpp \
+./../User/wrapper_main.cpp \
+./../User/debug_command.cpp \
+servo_driver_model_g491ce_fsdmini.cpp \
+$(wildcard ./../User/MyDriver/*.cpp) \
+$(wildcard ./../../common/ExtInterface/*.cpp) \
+$(wildcard ./../../common/MotorDrive/*.cpp) \
+$(wildcard ./../../common/Utility/*.cpp) 
 
-VER_SOURCES = User/version.cpp
+VER_SOURCES = ./../User/version.cpp
 
 # ASM sources
 ASM_SOURCES =  \
@@ -150,17 +150,16 @@ AS_INCLUDES =
 # C includes
 C_INCLUDES =  \
 -ICore/Inc \
--IDrivers/STM32G4xx_HAL_Driver/Inc \
--IDrivers/STM32G4xx_HAL_Driver/Inc/Legacy \
--IDrivers/CMSIS/Device/ST/STM32G4xx/Include \
--IDrivers/CMSIS/Include \
--IMiddlewares/Third_Party/ARM_CMSIS/CMSIS/DSP/Include \
--IUser \
--IUser/MyDriver \
--I./../common/ExtInterface \
--I./../common/MotorDrive \
--I./../common/Utility
-#-I./../common/FlashInterface
+-I./../Drivers/STM32G4xx_HAL_Driver/Inc \
+-I./../Drivers/STM32G4xx_HAL_Driver/Inc/Legacy \
+-I./../Drivers/CMSIS/Device/ST/STM32G4xx/Include \
+-I./../Drivers/CMSIS/Include \
+-I./../Middlewares/Third_Party/ARM_CMSIS/CMSIS/DSP/Include \
+-I./../User \
+-I./../User/MyDriver \
+-I./../../common/ExtInterface \
+-I./../../common/MotorDrive \
+-I./../../common/Utility
 
 # C++ includes
 CPP_INCLUDES = $(C_INCLUDES)
@@ -191,7 +190,7 @@ LDSCRIPT = STM32G491CEUx_FLASH.ld
 
 # libraries
 LIBS = -lc -lm -lnosys -lstdc++ -larm_cortexM4lf_math
-LIBDIR = -L./
+LIBDIR = -L./../
 LDFLAGS = $(MCU) -specs=nano.specs -specs=nosys.specs -u _printf_float  -T$(LDSCRIPT) $(LIBDIR) $(LIBS) -Wl,-Map=$(BUILD_DIR)/$(TARGET).map,--cref -Wl,--gc-sections
 
 # default action: build all
@@ -242,7 +241,7 @@ $(BUILD_DIR):
 # clean up
 #######################################
 clean:
-	-rm -fR $(BUILD_DIR)
+	-rm -fR $(BUILD_DIR)/*
   
 #######################################
 # dependencies

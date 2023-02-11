@@ -71,8 +71,8 @@ void BldcModeTestCurrStep::update()
     if(u16_test_cnt_ < U16_TEST_CURR_STABLE_COUNT){
         u16_test_cnt_++;
     } else if(u16_test_cnt_ < U16_TEST_CURR_END_COUNT) {
-        input.Iq = parts_.fl_tgt_Iq_A;
-        input.Id = parts_.fl_tgt_Id_A;
+        input.Iq = fl_tgt_Iq_A_;
+        input.Id = fl_tgt_Id_A_;
 
         u16_test_cnt_++;
     } else {
@@ -86,9 +86,19 @@ void BldcModeTestCurrStep::update()
 
 }
 
+void BldcModeTestCurrStep::set_Instruction(Instr *p_instr){
+  switch(p_instr->u16_instr_id) {
+  case INSTR_ID_TEST_CURR_STEP:
+    fl_tgt_Iq_A_ = p_instr->InstrTestCurrStep.fl_tgt_Iq_A;
+    fl_tgt_Id_A_ = p_instr->InstrTestCurrStep.fl_tgt_Id_A;
+    break;
+  default:
+    break;
+  }
+}
+
 void BldcModeTestPosStep::init()
 {
-
     /* 内部変数初期化 */
     is_comp_ = false;
     u16_test_cnt_ = 0;
@@ -97,7 +107,7 @@ void BldcModeTestPosStep::init()
     LOG::disable_logging();
     LOG::clear_LogData();
     LOG::clear_LogAddressArray();
-    LOG::set_Mabiki_Num(parts_.u8_mabiki);
+    LOG::set_Mabiki_Num(u8_mabiki_);
     LOG::put_LogAddress((uint32_t*)&fl_tgt_forlog);
     LOG::put_LogAddress((uint32_t*)&fl_pos_forlog);
     LOG::put_LogAddress((uint32_t*)&P_BLDC_->fl_calc_Iq_tgt_);
@@ -117,8 +127,8 @@ void BldcModeTestPosStep::update()
         BldcModeBase::Instr instr = {
             .InstrPosCtrl_MvAng = {
                 .u16_instr_id     = BldcModeBase::INSTR_ID_POSCTR_MOVE_ANGLE,
-                .s32_tgt_pos      = parts_.s16_tgt_pos_deg << 16,
-                .s32_move_time_ms = parts_.u16_move_time_ms,
+                .s32_tgt_pos      = s16_tgt_pos_deg_ << 16,
+                .s32_move_time_ms = u16_move_time_ms_,
             },
         };
         parts_.p_mode_posctrl->set_Instruction(&instr);
@@ -137,16 +147,38 @@ void BldcModeTestPosStep::update()
 
 }
 
+void BldcModeTestPosStep::set_Instruction(Instr *p_instr){
+  switch(p_instr->u16_instr_id) {
+  case INSTR_ID_TEST_POS_STEP:
+    s16_tgt_pos_deg_  = p_instr->InstrTestPosStep.s16_tgt_pos_deg;
+    u16_move_time_ms_ = p_instr->InstrTestPosStep.u16_move_time_ms;
+    u8_mabiki_        = p_instr->InstrTestPosStep.u8_mabiki;
+    break;
+  default:
+    break;
+  }
+}
 
 void BldcModeTestSineDriveOpen::update()
 {    
     BldcDriveMethod::Ref input = {
-        .Vq =     parts_.fl_tgt_Vq_V,
-        .Vd =     parts_.fl_tgt_Vd_V,
+        .Vq = fl_tgt_Vq_V_,
+        .Vd = fl_tgt_Vd_V_,
     };
 
     P_BLDC_->update();
     parts_.p_bldc_drv->set(input);
     parts_.p_bldc_drv->update();
 
+}
+
+void BldcModeTestSineDriveOpen::set_Instruction(Instr *p_instr){
+  switch(p_instr->u16_instr_id) {
+  case INSTR_ID_TEST_SDRV_OPEN:
+    fl_tgt_Vq_V_ = p_instr->InstrTestSDrvOpen.fl_tgt_Vq_V;
+    fl_tgt_Vd_V_ = p_instr->InstrTestSDrvOpen.fl_tgt_Vd_V;
+    break;
+  default:
+    break;
+  }
 }

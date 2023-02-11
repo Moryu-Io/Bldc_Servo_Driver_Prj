@@ -9,7 +9,7 @@ import numpy as np
 
 
 SaveFolderPath = "./LOG"
-COMnum = "COM7"
+COMnum = "COM9"
 
 Vq_TARGET_V = 2.0
 Vd_TARGET_V = 0
@@ -50,6 +50,7 @@ def main():
     Iu = []
     Iv = []
     Iw = []
+    EAng = []
 
     start_time = time.time()    # タイムアウト処理用
     insp_time = "{0:%Y_%m%d_%H%M%S}".format(datetime.datetime.now())    # タイムスタンプ用
@@ -67,6 +68,7 @@ def main():
             Iu.append(float(rxlist[0]))
             Iv.append(float(rxlist[1]))
             Iw.append(float(rxlist[2]))
+            EAng.append(float(rxlist[3]))
         elif ("End" in rxstr):
             # 検査終了
             break
@@ -82,11 +84,14 @@ def main():
 
     fig = plt.figure()
     ax_l = fig.add_subplot(111)
+    ax_r = ax_l.twinx()
     ax_l.plot(timelist,Iu,label="Iu")
     ax_l.plot(timelist,Iv,label="Iv")
     ax_l.plot(timelist,Iw,label="Iw")
+    ax_r.plot(timelist,EAng,label="ElecAngle")
     l_h, l_l = ax_l.get_legend_handles_labels()
-    ax_l.legend(l_h, l_l)
+    r_h, r_l = ax_r.get_legend_handles_labels()
+    ax_l.legend(l_h+r_h, l_l+r_l)
     ax_l.grid(True, 'both')
     ax_l.set_xlabel('Time[ms]')
     ax_l.set_ylabel('Current[A]')

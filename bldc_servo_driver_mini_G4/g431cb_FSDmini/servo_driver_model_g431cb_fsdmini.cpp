@@ -10,19 +10,23 @@
 #include "iir.hpp"
 #include "mymath.hpp"
 #include "controller.hpp"
-#include "version.hpp"
 
+#include "debug_command.hpp"
 #include "servo_driver_model.hpp"
 
 #include "bldc.hpp"
 #include "bldc_drive_method.hpp"
 #include "bldc_mode_base.hpp"
 #include "bldc_mode_pos_control.hpp"
+#include "bldc_mode_trq_control.hpp"
 #include "bldc_mode_test.hpp"
 #include "bldc_servo_manager.hpp"
 
 #include "flash_interface.hpp"
 
+/************************ VERSION ******************************/
+uint16_t U16_CHIP_LOCAL_VER = 0x0100;
+/***************************************************************/
 
 enum ADC1CH {
   Potentio,  // CH4,  PA3
@@ -195,7 +199,6 @@ static BldcDriveMethodSine   bldc_drv_method_sine(&GmblBldc);
 static BldcDriveMethodVector bldc_drv_method_vector(&GmblBldc);
 BldcDriveMethod* get_bldcdrv_method() { return &bldc_drv_method_vector; };
 
-static PID AngleController(10000.0f, 0.03f, 0.001f, 0.0f, 1.0f);
 static PI_D AngleController_PI_D(10000.0f, 0.04f, 0.01f, 0.0003f, 1.0f, 800.0f);
 static IIR1 AngleCountrollerOut_filter(0.70f,0.15f,0.15f);
 static TargetInterp AngleTargetInterp;
@@ -207,10 +210,17 @@ BldcModePosControl::Parts bldc_mode_posctrl_parts = {
   .p_tgt_interp = &AngleTargetInterp,
 };
 static BldcModePosControl mode_pos_control(bldc_mode_posctrl_parts);
+
+BldcModeTrqControl::Parts bldc_mode_trqctrl_parts = {
+  .p_bldc_drv   = &bldc_drv_method_vector,
+};
+static BldcModeTrqControl mode_trq_control(bldc_mode_trqctrl_parts);
+
 static BldcModePowerOff   mode_off;
 
 BldcModeBase* get_bldcmode_off() { return &mode_off; };
 BldcModeBase* get_bldcmode_posctrl() { return &mode_pos_control; };
+BldcModeBase* get_bldcmode_trqctrl() { return &mode_trq_control; };
 
 static BldcServoManager bldc_manager(&mode_off);
 BldcServoManager* get_bldcservo_manager() { return &bldc_manager; };
@@ -221,11 +231,13 @@ CANC CanIf(&hfdcan1, 0x001);
 
 EXT_COM_BASE* p_ExtCom = &CanIf;
 
+void set_ext_com(EXT_COM_BASE* ecom) { p_ExtCom = ecom; };
 EXT_COM_BASE* get_ext_com() { return p_ExtCom; };
+EXT_COM_BASE* get_ext_com_default() { return &CanIf; };
 /*********************************************************************/
 
 /************************ FLASH INTERFACE ******************************/
-FlashIF FlashIf(255, 0x0807F800);
+FlashIF FlashIf(FLASH_BANK_1, 63, 0x0801F800);
 
 FlashIF* get_flash_if() { return &FlashIf; };
 /*********************************************************************/
@@ -244,10 +256,10 @@ BldcModeTestPosStep::Parts bldc_mode_test_posstep_parts = {
 BldcModeTestSineDriveOpen::Parts bldc_mode_test_sindrvopen_parts = {
   .p_bldc_drv   = &bldc_drv_method_sine,
 };
-static BldcModeTestElecAngle  mode_test_elec_ang(bldc_mode_test_elecang_parts);
-static BldcModeTestCurrStep   mode_test_curr_step(bldc_mode_test_currstep_parts);
-static BldcModeTestPosStep    mode_test_pos_step(bldc_mode_test_posstep_parts);
-static BldcModeTestSineDriveOpen   mode_test_sindrvopen(bldc_mode_test_sindrvopen_parts);
+BldcModeTestElecAngle  mode_test_elec_ang(bldc_mode_test_elecang_parts);
+BldcModeTestCurrStep   mode_test_curr_step(bldc_mode_test_currstep_parts);
+BldcModeTestPosStep    mode_test_pos_step(bldc_mode_test_posstep_parts);
+BldcModeTestSineDriveOpen   mode_test_sindrvopen(bldc_mode_test_sindrvopen_parts);
 /*****************************************************************/
 
 
@@ -260,10 +272,9 @@ static UART_DMAC   DebugCom(USART1, DMA2, LL_DMA_CHANNEL_1, LL_DMA_CHANNEL_2);
 static EXT_DEBUG_CAN_COM DebugComPretendCan((COM_BASE*)&DebugCom);
 
 COM_BASE *get_debug_com() { return &DebugCom; };
+EXT_COM_BASE *get_debug_com_pretend_ext() { return &DebugComPretendCan; };
 /***********************************************************************/
 
-
-void set_flash_parameter_to_models();
 
 void initialize_servo_driver_model() {
   //LL_TIM_EnableCounter(TIM2);
@@ -309,180 +320,8 @@ void loop_servo_driver_model() {
   //debug_printf("%0.1f,%0.1f,%0.1f,%d,%d,%d\n", GmblBldc.get_elec_angle(), GmblBldc.fl_calc_Vq_,GmblBldc.fl_calc_Vd_, TIM1->CCR1, TIM1->CCR2, TIM1->CCR3);
   //debug_printf("%0.1f,%0.1f\n", GmblBldc.get_out_angle(), GmblBldc.get_elec_angle());
 
+  debug_command_routine();
 
-  if(!DebugCom.is_rxBuf_empty()){
-    uint8_t _u8_c = 0;
-    DebugCom.get_rxbyte(_u8_c);
-    switch(_u8_c){
-      case 's':
-        LOG::disable_logging();
-        LOG::clear_LogData();
-        LOG::clear_LogAddressArray();
-        LOG::put_LogAddress(&bldc_manager.u32_status_memory[0]);
-        LOG::put_LogAddress(&bldc_manager.u32_status_memory[1]);
-        LOG::put_LogAddress(&bldc_manager.u32_status_memory[2]);
-        LOG::put_LogAddress(&bldc_manager.u32_status_memory[3]);
-        LOG::enable_logging();
-        break;
-      case 'p':
-        LOG::disable_logging();
-        debug_printf("Start\n");
-        LOG::print_LogData_byFLOAT();
-        debug_printf("End\n");
-        break;
-      case 'd':
-        {
-        AngleTargetInterp.set_nowtarget((int32_t)(GmblBldc.get_out_angle()*(float)0x10000));
-        BldcModeBase::Instr instr = {
-          .InstrPosCtrl_MvAng = {
-            .u16_instr_id = BldcModeBase::INSTR_ID_POSCTR_MOVE_ANGLE,
-            .s32_tgt_pos = 0,
-            .s32_move_time_ms = 1000,
-          },
-        };
-        mode_pos_control.set_Instruction(&instr);
-        bldc_manager.set_mode(&mode_pos_control);
-        }
-        break;
-      case 'e':
-        bldc_manager.set_mode(&mode_off);
-        break;
-      case 'z':
-        {
-        BldcModeBase::Instr instr = {
-          .InstrPosCtrl_MvAng = {
-            .u16_instr_id = BldcModeBase::INSTR_ID_POSCTR_MOVE_ANGLE,
-            .s32_tgt_pos = -30 << 16,
-            .s32_move_time_ms = 200,
-          },
-        };
-
-        mode_pos_control.set_Instruction(&instr);
-        }
-        break;
-      case 'x':
-        {
-        BldcModeBase::Instr instr = {
-          .InstrPosCtrl_MvAng = {
-            .u16_instr_id = BldcModeBase::INSTR_ID_POSCTR_MOVE_ANGLE,
-            .s32_tgt_pos = -120 << 16,
-            .s32_move_time_ms = 200,
-          },
-        };
-        mode_pos_control.set_Instruction(&instr);
-        }
-        break;
-      case 'f':
-        {
-        while(DebugCom.get_rxBuf_datasize() < 1){;};
-        uint8_t _u8_flash_cmd = 0;
-        DebugCom.get_rxbyte(_u8_flash_cmd);
-        switch (_u8_flash_cmd)
-        {
-        case 's':
-          FlashIf.save();
-          break;
-        case 'r':
-          FlashIf.erase();
-          FlashIf.load();
-          break;
-        case 'p':
-          {
-            int _size = sizeof(FlashIf.mirrorRam);
-            for(int i=0; i < _size/4; i++){
-              debug_printf("%04x:%02x,%02x,%02x,%02x\n", i*4, 
-                                                        FlashIf.mirrorRam.u8_d[4*i], 
-                                                        FlashIf.mirrorRam.u8_d[4*i+1],
-                                                        FlashIf.mirrorRam.u8_d[4*i+2],
-                                                        FlashIf.mirrorRam.u8_d[4*i+3]);
-            }
-          }
-          break;
-        case 'w':
-          {
-            while(DebugCom.get_rxBuf_datasize() < 3){;};
-            uint8_t _u8_write_data[3] = {};
-            DebugCom.get_rxbytes(_u8_write_data, 3);
-            uint16_t u16_addr = _u8_write_data[0] | (_u8_write_data[1] << 8);
-            FlashIf.mirrorRam.u8_d[u16_addr] = _u8_write_data[2];
-          }
-          break;
-        case 'd': /* flashに書かれているパラメータを各所に展開 */
-          set_flash_parameter_to_models();
-          CanIf.init(); // CAN通信初期化
-          break;
-        default:
-          break;
-        };
-        }
-        break;
-      case 'c': // 模擬CAN通信
-        {
-        while(DebugCom.get_rxBuf_datasize() < 13){;};
-        EXT_DEBUG_CAN_COM::RcvData _rcv = {};
-        DebugCom.get_rxbytes((uint8_t*)&_rcv, 13);
-        DebugComPretendCan.setReceiveData(&_rcv);
-        p_ExtCom = &DebugComPretendCan; // CANinterfaceを付け替え
-        while(DebugComPretendCan.getFillLevelRxMailboxes()){;}; // CAN処理待ち
-        p_ExtCom = &CanIf;  // CANinterfaceを元に戻す
-        }
-        break;
-      case 't':
-        {
-        while(DebugCom.get_rxBuf_datasize() < 1){;};
-        uint8_t _u8_test_cmd = 0;
-        DebugCom.get_rxbyte(_u8_test_cmd);
-        switch (_u8_test_cmd)
-        {
-        case 'c':
-          {
-          while(DebugCom.get_rxBuf_datasize() < 8){;};
-          float _fl_buf[2];
-          DebugCom.get_rxbytes((uint8_t*)_fl_buf, 8);
-          bldc_mode_test_currstep_parts.fl_tgt_Iq_A = _fl_buf[0];
-          bldc_mode_test_currstep_parts.fl_tgt_Id_A = _fl_buf[1];
-          bldc_manager.set_mode(&mode_test_curr_step);
-          }
-          break;
-        case 'e':
-          bldc_manager.set_mode(&mode_test_elec_ang);
-          break;
-        case 's':
-          {   
-          while(DebugCom.get_rxBuf_datasize() < 8){;};
-          float _fl_buf[2];
-          DebugCom.get_rxbytes((uint8_t*)_fl_buf, 8);
-          bldc_mode_test_sindrvopen_parts.fl_tgt_Vq_V = _fl_buf[0];
-          bldc_mode_test_sindrvopen_parts.fl_tgt_Vd_V = _fl_buf[1];
-          bldc_manager.set_mode(&mode_test_sindrvopen);
-          }
-          break;
-        case 'p': /* 位置制御ランプ応答テスト */
-          { 
-          while(DebugCom.get_rxBuf_datasize() < 5){;};
-          uint16_t _u16_buf[3] = {};
-          DebugCom.get_rxbytes((uint8_t*)_u16_buf, 5);
-          bldc_mode_test_posstep_parts.s16_tgt_pos_deg  = (int16_t)_u16_buf[0];
-          bldc_mode_test_posstep_parts.u16_move_time_ms = _u16_buf[1];
-          bldc_mode_test_posstep_parts.u8_mabiki = (uint8_t)_u16_buf[2];
-          bldc_manager.set_mode(&mode_test_pos_step);
-          }
-          break;
-        default:
-          break;
-        }
-
-        }
-        break;
-      case 'b':
-        {
-          print_version();
-          print_buildtime();
-        }
-        break;
-    };
-  }
-  
 }
 
 

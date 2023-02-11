@@ -2,7 +2,7 @@ import serial
 import struct
 import time
 
-COMnum = "COM3"
+COMnum = "COM9"
 
 def print_flash(ser:serial.Serial):
     cmdlist = [b'f', b'p']
@@ -43,6 +43,11 @@ def change_to_pm2505(ser:serial.Serial):
     write_float(ser, 0x24, float(360*7/16384))
     write_byte(ser, 0x28, 1)
 
+def change_to_gim4305(ser:serial.Serial):
+    # GIM4305用パラメータ書き換え
+    write_float(ser, 0x24, float(-360*14/16384))
+    write_byte(ser, 0x28, -1)
+
 def main():
     with serial.Serial(COMnum, 115200, timeout=1) as ser:
         print(' 0:flash 表示')
@@ -51,6 +56,7 @@ def main():
         print('10:位置制御PIDパラメータ書き換え')
         print('20:CAN ID書き換え')
         print('21:PM2205用書き換え')
+        print('22:GIM4305用書き換え')
         mode = int(input('>> '))
 
         if mode == 0:
@@ -94,6 +100,8 @@ def main():
             write_byte(ser, 0x10, int(id))
         elif mode == 21:
             change_to_pm2505(ser)
+        elif mode == 22:
+            change_to_gim4305(ser)
 
 
 if __name__ == '__main__':

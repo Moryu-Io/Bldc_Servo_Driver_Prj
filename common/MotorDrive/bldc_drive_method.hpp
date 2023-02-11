@@ -59,10 +59,18 @@ protected:
 class BldcDriveMethodVector : public BldcDriveMethodSine {
 public:
   BldcDriveMethodVector(BLDC *_bldc) : BldcDriveMethodSine(_bldc),
-    pid_iq(10000.0f, 8.0f, 10000.0f, 0.0f, 5.0f),
-    pid_id(10000.0f, 8.0f, 10000.0f, 0.0f, 5.0f) {};
+    pid_iq(10000.0f, (PID::Gain){8.0f, 10000.0f, 0.0f, 5.0f}),
+    pid_id(10000.0f, (PID::Gain){8.0f, 10000.0f, 0.0f, 5.0f}) {};
 
   void update() override;
+
+  void set_iq_gain(PID::Gain _gain){
+    pid_iq.set_PIDgain(_gain);
+  };
+
+  void set_id_gain(PID::Gain _gain){
+    pid_id.set_PIDgain(_gain);
+  };
 
 protected:
   PID pid_iq;

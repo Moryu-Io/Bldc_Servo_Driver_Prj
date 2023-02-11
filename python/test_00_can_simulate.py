@@ -2,7 +2,7 @@ import serial
 import struct
 import time
 
-COMnum = "COM7"
+COMnum = "COM9"
 
 DEBUG_PRINT_ON = True
 
@@ -36,6 +36,13 @@ class CanSim_TorqueOff(CanSim_TxCmdBase):
         self.Dlc = 8
         self.DataList = [0] * 8
 
+class CanSim_TorqueCtrlMode(CanSim_TxCmdBase):
+    def __init__(self):
+        self.CmdStruct = struct.Struct('<L9B')
+        self.CmdId = 0x8003
+        self.Dlc = 8
+        self.DataList = [0] * 8
+
 class CanSim_MoveAngle(CanSim_TxCmdBase):
     def __init__(self):
         self.CmdStruct = struct.Struct('<LBlHH')
@@ -66,6 +73,19 @@ class CanSim_AngleInit(CanSim_TxCmdBase):
 
         self.DataList[4] = self.init_angle_deg_Q16
 
+class CanSim_SetTargetCurrent(CanSim_TxCmdBase):
+    def __init__(self):
+        self.CmdStruct = struct.Struct('<LBll')
+        self.CmdId = 0x8110
+        self.Dlc = 8
+        self.DataList = [0] * 2
+        self.target_iq_A_Q16 = 0
+        self.target_id_A_Q16 = 0
+
+    def generate_datalist(self):
+        self.DataList[0] = self.target_iq_A_Q16
+        self.DataList[1] = self.target_id_A_Q16
+
 class CanSim_RtnSummary:
     def __init__(self, RtnBin):
         self.SummarySt = struct.unpack('<LBBhbbBb', RtnBin)
@@ -90,22 +110,28 @@ class CanSim_RtnSummary:
 
 CMD_TORQUE_ON = CanSim_TorqueOn()
 CMD_TORQUE_OFF = CanSim_TorqueOff()
+CMD_TORQUE_CTRL = CanSim_TorqueCtrlMode()
 CMD_MOVE_ANGLE = CanSim_MoveAngle()
 CMD_ANGLE_INIT = CanSim_AngleInit()
+CMD_SET_CURRENT = CanSim_SetTargetCurrent()
 
 def main():
     with serial.Serial(COMnum, 115200, timeout=1) as ser:
         print(' 0:torque on')
         print(' 1:torque off')
+        print(' 2:torque control mode')
         print('10:角度移動')
         print('11:角度初期化(現在位置)')
         print('12:角度初期化(指定位置)')
+        print('100:電流指示')
         mode = int(input('>> '))
 
         if mode == 0:
             CMD_TORQUE_ON.transmit(ser)
         elif mode == 1:
             CMD_TORQUE_OFF.transmit(ser)
+        elif mode == 2:
+            CMD_TORQUE_CTRL.transmit(ser)
         elif mode == 10:
             tgt_angle = input('指示角度[deg]は？ >> ')
             move_ms = input('移動時間[ms]は？ >> ')
@@ -124,6 +150,14 @@ def main():
             CMD_ANGLE_INIT.init_angle_deg_Q16 = int(tgt_angle) << 16
             CMD_ANGLE_INIT.generate_datalist()
             CMD_ANGLE_INIT.transmit(ser)
+        elif mode == 100:
+            tgt_iq_A = float(input('Iq[A]は？ >> '))
+            tgt_id_A = float(input('Id[A]は？ >> '))
+            CMD_SET_CURRENT.target_iq_A_Q16 = int(tgt_iq_A * 65536)
+            CMD_SET_CURRENT.target_id_A_Q16 = int(tgt_id_A * 65536)
+            print(CMD_SET_CURRENT.target_iq_A_Q16 )
+            CMD_SET_CURRENT.generate_datalist()
+            CMD_SET_CURRENT.transmit(ser)
         else:
             CMD_TORQUE_OFF.transmit(ser)
 

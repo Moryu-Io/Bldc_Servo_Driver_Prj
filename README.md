@@ -3,7 +3,7 @@
 ## 概要
 STM32マイコンを使用してBLDCを駆動する制御プログラム
 
-現在のメイン開発はF4
+現在のメイン開発はG4
 
 
 ## 使い方(Windows)
@@ -26,7 +26,7 @@ STM32マイコンを使用してBLDCを駆動する制御プログラム
     - VSCode のタスク構成もついてくるはず
 
 3. VSCode Workspaceを開く
-    - 現在は`bldc_servo_driver_F4.code-workspace`推奨
+    - 現在は`bldc_servo_driver_G4.code-workspace`推奨
 
 4. Ctrl+Alt+t でタスクを開き`Build project`を実行すると、ビルドができる
 
@@ -37,6 +37,7 @@ STM32マイコンを使用してBLDCを駆動する制御プログラム
 | フォルダ名   | 説明                                                                                            |
 | ------------ | ----------------------------------------------------------------------------------------------- |
 |bldc_servo_driver_mini_F4|STM32F405を使用したBLDCドライバ用コード|
+|bldc_servo_driver_mini_G4|STM32G4系マイコンを使用したBLDCドライバ用コード|
 |bldc_servo_driver_mini_H7|STM32H7を使用したBLDCドライバ用コード(未)|
 |bldc_servo_driver_stspin32g4|STM32G4(STSPIN32G4)を使用したBLDCドライバ用コード|
 |common|各マイコンで共通のコード。例えばBLDCベクトル制御ロジック|

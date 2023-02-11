@@ -1,4 +1,3 @@
-/build/*
 /Drivers/CMSIS/Core/*
 /Drivers/CMSIS/Core_A/*
 /Drivers/CMSIS/Device/ST/STM32F4xx/Source/Templates/*

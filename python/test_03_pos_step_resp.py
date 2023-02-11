@@ -9,9 +9,9 @@ import numpy as np
 
 
 SaveFolderPath = "./LOG"
-COMnum = "COM7"
+COMnum = "COM9"
 
-POS_TARGET_DEG = -90
+POS_TARGET_DEG = 90
 MOVE_TIME_MS = 200
 MABIKI = 4
 

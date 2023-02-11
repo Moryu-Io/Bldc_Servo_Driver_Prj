@@ -9,9 +9,9 @@ import numpy as np
 
 
 SaveFolderPath = "./LOG"
-COMnum = "COM7"
+COMnum = "COM9"
 
-Iq_TARGET_A = 0.2
+Iq_TARGET_A = 0.05
 Id_TARGET_A = 0
 
 

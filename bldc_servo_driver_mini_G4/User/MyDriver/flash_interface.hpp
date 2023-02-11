@@ -49,8 +49,8 @@ extern const FlashSaveParams C_FlashInitParams;
 class FlashIF {
 
 public:
-  FlashIF(uint32_t sector, uint32_t sector_addr)
-      : u32_sector_(sector), u32_sector_addr_(sector_addr){};
+  FlashIF(uint32_t bank, uint32_t sector, uint32_t sector_addr)
+      : u32_bank_(bank), u32_sector_(sector), u32_sector_addr_(sector_addr){};
 
   bool erase();
   bool save();
@@ -59,6 +59,7 @@ public:
   FlashSaveParams mirrorRam;
 
 private:
+  uint32_t u32_bank_;
   uint32_t u32_sector_;
   uint32_t u32_sector_addr_;
 };
