@@ -45,6 +45,8 @@ enum ADC2CH {
 };
 static ADCC<4> Adc2Ctrl(ADC2, DMA1, LL_DMA_CHANNEL_2);
 
+
+// TODO:角度補間が必要かもしれない
 class MotorAngSenser : public PWMINC {
 public:
   using PWMINC::PWMINC;
@@ -53,13 +55,25 @@ public:
     PWMINC::update();
 
     if(isCapEdge){
+      u16_edge2ege_cnt = u16_no_edge_cnt + 1;
+      u16_no_edge_cnt = 0;
+      u16_angle_digit_14b_preEdge = u16_angle_digit_14b_nowEdge;
       //uint32_t  u32_pre  = (uint32_t)U16_PRE_CNT * u16_cap_rise_edge / U16_FRAME_CNT;
       uint32_t  u32_data = (uint32_t)u16_cap_fall_edge * U16_FRAME_CNT / u16_cap_rise_edge;
-      if(u32_data < U16_PRE_CNT){
-        // Error
-      } else {
-        u16_angle_digit_14b = (u32_data - U16_PRE_CNT) << 2;
-      }
+
+      if(u32_data < U16_PRE_CNT) u32_data = U16_PRE_CNT;
+
+      u16_angle_digit_14b_nowEdge = (u32_data - U16_PRE_CNT) << 2;
+      u16_angle_digit_14b = u16_angle_digit_14b_nowEdge;
+    } else {
+      int16_t _s16_d_ang = u16_angle_digit_14b_nowEdge - u16_angle_digit_14b_preEdge;
+      _s16_d_ang =  (_s16_d_ang > 0x1FFF)  ? (_s16_d_ang - 0x3FFF)
+                  :((_s16_d_ang < -0x1FFF) ? (_s16_d_ang + 0x3FFF)
+                                            : _s16_d_ang );
+      u16_no_edge_cnt = u16_no_edge_cnt + 1;
+      u16_angle_digit_14b = u16_angle_digit_14b_nowEdge 
+                            + u16_no_edge_cnt * _s16_d_ang / u16_edge2ege_cnt;
+      u16_angle_digit_14b = u16_angle_digit_14b & 0x3FFF;
     }
   }
 
@@ -70,9 +84,19 @@ private:
   const uint16_t U16_FRAME_CNT = 4119;
 
   uint16_t u16_angle_digit_14b;
+  uint16_t u16_angle_digit_14b_nowEdge;
+  uint16_t u16_angle_digit_14b_preEdge;
+
+  uint16_t u16_no_edge_cnt;
+  uint16_t u16_edge2ege_cnt = 10;
 };
 
 static MotorAngSenser MotorAngSenserCtrl(TIM2, 36, 5000);
+
+extern "C"{
+void TIM2_IRQHandler(void){ MotorAngSenserCtrl.intr(); }
+}
+
 
 float fl_now_ang_deg_debug = 0.0f;
 float fl_now_elec_ang_deg_debug = 0.0f;
@@ -104,8 +128,8 @@ public:
     /* OC1REFのトリガー出力でADC1,2を駆動する */
     LL_TIM_EnableCounter(TIM3);
     LL_TIM_CC_EnableChannel(TIM3, LL_TIM_CHANNEL_CH1);
-    //TIM3->CCR1 = 1900;
-    TIM3->CCR1 = 3900;
+    TIM3->CCR1 = 1900;
+    //TIM3->CCR1 = 3900;
 
     LL_mDelay(1);
     //LL_GPIO_SetOutputPin(GPIOB, LL_GPIO_PIN_5); // GPIO_BEMF
@@ -380,8 +404,8 @@ void set_flash_parameter_to_models(){
   AngleController_PI_D.set_I_limit(1.0f);       
   AngleController_PI_D.set_VelLpf_CutOff(800.0f);
 
-  PID::Gain curr_gain = {.pg   = 0.0f,
-                         .ig   = 1000.0f,
+  PID::Gain curr_gain = {.pg   = 1.0f,
+                         .ig   = 10.0f,
                          .dg   = 0.0f,
                          .ilim = 5.0f};
   bldc_drv_method_vector.set_iq_gain(curr_gain);

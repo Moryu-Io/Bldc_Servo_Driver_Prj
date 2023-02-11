@@ -8,10 +8,13 @@ public:
     PWMINC(TIM_TypeDef * _timx, uint32_t _pwm_dura, uint32_t _maxcnt) 
     : timx_(_timx), u16_pwm_dura_(_pwm_dura), u16_max_cnt_(_maxcnt),
       isCapEdge(), 
-      u16_cap_rise_edge(), u16_cap_fall_edge() {};
+      u16_cap_rise_edge(), u16_cap_fall_edge(),
+      isCapIntr(),
+      u16_cap_rise_edge_buf(), u16_cap_fall_edge_buf() {};
 
     void init();
     virtual void update();
+    void intr();
 
     uint32_t get_rise_edge(){ return u16_cap_rise_edge; };
     uint32_t get_fall_edge(){ return u16_cap_fall_edge; };
@@ -25,6 +28,11 @@ protected:
     bool isCapEdge;
     uint32_t u16_cap_rise_edge;
     uint32_t u16_cap_fall_edge;
+
+    bool isCapIntr;
+    uint32_t u16_cap_rise_edge_buf;
+    uint32_t u16_cap_fall_edge_buf;
+
 
 };
 
