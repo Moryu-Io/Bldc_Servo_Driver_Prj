@@ -43,6 +43,7 @@ Core/Src/cordic.c \
 Core/Src/dma.c \
 Core/Src/fdcan.c \
 Core/Src/opamp.c \
+Core/Src/spi.c \
 Core/Src/tim.c \
 Core/Src/usart.c \
 Core/Src/stm32g4xx_it.c \
@@ -68,6 +69,7 @@ Core/Src/stm32g4xx_hal_msp.c \
 ./../Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_ll_cordic.c \
 ./../Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_fdcan.c \
 ./../Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_ll_opamp.c \
+./../Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_ll_spi.c \
 ./../Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_tim.c \
 ./../Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_tim_ex.c \
 ./../Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_ll_tim.c \

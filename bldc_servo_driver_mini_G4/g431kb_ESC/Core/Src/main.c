@@ -23,6 +23,7 @@
 #include "dma.h"
 #include "fdcan.h"
 #include "opamp.h"
+#include "spi.h"
 #include "tim.h"
 #include "usart.h"
 #include "gpio.h"
@@ -105,6 +106,7 @@ int main(void)
   MX_TIM6_Init();
   MX_TIM7_Init();
   MX_TIM2_Init();
+  MX_SPI3_Init();
   /* USER CODE BEGIN 2 */
   cpp_wrapper_main_setup();
   /* USER CODE END 2 */
