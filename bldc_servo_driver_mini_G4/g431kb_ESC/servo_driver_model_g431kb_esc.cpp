@@ -175,9 +175,9 @@ public:
 fl_now_ang_deg_debug = fl_now_out_ang_deg_;
 fl_now_elec_ang_deg_debug = fl_now_elec_ang_deg_;
     /* 電流測定 */
-    now_current_.U = Curr_Gain_ADtoA * ((int16_t)Adc1Ctrl.get_adc_data(ADC1CH::CurFb_U) - 2525);
-    now_current_.V = Curr_Gain_ADtoA * ((int16_t)Adc2Ctrl.get_adc_data(ADC2CH::CurFb_V) - 2513);
-    now_current_.W = Curr_Gain_ADtoA * ((int16_t)Adc1Ctrl.get_adc_data(ADC1CH::CurFb_W) - 2530);
+    now_current_.U = Curr_Gain_ADtoA * ((int16_t)Adc1Ctrl.get_adc_data(ADC1CH::CurFb_U) - 2509);
+    now_current_.V = Curr_Gain_ADtoA * ((int16_t)Adc2Ctrl.get_adc_data(ADC2CH::CurFb_V) - 2517);
+    now_current_.W = Curr_Gain_ADtoA * ((int16_t)Adc1Ctrl.get_adc_data(ADC1CH::CurFb_W) - 2511);
   };
 
   void set_drive_duty(DriveDuty &_Vol) override {
@@ -201,7 +201,7 @@ fl_now_elec_ang_deg_debug = fl_now_elec_ang_deg_;
 private:
   const float Vm_inv = 1.0f / 12.0f;
   const float Vm_Gain_ADtoV = 3.3f/4096.0f * (400.0f + 33.0f) / 33.0f;
-  const float Curr_Gain_ADtoA = -3.3f/4096.0f*20.83f;  // 3.3V / 4096AD * 5.20833 A/V
+  const float Curr_Gain_ADtoA = -3.3f/4096.0f*6.6667f;  // 3.3V / 4096AD * 20.83 A/V (デフォルト)
   const float Angle_Gain_CNTtoDeg = -360.0f / 16384.0f / 1.0f;
 
 
@@ -418,10 +418,10 @@ void set_flash_parameter_to_models(){
   AngleController_PI_D.set_I_limit(1.0f);       
   AngleController_PI_D.set_VelLpf_CutOff(800.0f);
 
-  PID::Gain curr_gain = {.pg   = 1.0f,
-                         .ig   = 10.0f,
+  PID::Gain curr_gain = {.pg   = 2.0f,
+                         .ig   = 1000.0f,
                          .dg   = 0.0f,
-                         .ilim = 5.0f};
+                         .ilim = 2.0f};
   bldc_drv_method_vector.set_iq_gain(curr_gain);
   bldc_drv_method_vector.set_id_gain(curr_gain);
 #endif

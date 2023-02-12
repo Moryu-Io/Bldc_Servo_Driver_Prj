@@ -74,7 +74,7 @@ void MX_TIM1_Init(void)
   TIM_BDTRInitStruct.OSSRState = LL_TIM_OSSR_ENABLE;
   TIM_BDTRInitStruct.OSSIState = LL_TIM_OSSI_ENABLE;
   TIM_BDTRInitStruct.LockLevel = LL_TIM_LOCKLEVEL_OFF;
-  TIM_BDTRInitStruct.DeadTime = 100;
+  TIM_BDTRInitStruct.DeadTime = 50;
   TIM_BDTRInitStruct.BreakState = LL_TIM_BREAK_DISABLE;
   TIM_BDTRInitStruct.BreakPolarity = LL_TIM_BREAK_POLARITY_HIGH;
   TIM_BDTRInitStruct.BreakFilter = LL_TIM_BREAK_FILTER_FDIV1;
