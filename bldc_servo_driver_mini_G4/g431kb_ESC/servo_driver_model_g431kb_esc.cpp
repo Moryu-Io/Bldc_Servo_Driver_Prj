@@ -32,19 +32,20 @@ uint16_t U16_CHIP_LOCAL_VER = 0x0100;
 enum ADC1CH {
   CurFb_U,   // CH3,  PA2
   CurFb_W,   // CH12, PB1
-  Potentio,  // CH11, PB12
+  //Potentio,  // CH11, PB12
   MotorTemp, // CH5,  PB14
-  VmSens,    // CH1,  PA0
+  //VmSens,    // CH1,  PA0
 };
-static ADCC<5> Adc1Ctrl(ADC1, DMA1, LL_DMA_CHANNEL_1);
+static ADCC<3> Adc1Ctrl(ADC1, DMA1, LL_DMA_CHANNEL_1);
 
 enum ADC2CH {
   CurFb_V, // CH3, PA6
-  BEMF_U,  // CH17, PA4
-  BEMF_V,  // CH5, PC4
-//  BEMF_W,  // CH14, PB11 -> SPI3CS
+  VmSens,  // CH1, PA0
+  //BEMF_U,  // CH17, PA4
+  //BEMF_V,  // CH5, PC4
+  //BEMF_W,  // CH14, PB11 -> SPI3CS
 };
-static ADCC<3> Adc2Ctrl(ADC2, DMA1, LL_DMA_CHANNEL_2);
+static ADCC<2> Adc2Ctrl(ADC2, DMA1, LL_DMA_CHANNEL_2);
 
 
 // TODO:角度補間が必要かもしれない
@@ -112,7 +113,10 @@ float fl_now_ang_deg_debug = 0.0f;
 float fl_now_elec_ang_deg_debug = 0.0f;
 class PM3505: public BLDC {
 public:
-  PM3505(){};
+  PM3505()
+    :iir_cur_u(0.778, 0.111, 0.111),
+     iir_cur_v(0.778, 0.111, 0.111),
+     iir_cur_w(0.778, 0.111, 0.111) {};
 
   void init() override {
     /* init the motor angle senser */
@@ -138,8 +142,8 @@ public:
     /* OC1REFのトリガー出力でADC1,2を駆動する */
     LL_TIM_EnableCounter(TIM3);
     LL_TIM_CC_EnableChannel(TIM3, LL_TIM_CHANNEL_CH1);
-    TIM3->CCR1 = 1900;
-    //TIM3->CCR1 = 3900;
+    //TIM3->CCR1 = 1900;
+    TIM3->CCR1 = 3700;
 
     LL_mDelay(1);
     //LL_GPIO_SetOutputPin(GPIOB, LL_GPIO_PIN_5); // GPIO_BEMF
@@ -175,9 +179,9 @@ public:
 fl_now_ang_deg_debug = fl_now_out_ang_deg_;
 fl_now_elec_ang_deg_debug = fl_now_elec_ang_deg_;
     /* 電流測定 */
-    now_current_.U = Curr_Gain_ADtoA * ((int16_t)Adc1Ctrl.get_adc_data(ADC1CH::CurFb_U) - 2509);
-    now_current_.V = Curr_Gain_ADtoA * ((int16_t)Adc2Ctrl.get_adc_data(ADC2CH::CurFb_V) - 2517);
-    now_current_.W = Curr_Gain_ADtoA * ((int16_t)Adc1Ctrl.get_adc_data(ADC1CH::CurFb_W) - 2511);
+    now_current_.U = iir_cur_u.update(Curr_Gain_ADtoA * ((int16_t)Adc1Ctrl.get_adc_data(ADC1CH::CurFb_U) - 2509*2));
+    now_current_.V = iir_cur_v.update(Curr_Gain_ADtoA * ((int16_t)Adc2Ctrl.get_adc_data(ADC2CH::CurFb_V) - 2517*2));
+    now_current_.W = iir_cur_w.update(Curr_Gain_ADtoA * ((int16_t)Adc1Ctrl.get_adc_data(ADC1CH::CurFb_W) - 2511*2));
   };
 
   void set_drive_duty(DriveDuty &_Vol) override {
@@ -201,10 +205,12 @@ fl_now_elec_ang_deg_debug = fl_now_elec_ang_deg_;
 private:
   const float Vm_inv = 1.0f / 12.0f;
   const float Vm_Gain_ADtoV = 3.3f/4096.0f * (400.0f + 33.0f) / 33.0f;
-  const float Curr_Gain_ADtoA = -3.3f/4096.0f*6.6667f;  // 3.3V / 4096AD * 20.83 A/V (デフォルト)
+  const float Curr_Gain_ADtoA = -3.3f/8192.0f*6.6667f;  // 3.3V / 8192AD * 20.83 A/V (デフォルト)
   const float Angle_Gain_CNTtoDeg = -360.0f / 16384.0f / 1.0f;
 
-
+  IIR1 iir_cur_u;
+  IIR1 iir_cur_v;
+  IIR1 iir_cur_w;
 
   inline void set_enable_register(uint8_t Uenable, uint8_t Venable, uint8_t Wenable) {
     ///*

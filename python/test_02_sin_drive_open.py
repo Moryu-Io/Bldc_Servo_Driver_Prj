@@ -9,7 +9,7 @@ import numpy as np
 
 
 SaveFolderPath = "./LOG"
-COMnum = "COM9"
+COMnum = "COM12"
 
 Vq_TARGET_V = 2.0
 Vd_TARGET_V = 0

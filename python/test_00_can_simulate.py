@@ -2,7 +2,7 @@ import serial
 import struct
 import time
 
-COMnum = "COM9"
+COMnum = "COM12"
 
 DEBUG_PRINT_ON = True
 

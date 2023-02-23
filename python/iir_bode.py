@@ -3,8 +3,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 Fs = 10000
-Fc_hz = 100
-Tc = 1/(2*np.pi*Fc_hz)
+Fc_hz = 2500
+Tc = 1/(Fc_hz)
 
 num = [1]
 den = [Tc, 1]
