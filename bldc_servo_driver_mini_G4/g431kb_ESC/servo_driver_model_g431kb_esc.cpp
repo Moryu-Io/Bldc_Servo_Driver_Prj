@@ -357,7 +357,8 @@ void initialize_servo_driver_model() {
                            u8_DEBUG_COM_TXBUF, DEBUG_COM_TXBUF_LENGTH);
   DebugCom.init_rxtx();
 
-  //CanIf.init();
+  LL_GPIO_SetOutputPin(GPIOC, LL_GPIO_PIN_14);
+  CanIf.init();
   
   MotorAngSenserCtrl.init();
 
