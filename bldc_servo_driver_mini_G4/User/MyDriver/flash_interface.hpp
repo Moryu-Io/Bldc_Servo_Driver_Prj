@@ -23,7 +23,11 @@ union FlashSaveParams {
     int32_t s32_elec_angle_offset_CNT;
     float   fl_elec_angle_gain_CNTtoDeg;
     int8_t  s8_elec_angle_dir;
-    uint8_t u8_dummy_0029_004F[39];
+    uint8_t u8_dummy_0029_002B[3];
+    uint16_t u16_curr_ad_mid_u;
+    uint16_t u16_curr_ad_mid_v;
+    uint16_t u16_curr_ad_mid_w;
+    uint8_t u8_dummy_0032_004F[30];
     /* Current Control */
     float   fl_Iq_Pgain;
     float   fl_Iq_Igain;

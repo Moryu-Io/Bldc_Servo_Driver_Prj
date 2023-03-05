@@ -179,9 +179,12 @@ public:
 fl_now_ang_deg_debug = fl_now_out_ang_deg_;
 fl_now_elec_ang_deg_debug = fl_now_elec_ang_deg_;
     /* 電流測定 */
-    now_current_.U = iir_cur_u.update(Curr_Gain_ADtoA * ((int16_t)Adc1Ctrl.get_adc_data(ADC1CH::CurFb_U) - 2509*2));
-    now_current_.V = iir_cur_v.update(Curr_Gain_ADtoA * ((int16_t)Adc2Ctrl.get_adc_data(ADC2CH::CurFb_V) - 2517*2));
-    now_current_.W = iir_cur_w.update(Curr_Gain_ADtoA * ((int16_t)Adc1Ctrl.get_adc_data(ADC1CH::CurFb_W) - 2511*2));
+    now_curr_raw_.U = Adc1Ctrl.get_adc_data(ADC1CH::CurFb_U);
+    now_curr_raw_.V = Adc2Ctrl.get_adc_data(ADC2CH::CurFb_V);
+    now_curr_raw_.W = Adc1Ctrl.get_adc_data(ADC1CH::CurFb_W);
+    now_current_.U  = iir_cur_u.update(Curr_Gain_ADtoA * ((int32_t)now_curr_raw_.U - st_curr_raw_mid_.U));
+    now_current_.V  = iir_cur_v.update(Curr_Gain_ADtoA * ((int32_t)now_curr_raw_.V - st_curr_raw_mid_.V));
+    now_current_.W  = iir_cur_w.update(Curr_Gain_ADtoA * ((int32_t)now_curr_raw_.W - st_curr_raw_mid_.W));
   };
 
   void set_drive_duty(DriveDuty &_Vol) override {
@@ -397,7 +400,12 @@ void set_flash_parameter_to_models(){
   GmblBldc.set_elec_angle_gain(FlashIf.mirrorRam.var.fl_elec_angle_gain_CNTtoDeg);
   GmblBldc.set_elec_angle_offset(FlashIf.mirrorRam.var.s32_elec_angle_offset_CNT);
   GmblBldc.set_elec_angle_dir(FlashIf.mirrorRam.var.s8_elec_angle_dir);
-
+  BLDC::CurrentRaw curmid = {
+    .U = FlashIf.mirrorRam.var.u16_curr_ad_mid_u,
+    .V = FlashIf.mirrorRam.var.u16_curr_ad_mid_v,
+    .W = FlashIf.mirrorRam.var.u16_curr_ad_mid_w,
+  };
+  GmblBldc.set_curr_raw_mid(curmid);
 
 #if 0
   /* 位置制御器パラメータ展開 */

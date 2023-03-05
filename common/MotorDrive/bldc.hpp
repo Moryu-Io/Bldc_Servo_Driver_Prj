@@ -24,6 +24,12 @@ public:
     DrivePhase Duty;
   };
 
+  struct CurrentRaw {
+    uint16_t U;
+    uint16_t V;
+    uint16_t W;
+  };
+
   virtual void init() = 0;
   virtual void update(){};
   virtual void update_lowrate(){};
@@ -37,6 +43,7 @@ public:
   void set_elec_angle_gain(float _eang_g) { fl_elec_angle_gain_CNTtoDeg_ = _eang_g; }
   void set_elec_angle_offset(int32_t _eang_ofs) { s32_elec_angle_offset_CNT_ = _eang_ofs; }
   void set_elec_angle_dir(int8_t _eang_dir) { s8_elec_angle_dir_ = _eang_dir; }
+  void set_curr_raw_mid(CurrentRaw _curr_mid) { st_curr_raw_mid_ = _curr_mid; }
 
   /* 検査やデバッグ用の強制状態上書き */
   void overwrite_elec_angle_forTEST(float _eang) { fl_now_elec_ang_deg_ = _eang; }
@@ -53,6 +60,7 @@ public:
   float      get_tempr_deg() { return fl_temperature_deg; }
   float      get_currlim_A() { return fl_current_lim_A_; }
   DrivePhase get_current() { return now_current_; };
+  CurrentRaw get_current_raw() { return now_curr_raw_; };
 
   virtual bool get_fault_state() { return false; };
   virtual bool get_ready_state() { return true; }
@@ -75,6 +83,7 @@ protected:
   float      fl_current_lim_A_;
   DrivePhase now_current_;
   DrivePhase now_bev_;
+  CurrentRaw now_curr_raw_;
 
   float fl_Vm_;
   float fl_temperature_deg;
@@ -84,6 +93,8 @@ protected:
   float   fl_elec_angle_gain_CNTtoDeg_; // モータによって異なる値
   int32_t s32_elec_angle_offset_CNT_;   // モータによって異なる値
   int8_t  s8_elec_angle_dir_;           // モータによって異なる値
+
+  CurrentRaw st_curr_raw_mid_;           // 電流AD値の中点調整値
 };
 
 #endif

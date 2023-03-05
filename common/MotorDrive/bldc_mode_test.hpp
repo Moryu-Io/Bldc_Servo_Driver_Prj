@@ -21,7 +21,7 @@ public:
     };
 
     BldcModeTestElecAngle(Parts& _parts)
-        : parts_(_parts) {};
+        : parts_(_parts), nowState_(APPLY_OPEN_EANG) {};
 
     void init() override;
     void update() override;
@@ -30,13 +30,34 @@ public:
     bool isCompleted() override { return is_comp_; };
 
 protected:
+    enum state{
+        APPLY_OPEN_EANG,
+        WAIT_STABLE,
+        AVARAGE_EANG,
+        FORCE_SINE,
+        MEAS_CURR,
+        DRV_STOP
+    };
+
     Parts& parts_;
+    state  nowState_;
 
     bool is_comp_;
     int32_t s32_ElecOffsetSum;
+    BLDC::CurrentRaw st_curr_max;
+    BLDC::CurrentRaw st_curr_min;
     uint32_t u32_test_cnt_;
     const uint32_t U32_TEST_STABLE_COUNT  = 10000;
     const uint32_t U32_TEST_AVARAGE_COUNT_SHIFT = 8;
+    const uint32_t U32_TEST_SINE_COUNT  = 10000;
+
+private:
+    state apply_open_eang();
+    state wait_stable();
+    state average_eang();
+    state force_sine();
+    state measure_current();
+    state drive_stop();
 
 };
 

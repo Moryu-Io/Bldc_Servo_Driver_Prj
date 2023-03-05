@@ -1,46 +1,145 @@
 #include "bldc_mode_test.hpp"
 #include "logger.hpp"
-
+#include "mymath.hpp"
 
 
 void BldcModeTestElecAngle::init()
 {
     /* 内部変数初期化 */
+    nowState_ = APPLY_OPEN_EANG;
     is_comp_ = false;
     u32_test_cnt_ = 0;
     s32_ElecOffsetSum= 0;
+    st_curr_max.U = 0;
+    st_curr_max.V = 0;
+    st_curr_max.W = 0;
+    st_curr_min.U = 0xFFFF;
+    st_curr_min.V = 0xFFFF;
+    st_curr_min.W = 0xFFFF;
+
     debug_printf("BldcModeTestElecAngle\n");
 }
 
 void BldcModeTestElecAngle::update()
 {
-
+    switch (nowState_)
+    {
+    case APPLY_OPEN_EANG:   nowState_ = apply_open_eang(); break;
+    case WAIT_STABLE:       nowState_ = wait_stable();     break;
+    case AVARAGE_EANG:      nowState_ = average_eang();    break;
+    case FORCE_SINE:        nowState_ = force_sine();      break;
+    case MEAS_CURR:         nowState_ = measure_current(); break;
+    case DRV_STOP:          nowState_ = drive_stop();      break;
+    default:                                               break;
+    }
+}
+BldcModeTestElecAngle::state BldcModeTestElecAngle::apply_open_eang(){
     BldcDriveMethod::Ref input = {
         .Vq = 3.0f,
     };
-
     P_BLDC_->update();
     P_BLDC_->overwrite_elec_angle_forTEST(0.0f);
-    //P_BLDC_->overwrite_elec_angle_forTEST((float)(u32_test_cnt_*360/1000));
+    parts_.p_bldc_drv->set(input);
+    parts_.p_bldc_drv->update();
+
+    return state::WAIT_STABLE;
+}
+BldcModeTestElecAngle::state BldcModeTestElecAngle::wait_stable(){
+    P_BLDC_->update();
+    P_BLDC_->overwrite_elec_angle_forTEST(0.0f);
+    parts_.p_bldc_drv->update();
+    if(u32_test_cnt_ < U32_TEST_STABLE_COUNT){
+        u32_test_cnt_++;
+        return state::WAIT_STABLE;
+    } else {
+        u32_test_cnt_ = 0;
+        return state::AVARAGE_EANG;
+    }
+}
+BldcModeTestElecAngle::state BldcModeTestElecAngle::average_eang(){
+    P_BLDC_->update();
+    P_BLDC_->overwrite_elec_angle_forTEST(0.0f);
+    parts_.p_bldc_drv->update();
+    if(u32_test_cnt_ < (uint32_t)(1 << U32_TEST_AVARAGE_COUNT_SHIFT)){
+        s32_ElecOffsetSum += P_BLDC_->get_angle_raw();
+        u32_test_cnt_++;
+        return state::AVARAGE_EANG;
+    } else {
+        int32_t s32_elecoffset = s32_ElecOffsetSum >> U32_TEST_AVARAGE_COUNT_SHIFT;
+        parts_.p_flashif->mirrorRam.var.s32_elec_angle_offset_CNT = s32_elecoffset;
+        P_BLDC_->set_elec_angle_offset(s32_elecoffset);
+        u32_test_cnt_ = 0;
+        return state::FORCE_SINE;
+    }
+}
+BldcModeTestElecAngle::state BldcModeTestElecAngle::force_sine(){
+    BldcDriveMethod::Ref input = {
+        .Vq = 2.0f,
+        .Vd = 0.0f,
+    };
+    P_BLDC_->update();
     parts_.p_bldc_drv->set(input);
     parts_.p_bldc_drv->update();
 
     if(u32_test_cnt_ < U32_TEST_STABLE_COUNT){
         u32_test_cnt_++;
-    } else if(u32_test_cnt_ < (U32_TEST_STABLE_COUNT + (1 << U32_TEST_AVARAGE_COUNT_SHIFT))){
-        s32_ElecOffsetSum += P_BLDC_->get_angle_raw();
-        u32_test_cnt_++;
-    }else{
-        is_comp_ = true;
+        return state::FORCE_SINE;
+    } else {
+        u32_test_cnt_ = 0;
+        return state::MEAS_CURR;
     }
 }
+BldcModeTestElecAngle::state BldcModeTestElecAngle::measure_current(){
+    BldcDriveMethod::Ref input = {
+        .Vq = 2.0f,
+        .Vd = 0.0f,
+    };
+    P_BLDC_->update();
+    parts_.p_bldc_drv->set(input);
+    parts_.p_bldc_drv->update();
 
+    if(u32_test_cnt_ < U32_TEST_SINE_COUNT){
+        BLDC::CurrentRaw _cur_ad = P_BLDC_->get_current_raw();
+        st_curr_max.U = MAX(_cur_ad.U, st_curr_max.U);
+        st_curr_max.V = MAX(_cur_ad.V, st_curr_max.V);
+        st_curr_max.W = MAX(_cur_ad.W, st_curr_max.W);
+        st_curr_min.U = MIN(_cur_ad.U, st_curr_min.U);
+        st_curr_min.V = MIN(_cur_ad.V, st_curr_min.V);
+        st_curr_min.W = MIN(_cur_ad.W, st_curr_min.W);
+        u32_test_cnt_++;
+        return state::MEAS_CURR;
+    } else {
+        u32_test_cnt_ = 0;
+        return state::DRV_STOP;
+    }
+}
+BldcModeTestElecAngle::state BldcModeTestElecAngle::drive_stop(){
+    BldcDriveMethod::Ref input = {
+        .Vq = 0.0f,
+        .Vd = 0.0f,
+    };
+    P_BLDC_->update();
+    parts_.p_bldc_drv->set(input);
+    parts_.p_bldc_drv->update();
+    is_comp_ = true;
+    return state::DRV_STOP;
+}
 void BldcModeTestElecAngle::end()
 {
     int32_t s32_elecoffset = s32_ElecOffsetSum >> U32_TEST_AVARAGE_COUNT_SHIFT;
-    parts_.p_flashif->mirrorRam.var.s32_elec_angle_offset_CNT = s32_elecoffset;
-    P_BLDC_->set_elec_angle_offset(s32_elecoffset);
-    debug_printf("%d\n", (int)(s32_elecoffset));
+    BLDC::CurrentRaw _cur_mid = {};
+    _cur_mid.U = (st_curr_max.U + st_curr_min.U) >> 1;
+    _cur_mid.V = (st_curr_max.V + st_curr_min.V) >> 1;
+    _cur_mid.W = (st_curr_max.W + st_curr_min.W) >> 1;
+    P_BLDC_->set_curr_raw_mid(_cur_mid);
+    parts_.p_flashif->mirrorRam.var.u16_curr_ad_mid_u = _cur_mid.U;
+    parts_.p_flashif->mirrorRam.var.u16_curr_ad_mid_v = _cur_mid.V;
+    parts_.p_flashif->mirrorRam.var.u16_curr_ad_mid_w = _cur_mid.W;
+
+    debug_printf("Eang:%d\n", (int)(s32_elecoffset));
+    debug_printf("U :%d,%d,%d\n", (int)(st_curr_max.U),(int)(st_curr_min.U),(int)(_cur_mid.U));
+    debug_printf("V :%d,%d,%d\n", (int)(st_curr_max.V),(int)(st_curr_min.V),(int)(_cur_mid.V));
+    debug_printf("W :%d,%d,%d\n", (int)(st_curr_max.W),(int)(st_curr_min.W),(int)(_cur_mid.W));
 }
 
 

@@ -6,6 +6,9 @@ extern "C" {
 #include "arm_math.h"
 }
 
+#define MAX(x,y) (((x)>(y))?(x):(y))
+#define MIN(x,y) (((x)<(y))?(x):(y))
+
 namespace mymath {
 
 constexpr static float const_rad2deg = 180.0f / PI;
