@@ -4,18 +4,20 @@ import logging
 
 
 class BldcDebugIf:
-    def __init__(self) -> None:
+    def __init__(self, comnum='auto') -> None:
         self.C_USB_DESC = "STMicroelectronics STLink Virtual COM Port"
         self.ser = serial.Serial()
         self.ser.baudrate = 115200
+        self.comnum = comnum
 
         # ログ設定
+        self.loglevel = logging.INFO
         self.logger = logging.getLogger('BldcSerial')
-        self.logger.setLevel(logging.DEBUG)  # ログレベル
+        self.logger.setLevel(self.loglevel)  # ログレベル
 
         formatter = logging.Formatter('[%(name)s][%(levelname)s]:%(message)s')
         self.ch = logging.StreamHandler()
-        self.ch.setLevel(logging.DEBUG)
+        self.ch.setLevel(self.loglevel)
         self.ch.setFormatter(formatter)
         self.logger.addHandler(self.ch)
 
@@ -27,12 +29,10 @@ class BldcDebugIf:
         self.close()
 
     def open(self):
-        devices = serial.tools.list_ports.comports()
-        for device in devices:
-            if self.C_USB_DESC in device.description:
-                self.logger.debug(f'Connecting {device.description}')
-                self.ser.port = device.name
-                break
+        if self.comnum == 'auto':
+            self.auto_connect()
+        else:
+            self.ser.port = self.comnum
         
         try:
             self.ser.open()
@@ -44,6 +44,14 @@ class BldcDebugIf:
         if self.ser.is_open:
             self.ser.close()
             self.logger.debug('Serial Close')
+    
+    def auto_connect(self):
+        devices = serial.tools.list_ports.comports()
+        for device in devices:
+            if self.C_USB_DESC in device.description:
+                self.logger.debug(f'Connecting {device.description}')
+                self.ser.port = device.name
+                break
 
     def readline(self):
         rxstr = str(self.ser.readline().decode(encoding='utf-8').strip().replace("\x00",""))
