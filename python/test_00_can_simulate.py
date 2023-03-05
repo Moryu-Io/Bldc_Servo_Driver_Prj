@@ -1,8 +1,9 @@
-import serial
+# 外部ライブラリ
 import struct
 import time
 
-COMnum = "COM12"
+# ローカルライブラリ
+from test_mod_interface import BldcDebugIf
 
 DEBUG_PRINT_ON = True
 
@@ -13,14 +14,14 @@ class CanSim_TxCmdBase:
         self.Dlc = 8
         self.DataList = []
     
-    def transmit(self, ser:serial.Serial):
-        ser.write(b'c')  # CAN模擬コマンドフラグ送信
+    def transmit(self, bldcif:BldcDebugIf):
+        bldcif.ser.write(b'c')  # CAN模擬コマンドフラグ送信
         cmdlist = self.CmdStruct.pack(self.CmdId, self.Dlc, *self.DataList)
         for cmd in cmdlist:
             put_data = struct.pack("B", cmd)
             if DEBUG_PRINT_ON:
                 print(put_data)
-            ser.write(put_data)
+            bldcif.ser.write(put_data)
 
 class CanSim_TorqueOn(CanSim_TxCmdBase):
     def __init__(self):
@@ -116,7 +117,7 @@ CMD_ANGLE_INIT = CanSim_AngleInit()
 CMD_SET_CURRENT = CanSim_SetTargetCurrent()
 
 def main():
-    with serial.Serial(COMnum, 115200, timeout=1) as ser:
+    with BldcDebugIf() as bldc_if:
         print(' 0:torque on')
         print(' 1:torque off')
         print(' 2:torque control mode')
@@ -127,29 +128,29 @@ def main():
         mode = int(input('>> '))
 
         if mode == 0:
-            CMD_TORQUE_ON.transmit(ser)
+            CMD_TORQUE_ON.transmit(bldc_if)
         elif mode == 1:
-            CMD_TORQUE_OFF.transmit(ser)
+            CMD_TORQUE_OFF.transmit(bldc_if)
         elif mode == 2:
-            CMD_TORQUE_CTRL.transmit(ser)
+            CMD_TORQUE_CTRL.transmit(bldc_if)
         elif mode == 10:
             tgt_angle = input('指示角度[deg]は？ >> ')
             move_ms = input('移動時間[ms]は？ >> ')
             CMD_MOVE_ANGLE.target_angle_deg_Q16 = int(tgt_angle) << 16
             CMD_MOVE_ANGLE.move_time_ms = int(move_ms)
             CMD_MOVE_ANGLE.generate_datalist()
-            CMD_MOVE_ANGLE.transmit(ser)
+            CMD_MOVE_ANGLE.transmit(bldc_if)
             time.sleep(int(move_ms)/1000 + 1)
         elif mode == 11:
             CMD_ANGLE_INIT.set_angle_flag = 0
             CMD_ANGLE_INIT.generate_datalist()
-            CMD_ANGLE_INIT.transmit(ser)
+            CMD_ANGLE_INIT.transmit(bldc_if)
         elif mode == 12:
             tgt_angle = input('指定角度[deg]は？ >> ')
             CMD_ANGLE_INIT.set_angle_flag = int(1)
             CMD_ANGLE_INIT.init_angle_deg_Q16 = int(tgt_angle) << 16
             CMD_ANGLE_INIT.generate_datalist()
-            CMD_ANGLE_INIT.transmit(ser)
+            CMD_ANGLE_INIT.transmit(bldc_if)
         elif mode == 100:
             tgt_iq_A = float(input('Iq[A]は？ >> '))
             tgt_id_A = float(input('Id[A]は？ >> '))
@@ -157,11 +158,11 @@ def main():
             CMD_SET_CURRENT.target_id_A_Q16 = int(tgt_id_A * 65536)
             print(CMD_SET_CURRENT.target_iq_A_Q16 )
             CMD_SET_CURRENT.generate_datalist()
-            CMD_SET_CURRENT.transmit(ser)
+            CMD_SET_CURRENT.transmit(bldc_if)
         else:
-            CMD_TORQUE_OFF.transmit(ser)
+            CMD_TORQUE_OFF.transmit(bldc_if)
 
-        RtnSmry = CanSim_RtnSummary(ser.read(12))
+        RtnSmry = CanSim_RtnSummary(bldc_if.ser.read(12))
         RtnSmry.print_summary()
 
         time.sleep(3)

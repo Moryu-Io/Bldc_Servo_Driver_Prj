@@ -1,4 +1,4 @@
-import serial
+# 外部ライブラリ
 import struct
 import re
 import matplotlib.pyplot as plt
@@ -7,16 +7,17 @@ import datetime
 import csv
 import numpy as np
 
+# ローカルライブラリ
+from test_mod_interface import BldcDebugIf
 
 SaveFolderPath = "./LOG"
-COMnum = "COM9"
 
 POS_TARGET_DEG = 90
 MOVE_TIME_MS = 200
 MABIKI = 4
 
 
-def start_test(ser:serial.Serial):
+def start_test(bldcif:BldcDebugIf):
     Cmd_List = []
     Cmd_List.append(b't')
     Cmd_List.append(b'p')
@@ -36,49 +37,46 @@ def start_test(ser:serial.Serial):
     print(Cmd_List)
     for cmd in Cmd_List:
         #print(cmd)
-        ser.write(cmd)
+        bldcif.ser.write(cmd)
 
 
 def main():
-    ser = serial.Serial(COMnum, 115200, timeout=1)
-    ser.write(b'd')
-    time.sleep(1.5)
+    with BldcDebugIf() as bldc_if:
+        bldc_if.ser.write(b'd')
+        time.sleep(1.5)
 
-    start_test(ser)
+        start_test(bldc_if)
 
-    time.sleep(2)
+        time.sleep(2)
 
-    ser.write(b'p')
+        bldc_if.ser.write(b'p')
 
 
-    # 結果や設定値格納用変数
-    TgtDeg = []
-    PosDeg = []
-    IqTarget = []
-    IqMeas = []
+        # 結果や設定値格納用変数
+        TgtDeg = []
+        PosDeg = []
+        IqTarget = []
+        IqMeas = []
 
-    start_time = time.time()    # タイムアウト処理用
-    insp_time = "{0:%Y_%m%d_%H%M%S}".format(datetime.datetime.now())    # タイムスタンプ用
+        start_time = time.time()    # タイムアウト処理用
+        insp_time = "{0:%Y_%m%d_%H%M%S}".format(datetime.datetime.now())    # タイムスタンプ用
 
-    # シリアル通信結果処理
-    while ((time.time() - start_time) <= 20.0):
-        rxstr = str(ser.readline().decode(encoding='utf-8').strip().replace("\x00",""))
-        #print(rxstr)
+        # シリアル通信結果処理
+        while ((time.time() - start_time) <= 20.0):
+            rxstr = bldc_if.readline()
 
-        if re.match(r"Start",rxstr):
-            pass
-        elif re.match(r"[-+]?\d*.\d*,[-+]?\d*.\d*,[-+]?\d*.\d*,[-+]?\d*.\d*",rxstr):
-            # ログ整形
-            rxlist = rxstr.split(',')
-            TgtDeg.append(float(rxlist[0]))
-            PosDeg.append(float(rxlist[1]))
-            IqTarget.append(float(rxlist[2]))
-            IqMeas.append(float(rxlist[3]))
-        elif ("End" in rxstr):
-            # 検査終了
-            break
-        
-    ser.close()
+            if re.match(r"Start",rxstr):
+                pass
+            elif re.match(r"[-+]?\d*.\d*,[-+]?\d*.\d*,[-+]?\d*.\d*,[-+]?\d*.\d*",rxstr):
+                # ログ整形
+                rxlist = rxstr.split(',')
+                TgtDeg.append(float(rxlist[0]))
+                PosDeg.append(float(rxlist[1]))
+                IqTarget.append(float(rxlist[2]))
+                IqMeas.append(float(rxlist[3]))
+            elif ("End" in rxstr):
+                # 検査終了
+                break
 
     # グラフ描画
     timelist = [0.1*x*(MABIKI+1) for x in range(len(TgtDeg))]

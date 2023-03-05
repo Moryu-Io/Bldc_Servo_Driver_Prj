@@ -1,4 +1,4 @@
-import serial
+# 外部ライブラリ
 import struct
 import re
 import matplotlib.pyplot as plt
@@ -7,15 +7,17 @@ import datetime
 import csv
 import numpy as np
 
+# ローカルライブラリ
+from test_mod_interface import BldcDebugIf
+
 
 SaveFolderPath = "./LOG"
-COMnum = "COM12"
 
 Iq_TARGET_A = 0.1
 Id_TARGET_A = 0
 
 
-def start_test(ser:serial.Serial):
+def start_test(bldcif:BldcDebugIf):
     Cmd_List = []
     Cmd_List.append(b't')
     Cmd_List.append(b'c')
@@ -32,52 +34,44 @@ def start_test(ser:serial.Serial):
     print(Cmd_List)
     for cmd in Cmd_List:
         print(cmd)
-        ser.write(cmd)
+        bldcif.ser.write(cmd)
 
 
 def main():
-    ser = serial.Serial(COMnum, 115200, timeout=1)
-    start_test(ser)
+    with BldcDebugIf() as bldc_if:
+        start_test(bldc_if)
+        time.sleep(2)
+        bldc_if.ser.write(b'p')
 
-    time.sleep(2)
+        # 結果や設定値格納用変数
+        IqTarget = []
+        IdTarget = []
+        IqMeas = []
+        IdMeas = []
+        VqDrv = []
+        VdDrv = []
 
-    ser.write(b'p')
+        start_time = time.time()    # タイムアウト処理用
+        insp_time = "{0:%Y_%m%d_%H%M%S}".format(datetime.datetime.now())    # タイムスタンプ用
 
+        # シリアル通信結果処理
+        while ((time.time() - start_time) <= 20.0):
+            rxstr = bldc_if.readline()
 
-    # 結果や設定値格納用変数
-    IqTarget = []
-    IdTarget = []
-    IqMeas = []
-    IdMeas = []
-    VqDrv = []
-    VdDrv = []
-
-
-    start_time = time.time()    # タイムアウト処理用
-    insp_time = "{0:%Y_%m%d_%H%M%S}".format(datetime.datetime.now())    # タイムスタンプ用
-
-    # シリアル通信結果処理
-    while ((time.time() - start_time) <= 20.0):
-        rxstr = str(ser.readline().decode(encoding='utf-8').strip().replace("\x00",""))
-        #print(rxstr)
-
-        if re.match(r"Start",rxstr):
-            pass
-        elif re.match(r"[-+]?\d*.\d*,[-+]?\d*.\d*,[-+]?\d*.\d*,[-+]?\d*.\d*,[-+]?\d*.\d*,[-+]?\d*.\d*",rxstr):
-            # ログ整形
-            rxlist = rxstr.split(',')
-            IqTarget.append(float(rxlist[0]))
-            IdTarget.append(float(rxlist[1]))
-            IqMeas.append(float(rxlist[2]))
-            IdMeas.append(float(rxlist[3]))
-            VqDrv.append(float(rxlist[4]))
-            VdDrv.append(float(rxlist[5]))
-        elif ("End" in rxstr):
-            # 検査終了
-            break
-        
-    ser.close()
-
+            if re.match(r"Start",rxstr):
+                pass
+            elif re.match(r"[-+]?\d*.\d*,[-+]?\d*.\d*,[-+]?\d*.\d*,[-+]?\d*.\d*,[-+]?\d*.\d*,[-+]?\d*.\d*",rxstr):
+                # ログ整形
+                rxlist = rxstr.split(',')
+                IqTarget.append(float(rxlist[0]))
+                IdTarget.append(float(rxlist[1]))
+                IqMeas.append(float(rxlist[2]))
+                IdMeas.append(float(rxlist[3]))
+                VqDrv.append(float(rxlist[4]))
+                VdDrv.append(float(rxlist[5]))
+            elif ("End" in rxstr):
+                # 検査終了
+                break
 
     # グラフ描画
     timelist = [0.1*x for x in range(len(IqTarget))]
