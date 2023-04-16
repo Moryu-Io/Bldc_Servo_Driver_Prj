@@ -130,6 +130,7 @@ public:
     LL_TIM_EnableUpdateEvent(TIM1);
     LL_TIM_EnableCounter(TIM1);
     // カウント開始してからRCレジスタを変えることで、UEVタイミングを変更
+    // 20kHzでUEV発生
     LL_TIM_SetRepetitionCounter(TIM1, 3);
     LL_TIM_GenerateEvent_UPDATE(TIM1);
     TIM1->BDTR |= TIM_BDTR_MOE;
@@ -259,10 +260,10 @@ static PM3505 GmblBldc;
 BLDC *get_bldc_if() { return &GmblBldc; };
 
 static BldcDriveMethodSine   bldc_drv_method_sine(&GmblBldc);
-static BldcDriveMethodVector bldc_drv_method_vector(&GmblBldc);
+static BldcDriveMethodVector bldc_drv_method_vector(&GmblBldc, 20000.0f);
 BldcDriveMethod* get_bldcdrv_method() { return &bldc_drv_method_vector; };
 
-static PI_D AngleController_PI_D(10000.0f, 0.04f, 0.01f, 0.0003f, 1.0f, 800.0f);
+static PI_D AngleController_PI_D(20000.0f, 0.04f, 0.01f, 0.0003f, 1.0f, 800.0f);
 static IIR1 AngleCountrollerOut_filter(0.70f,0.15f,0.15f);
 static TargetInterp AngleTargetInterp;
 
