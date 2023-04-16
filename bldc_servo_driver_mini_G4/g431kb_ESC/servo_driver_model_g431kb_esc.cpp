@@ -130,20 +130,16 @@ public:
     LL_TIM_EnableUpdateEvent(TIM1);
     LL_TIM_EnableCounter(TIM1);
     // カウント開始してからRCレジスタを変えることで、UEVタイミングを変更
-    LL_TIM_SetRepetitionCounter(TIM1, 1);
+    LL_TIM_SetRepetitionCounter(TIM1, 3);
+    LL_TIM_GenerateEvent_UPDATE(TIM1);
     TIM1->BDTR |= TIM_BDTR_MOE;
     TIM1->CCR1 = 0;
     TIM1->CCR2 = 0;
     TIM1->CCR3 = 0;
+    TIM1->CCR4 = 1600;    // ADC用トリガ生成(TIM1OC4REF→TIM1TRG→ADC1,2)
     //LL_GPIO_SetOutputPin(GPIOC, LL_GPIO_PIN_6); // PWML HIGH
 
     /* ADC用トリガタイマ(TIM3) */
-    /* このタイマはTIM1のUEVでカウンタリセットされ */
-    /* OC1REFのトリガー出力でADC1,2を駆動する */
-    LL_TIM_EnableCounter(TIM3);
-    LL_TIM_CC_EnableChannel(TIM3, LL_TIM_CHANNEL_CH1);
-    //TIM3->CCR1 = 1900;
-    TIM3->CCR1 = 3700;
 
     LL_mDelay(1);
     //LL_GPIO_SetOutputPin(GPIOB, LL_GPIO_PIN_5); // GPIO_BEMF
@@ -376,8 +372,10 @@ void initialize_servo_driver_model() {
   LL_TIM_EnableCounter(TIM6);
 
   /* 10kHz */
-  LL_TIM_EnableIT_UPDATE(TIM7);
-  LL_TIM_EnableCounter(TIM7);
+  // LL_TIM_EnableIT_UPDATE(TIM7);
+  // LL_TIM_EnableCounter(TIM7);
+
+
 }
 
 void loop_servo_driver_model() {
