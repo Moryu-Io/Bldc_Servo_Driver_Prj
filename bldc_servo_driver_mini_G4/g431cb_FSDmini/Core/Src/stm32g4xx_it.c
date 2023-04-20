@@ -214,6 +214,23 @@ void FDCAN1_IT0_IRQHandler(void)
 }
 
 /**
+  * @brief This function handles TIM1 update interrupt and TIM16 global interrupt.
+  */
+void TIM1_UP_TIM16_IRQHandler(void)
+{
+  /* USER CODE BEGIN TIM1_UP_TIM16_IRQn 0 */
+  if(LL_TIM_IsActiveFlag_UPDATE(TIM1)){
+    LL_TIM_ClearFlag_UPDATE(TIM1);
+    TIM7_ITR();
+  }
+  /* USER CODE END TIM1_UP_TIM16_IRQn 0 */
+
+  /* USER CODE BEGIN TIM1_UP_TIM16_IRQn 1 */
+
+  /* USER CODE END TIM1_UP_TIM16_IRQn 1 */
+}
+
+/**
   * @brief This function handles TIM6 global interrupt, DAC1 and DAC3 channel underrun error interrupts.
   */
 void TIM6_DAC_IRQHandler(void)
@@ -228,22 +245,6 @@ void TIM6_DAC_IRQHandler(void)
   /* USER CODE BEGIN TIM6_DAC_IRQn 1 */
 
   /* USER CODE END TIM6_DAC_IRQn 1 */
-}
-
-/**
-  * @brief This function handles TIM7 global interrupt.
-  */
-void TIM7_IRQHandler(void)
-{
-  /* USER CODE BEGIN TIM7_IRQn 0 */
-  if(LL_TIM_IsActiveFlag_UPDATE(TIM7)){
-    LL_TIM_ClearFlag_UPDATE(TIM7);
-    TIM7_ITR();
-  }
-  /* USER CODE END TIM7_IRQn 0 */
-  /* USER CODE BEGIN TIM7_IRQn 1 */
-
-  /* USER CODE END TIM7_IRQn 1 */
 }
 
 /**

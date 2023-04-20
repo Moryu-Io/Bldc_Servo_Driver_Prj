@@ -101,7 +101,6 @@ int main(void)
   MX_TIM1_Init();
   MX_TIM3_Init();
   MX_TIM6_Init();
-  MX_TIM7_Init();
   MX_USART1_UART_Init();
   MX_SPI3_Init();
   /* USER CODE BEGIN 2 */
@@ -152,7 +151,7 @@ void SystemClock_Config(void)
   {
   }
 
-  /* Insure 1ï¿½ï¿½s transition state at intermediate medium speed clock based on DWT */
+  /* Insure 1ƒÊs transition state at intermediate medium speed clock based on DWT */
   CoreDebug->DEMCR |= CoreDebug_DEMCR_TRCENA_Msk;
   DWT->CTRL |= DWT_CTRL_CYCCNTENA_Msk;
   DWT->CYCCNT = 0;

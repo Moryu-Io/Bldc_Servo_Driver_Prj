@@ -40,12 +40,16 @@ void MX_TIM1_Init(void)
   /* Peripheral clock enable */
   LL_APB2_GRP1_EnableClock(LL_APB2_GRP1_PERIPH_TIM1);
 
+  /* TIM1 interrupt Init */
+  NVIC_SetPriority(TIM1_UP_TIM16_IRQn, NVIC_EncodePriority(NVIC_GetPriorityGrouping(),3, 0));
+  NVIC_EnableIRQ(TIM1_UP_TIM16_IRQn);
+
   /* USER CODE BEGIN TIM1_Init 1 */
 
   /* USER CODE END TIM1_Init 1 */
   TIM_InitStruct.Prescaler = 0;
   TIM_InitStruct.CounterMode = LL_TIM_COUNTERMODE_CENTER_DOWN;
-  TIM_InitStruct.Autoreload = 2047;
+  TIM_InitStruct.Autoreload = 2124;
   TIM_InitStruct.ClockDivision = LL_TIM_CLOCKDIVISION_DIV1;
   TIM_InitStruct.RepetitionCounter = 0;
   LL_TIM_Init(TIM1, &TIM_InitStruct);
@@ -68,7 +72,10 @@ void MX_TIM1_Init(void)
   LL_TIM_OC_EnablePreload(TIM1, LL_TIM_CHANNEL_CH3);
   LL_TIM_OC_Init(TIM1, LL_TIM_CHANNEL_CH3, &TIM_OC_InitStruct);
   LL_TIM_OC_DisableFast(TIM1, LL_TIM_CHANNEL_CH3);
-  LL_TIM_SetTriggerOutput(TIM1, LL_TIM_TRGO_UPDATE);
+  LL_TIM_OC_EnablePreload(TIM1, LL_TIM_CHANNEL_CH4);
+  LL_TIM_OC_Init(TIM1, LL_TIM_CHANNEL_CH4, &TIM_OC_InitStruct);
+  LL_TIM_OC_DisableFast(TIM1, LL_TIM_CHANNEL_CH4);
+  LL_TIM_SetTriggerOutput(TIM1, LL_TIM_TRGO_OC4REF);
   LL_TIM_SetTriggerOutput2(TIM1, LL_TIM_TRGO2_RESET);
   LL_TIM_DisableMasterSlaveMode(TIM1);
   TIM_BDTRInitStruct.OSSRState = LL_TIM_OSSR_DISABLE;
@@ -192,38 +199,6 @@ void MX_TIM6_Init(void)
   /* USER CODE BEGIN TIM6_Init 2 */
 
   /* USER CODE END TIM6_Init 2 */
-
-}
-/* TIM7 init function */
-void MX_TIM7_Init(void)
-{
-
-  /* USER CODE BEGIN TIM7_Init 0 */
-
-  /* USER CODE END TIM7_Init 0 */
-
-  LL_TIM_InitTypeDef TIM_InitStruct = {0};
-
-  /* Peripheral clock enable */
-  LL_APB1_GRP1_EnableClock(LL_APB1_GRP1_PERIPH_TIM7);
-
-  /* TIM7 interrupt Init */
-  NVIC_SetPriority(TIM7_IRQn, NVIC_EncodePriority(NVIC_GetPriorityGrouping(),3, 0));
-  NVIC_EnableIRQ(TIM7_IRQn);
-
-  /* USER CODE BEGIN TIM7_Init 1 */
-
-  /* USER CODE END TIM7_Init 1 */
-  TIM_InitStruct.Prescaler = 169;
-  TIM_InitStruct.CounterMode = LL_TIM_COUNTERMODE_UP;
-  TIM_InitStruct.Autoreload = 99;
-  LL_TIM_Init(TIM7, &TIM_InitStruct);
-  LL_TIM_DisableARRPreload(TIM7);
-  LL_TIM_SetTriggerOutput(TIM7, LL_TIM_TRGO_RESET);
-  LL_TIM_DisableMasterSlaveMode(TIM7);
-  /* USER CODE BEGIN TIM7_Init 2 */
-
-  /* USER CODE END TIM7_Init 2 */
 
 }
 

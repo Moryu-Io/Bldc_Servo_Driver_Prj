@@ -64,22 +64,18 @@ public:
   void init() override {
     /* PWM */
     LL_TIM_EnableUpdateEvent(TIM1);
+    LL_TIM_EnableIT_UPDATE(TIM1);
     LL_TIM_EnableCounter(TIM1);
     // カウント開始してからRCレジスタを変えることで、UEVタイミングを変更
-    LL_TIM_SetRepetitionCounter(TIM1, 1);
+    // 20kHzでUEV発生
+    LL_TIM_SetRepetitionCounter(TIM1, 3);
+    LL_TIM_GenerateEvent_UPDATE(TIM1);
     TIM1->BDTR |= TIM_BDTR_MOE;
     TIM1->CCR1 = 0;
     TIM1->CCR2 = 0;
     TIM1->CCR3 = 0;
+    TIM1->CCR4 = 1800;    // ADC用トリガ生成(TIM1OC4REF→TIM1TRG→ADC1,2)
     LL_GPIO_SetOutputPin(GPIOC, LL_GPIO_PIN_6); // PWML HIGH
-
-    /* ADC用トリガタイマ(TIM3) */
-    /* このタイマはTIM1のUEVでカウンタリセットされ */
-    /* OC1REFのトリガー出力でADC1,2を駆動する */
-    LL_TIM_EnableCounter(TIM3);
-    LL_TIM_CC_EnableChannel(TIM3, LL_TIM_CHANNEL_CH1);
-    //TIM3->CCR1 = 1900;
-    TIM3->CCR1 = 3900;
 
     LL_GPIO_SetOutputPin(GPIOB, LL_GPIO_PIN_15); // 3PWM Mode
     LL_mDelay(1);
@@ -117,9 +113,12 @@ public:
     fl_now_elec_ang_deg_ = ((float)(ang - s32_elec_angle_offset_CNT_) * fl_elec_angle_gain_CNTtoDeg_ - 90.0f)*(float)s8_elec_angle_dir_;
 
     /* 電流測定 */
-    now_current_.U = Curr_Gain_ADtoA * ((int16_t)Adc2Ctrl.get_adc_data(ADC2CH::CurFb_U) - 2047);
-    now_current_.V = Curr_Gain_ADtoA * ((int16_t)Adc2Ctrl.get_adc_data(ADC2CH::CurFb_V) - 2047);
-    now_current_.W = Curr_Gain_ADtoA * ((int16_t)Adc2Ctrl.get_adc_data(ADC2CH::CurFb_W) - 2047);
+    now_curr_raw_.U = Adc2Ctrl.get_adc_data(ADC2CH::CurFb_U);
+    now_curr_raw_.V = Adc2Ctrl.get_adc_data(ADC2CH::CurFb_V);
+    now_curr_raw_.W = Adc2Ctrl.get_adc_data(ADC2CH::CurFb_W);
+    now_current_.U = Curr_Gain_ADtoA * ((int32_t)now_curr_raw_.U - st_curr_raw_mid_.U);
+    now_current_.V = Curr_Gain_ADtoA * ((int32_t)now_curr_raw_.V - st_curr_raw_mid_.V);
+    now_current_.W = Curr_Gain_ADtoA * ((int32_t)now_curr_raw_.W - st_curr_raw_mid_.W);
   };
 
   void set_drive_duty(DriveDuty &_Vol) override {
@@ -196,10 +195,10 @@ static PM3505 GmblBldc;
 BLDC *get_bldc_if() { return &GmblBldc; };
 
 static BldcDriveMethodSine   bldc_drv_method_sine(&GmblBldc);
-static BldcDriveMethodVector bldc_drv_method_vector(&GmblBldc);
+static BldcDriveMethodVector bldc_drv_method_vector(&GmblBldc, 20000.0f);
 BldcDriveMethod* get_bldcdrv_method() { return &bldc_drv_method_vector; };
 
-static PI_D AngleController_PI_D(10000.0f, 0.04f, 0.01f, 0.0003f, 1.0f, 800.0f);
+static PI_D AngleController_PI_D(20000.0f, 0.04f, 0.01f, 0.0003f, 1.0f, 800.0f);
 static IIR1 AngleCountrollerOut_filter(0.70f,0.15f,0.15f);
 static TargetInterp AngleTargetInterp;
 
@@ -309,8 +308,8 @@ void initialize_servo_driver_model() {
   LL_TIM_EnableCounter(TIM6);
 
   /* 10kHz */
-  LL_TIM_EnableIT_UPDATE(TIM7);
-  LL_TIM_EnableCounter(TIM7);
+  // LL_TIM_EnableIT_UPDATE(TIM7);
+  // LL_TIM_EnableCounter(TIM7);
 }
 
 void loop_servo_driver_model() {
@@ -333,7 +332,12 @@ void set_flash_parameter_to_models(){
   GmblBldc.set_elec_angle_gain(FlashIf.mirrorRam.var.fl_elec_angle_gain_CNTtoDeg);
   GmblBldc.set_elec_angle_offset(FlashIf.mirrorRam.var.s32_elec_angle_offset_CNT);
   GmblBldc.set_elec_angle_dir(FlashIf.mirrorRam.var.s8_elec_angle_dir);
-
+  BLDC::CurrentRaw curmid = {
+    .U = FlashIf.mirrorRam.var.u16_curr_ad_mid_u,
+    .V = FlashIf.mirrorRam.var.u16_curr_ad_mid_v,
+    .W = FlashIf.mirrorRam.var.u16_curr_ad_mid_w,
+  };
+  GmblBldc.set_curr_raw_mid(curmid);
 
   /* 位置制御器パラメータ展開 */
   AngleController_PI_D.set_PIDgain(FlashIf.mirrorRam.var.fl_PosCtrl_Pgain,
