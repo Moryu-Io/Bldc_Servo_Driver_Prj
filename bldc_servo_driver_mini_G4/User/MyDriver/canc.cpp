@@ -38,7 +38,7 @@ void CANC::init(uint16_t _id) {
   u16_CanDeviceId_ = _id;
 
   HAL_FDCAN_Start(p_hcan_);
-  // HAL_FDCAN_ActivateNotification(p_hcan_, FDCAN_IT_RX_FIFO0_NEW_MESSAGE, 0);
+  HAL_FDCAN_ActivateNotification(p_hcan_, FDCAN_IT_RX_FIFO0_NEW_MESSAGE, 0);
 }
 
 bool CANC::transmit(uint32_t _cmd_id, uint8_t *_txd) {

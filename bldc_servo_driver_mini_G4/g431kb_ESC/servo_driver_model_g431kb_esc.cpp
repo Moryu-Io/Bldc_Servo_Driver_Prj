@@ -128,6 +128,7 @@ public:
 
     /* PWM */
     LL_TIM_EnableUpdateEvent(TIM1);
+    LL_TIM_EnableIT_UPDATE(TIM1);
     LL_TIM_EnableCounter(TIM1);
     // カウント開始してからRCレジスタを変えることで、UEVタイミングを変更
     // 20kHzでUEV発生
