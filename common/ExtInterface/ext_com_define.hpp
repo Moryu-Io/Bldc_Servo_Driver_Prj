@@ -33,7 +33,7 @@ struct REQ_MOVE_ANGLE {
 
 #define CMD_ID_REQ_ANGLE_INIT (0x0011)
 struct REQ_ANGLE_INIT {
-  uint8_t u8_set_angle_flag;  // 0:現在位置を0とする, 1:指定した角度で初期化する
+  uint8_t u8_set_angle_flag;  // 0:現在位置を0とする, 1:指定した角度で初期化する, 最上位bit:強制変更
   uint8_t u8_dummy[3];
   int32_t s32_init_ang_deg_Q16;
 };
