@@ -138,7 +138,7 @@ public:
     TIM1->CCR1 = 0;
     TIM1->CCR2 = 0;
     TIM1->CCR3 = 0;
-    TIM1->CCR4 = 1600;    // ADC用トリガ生成(TIM1OC4REF→TIM1TRG→ADC1,2)
+    TIM1->CCR4 = 2000;    // ADC用トリガ生成(TIM1OC4REF→TIM1TRG→ADC1,2)
     //LL_GPIO_SetOutputPin(GPIOC, LL_GPIO_PIN_6); // PWML HIGH
 
     /* ADC用トリガタイマ(TIM3) */
