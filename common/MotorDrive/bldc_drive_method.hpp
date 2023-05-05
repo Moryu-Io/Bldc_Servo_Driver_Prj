@@ -77,4 +77,11 @@ protected:
   PID pid_id;
 };
 
+class BldcDriveMethodSineWithCurr : public BldcDriveMethodSine {
+public:
+  BldcDriveMethodSineWithCurr(BLDC *_bldc, float _c_f=10000.0f) : BldcDriveMethodSine(_bldc) {};
+
+  void update() override;
+};
+
 #endif

@@ -275,3 +275,56 @@ void BldcDriveMethodVector::update() {
 
   p_bldc_->set_drive_duty(_duty);
 }
+
+
+void BldcDriveMethodSineWithCurr::update() {
+  float _e_ang = mymath::normalize_rad_0to2pi(
+                  mymath::deg2rad( p_bldc_->get_elec_angle() ) );
+  float _cos   = mymath::cosf(_e_ang);
+  float _sin   = mymath::sinf(_e_ang);
+
+  float _Va          = InRef_.Vd * _cos - InRef_.Vq * _sin;
+  float _Vb          = InRef_.Vd * _sin + InRef_.Vq * _cos;
+
+  BLDC::DriveDuty _duty = {
+      .u8_U_out_enable = DRIVE_OUT_BOTH_ENABLE,
+      .u8_V_out_enable = DRIVE_OUT_BOTH_ENABLE,
+      .u8_W_out_enable = DRIVE_OUT_BOTH_ENABLE,
+      .Duty            = {},
+  };
+
+  conv_sv(_Va, _Vb, _duty.Duty);
+
+  p_bldc_->set_drive_duty(_duty);
+
+  BLDC::DrivePhase nowCurr = p_bldc_->get_current();
+
+  /* Clark変換 */
+  float _Ia = 0.0f;
+  float _Ib = 0.0f;
+  if(fl_outpwm_ang_deg_ < -60.0f){
+    /* Sector 3,4 はW線を使わない */
+    _Ia = nowCurr.U;
+    _Ib = (nowCurr.U + 2.0f*nowCurr.V) * 0.57735027f; // (U + 2V) / sqrt(3)
+  }else if(fl_outpwm_ang_deg_ < 60.0f){
+    /* Sector 5,0 はU線を使わない */
+    _Ia = -(nowCurr.V + nowCurr.W);
+    _Ib = (nowCurr.V - nowCurr.W) * 0.57735027f; // (V - W) / sqrt(3)
+  } else {
+    /* Sector 1,2 はV線を使わない */
+    _Ia = nowCurr.U;
+    _Ib = -(nowCurr.U + 2.0f*nowCurr.W) * 0.57735027f; // -(U + 2W) / sqrt(3)
+  }
+
+  /* Park変換 */
+  float _Id =  _Ia * _cos + _Ib * _sin;
+  float _Iq = -_Ia * _sin + _Ib * _cos;
+
+  /* 情報の保存 */
+  p_bldc_->fl_calc_Iq_meas_ = _Iq;
+  p_bldc_->fl_calc_Id_meas_ = _Id;
+  p_bldc_->fl_calc_Iq_tgt_  = InRef_.Iq;
+  p_bldc_->fl_calc_Id_tgt_  = InRef_.Id;
+  p_bldc_->fl_calc_Vq_      = InRef_.Vq;
+  p_bldc_->fl_calc_Vd_      = InRef_.Vd;
+}

@@ -10,6 +10,7 @@ extern BldcModeTestElecAngle     mode_test_elec_ang;
 extern BldcModeTestCurrStep      mode_test_curr_step;
 extern BldcModeTestPosStep       mode_test_pos_step;
 extern BldcModeTestSineDriveOpen mode_test_sindrvopen;
+extern BldcModeTestVdqStep       mode_test_vdqstep;
 
 void debug_command_routine() {
   COM_BASE         *_debug_com     = get_debug_com();
@@ -138,6 +139,7 @@ void debug_command_routine() {
       _debug_com->get_rxbyte(_u8_test_cmd);
       switch(_u8_test_cmd) {
       case 'c': {
+        /* 電流Step応答テスト */
         while(_debug_com->get_rxBuf_datasize() < 8) { ; };
         float _fl_buf[2];
         _debug_com->get_rxbytes((uint8_t *)_fl_buf, 8);
@@ -150,6 +152,21 @@ void debug_command_routine() {
             },
         };
         _bldc_manager->set_mode_with_instr(&mode_test_curr_step, &instr);
+      } break;
+      case 'v': {
+        /* 電圧Step応答テスト */
+        while(_debug_com->get_rxBuf_datasize() < 8) { ; };
+        float _fl_buf[2];
+        _debug_com->get_rxbytes((uint8_t *)_fl_buf, 8);
+        
+        BldcModeBase::Instr instr = {
+            .InstrTestVoltOpen = {
+                .u16_instr_id = BldcModeBase::INSTR_ID_TEST_VOLT_STEP,
+                .fl_tgt_Vq_V  = _fl_buf[0],
+                .fl_tgt_Vd_V  = _fl_buf[1],
+            },
+        };
+        _bldc_manager->set_mode_with_instr(&mode_test_vdqstep, &instr);
       } break;
       case 'e':
         _bldc_manager->set_mode(&mode_test_elec_ang);

@@ -262,6 +262,7 @@ BLDC *get_bldc_if() { return &GmblBldc; };
 
 static BldcDriveMethodSine   bldc_drv_method_sine(&GmblBldc);
 static BldcDriveMethodVector bldc_drv_method_vector(&GmblBldc, 20000.0f);
+static BldcDriveMethodSineWithCurr bldc_drv_method_sin_curr(&GmblBldc, 20000.0f);
 BldcDriveMethod* get_bldcdrv_method() { return &bldc_drv_method_vector; };
 
 static PI_D AngleController_PI_D(20000.0f, 0.04f, 0.01f, 0.0003f, 1.0f, 800.0f);
@@ -321,10 +322,14 @@ BldcModeTestPosStep::Parts bldc_mode_test_posstep_parts = {
 BldcModeTestSineDriveOpen::Parts bldc_mode_test_sindrvopen_parts = {
   .p_bldc_drv   = &bldc_drv_method_sine,
 };
+BldcModeTestVdqStep::Parts bldc_mode_test_vdqstep_parts = {
+  .p_bldc_drv   = &bldc_drv_method_sin_curr,
+};
 BldcModeTestElecAngle  mode_test_elec_ang(bldc_mode_test_elecang_parts);
 BldcModeTestCurrStep   mode_test_curr_step(bldc_mode_test_currstep_parts);
 BldcModeTestPosStep    mode_test_pos_step(bldc_mode_test_posstep_parts);
 BldcModeTestSineDriveOpen   mode_test_sindrvopen(bldc_mode_test_sindrvopen_parts);
+BldcModeTestVdqStep   mode_test_vdqstep(bldc_mode_test_vdqstep_parts);
 /*****************************************************************/
 
 
