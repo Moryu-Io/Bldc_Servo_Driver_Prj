@@ -8,7 +8,7 @@ template <typename... Args>
 void debug_printf(const char *format, Args const &...args){
     COM_BASE* debug_com = get_debug_com();
     uint8_t print_buf[256];
-    uint8_t u8_print_size = sprintf((char *)print_buf, format, args...) + 1;
+    uint8_t u8_print_size = sprintf((char *)print_buf, format, args...);
     if(u8_print_size >= 256) u8_print_size = 255;
     debug_com->set_txbytes(print_buf, u8_print_size);
 }
