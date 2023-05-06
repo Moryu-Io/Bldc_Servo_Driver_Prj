@@ -92,7 +92,7 @@ void debug_command_routine() {
       case 's':
         _flash_if->save();
         break;
-      case 'r':
+      case 'e':
         _flash_if->erase();
         _flash_if->load();
         break;
@@ -112,6 +112,13 @@ void debug_command_routine() {
         _debug_com->get_rxbytes(_u8_write_data, 3);
         uint16_t u16_addr                   = _u8_write_data[0] | (_u8_write_data[1] << 8);
         _flash_if->mirrorRam.u8_d[u16_addr] = _u8_write_data[2];
+      } break;
+      case 'r': {
+        while(_debug_com->get_rxBuf_datasize() < 2) { ; };
+        uint8_t _u8_read_data[2] = {};
+        _debug_com->get_rxbytes(_u8_read_data, 2);
+        uint16_t u16_addr                   = _u8_read_data[0] | (_u8_read_data[1] << 8);
+        debug_printf("%02x\n", (uint8_t)_flash_if->mirrorRam.u8_d[u16_addr]);
       } break;
       case 'd': /* flashに書かれているパラメータを各所に展開 */
         set_flash_parameter_to_models();
