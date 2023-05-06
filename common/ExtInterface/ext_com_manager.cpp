@@ -113,11 +113,19 @@ void ext_com_manage_main() {
 void getStatusSummary(RES_MESSAGE &msg) {
   BLDC *p_bldc = get_bldc_if();
 
+#if 0
   msg.resSummary.s16_out_ang_deg_Q4 = static_cast<int16_t>(p_bldc->get_out_angle() * 16);
   msg.resSummary.s8_motor_curr_A_Q4 = static_cast<int8_t>(p_bldc->fl_calc_Iq_meas_ * 16);
   msg.resSummary.s8_motor_vol_V_Q3  = static_cast<int8_t>(p_bldc->fl_calc_Vq_ * 8);
   msg.resSummary.u8_vm_V_Q3         = static_cast<uint8_t>(p_bldc->get_Vm() * 8);
   msg.resSummary.s8_motor_tempr_deg = static_cast<int8_t>(p_bldc->get_tempr_deg());
+#else
+  msg.resSummary2.s32_out_ang_deg_Q8 = static_cast<int32_t>(p_bldc->get_out_angle() * 256);
+  msg.resSummary2.s8_motor_curr_A_Q4 = static_cast<int8_t>(p_bldc->fl_calc_Iq_meas_ * 16);
+  msg.resSummary2.s8_motor_vol_V_Q3  = static_cast<int8_t>(p_bldc->fl_calc_Vq_ * 8);
+  msg.resSummary2.u8_vm_V_Q3         = static_cast<uint8_t>(p_bldc->get_Vm() * 8);
+  msg.resSummary2.s8_motor_tempr_deg = static_cast<int8_t>(p_bldc->get_tempr_deg());
+#endif
 }
 
 void getStatusMoveAngle(RES_MESSAGE &msg) {

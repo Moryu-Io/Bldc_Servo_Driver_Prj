@@ -61,6 +61,14 @@ struct RES_STATUS_SUMMAY {
   int8_t  s8_motor_tempr_deg;
 };
 
+struct RES_STATUS_SUMMAY2 {
+  int32_t s32_out_ang_deg_Q8;
+  int8_t  s8_motor_curr_A_Q4;
+  int8_t  s8_motor_vol_V_Q3;
+  uint8_t u8_vm_V_Q3;
+  int8_t  s8_motor_tempr_deg;
+};
+
 #define CMD_ID_RES_STATUS_MOVE_ANGLE (0x1001)
 struct RES_STATUS_MOVE_ANGLE {
   int16_t  s16_out_ang_deg_Q4;
@@ -82,6 +90,7 @@ union REQ_MESSAGE {
 union RES_MESSAGE {
   uint8_t               u8_data[8];
   RES_STATUS_SUMMAY     resSummary;
+  RES_STATUS_SUMMAY2    resSummary2;
   RES_STATUS_MOVE_ANGLE resStsMvAng;
 };
 
