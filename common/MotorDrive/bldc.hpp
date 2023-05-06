@@ -54,6 +54,7 @@ public:
   int32_t    get_angle_count() { return s32_angle_rotor_count_; }
   float      get_elec_angle() { return fl_now_elec_ang_deg_; }
   float      get_out_angle() { return fl_now_out_ang_deg_ - fl_ref_out_ang_deg_; }
+  float      get_out_vel() { return fl_now_out_vel_dps_; }
   float      get_raw_out_angle() { return fl_now_out_ang_deg_; }
   float      get_ref_out_angle() { return fl_ref_out_ang_deg_; }
   float      get_Vm() { return fl_Vm_; }
@@ -80,6 +81,7 @@ protected:
   int32_t    s32_angle_rotor_count_;
   float      fl_now_elec_ang_deg_;
   float      fl_now_out_ang_deg_;
+  float      fl_now_out_vel_dps_;
   float      fl_current_lim_A_;
   DrivePhase now_current_;
   DrivePhase now_bev_;

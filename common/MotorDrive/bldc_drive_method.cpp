@@ -250,7 +250,7 @@ void BldcDriveMethodVector::update() {
   pid_iq.set_target(InRef_.Iq);
   float _vm = p_bldc_->get_Vm() * 0.8660254f;
   float _Vd = mymath::satf(pid_id.update(_Id), _vm, -_vm);
-  float _Vq = mymath::satf(pid_iq.update(_Iq), _vm, -_vm);
+  float _Vq = mymath::satf(pid_iq.update(_Iq) + fl_ff_kv_*p_bldc_->get_out_vel(), _vm, -_vm);
 
   /* 情報の保存 */
   p_bldc_->fl_calc_Iq_meas_ = _Iq;

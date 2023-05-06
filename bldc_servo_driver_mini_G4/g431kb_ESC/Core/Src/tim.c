@@ -49,7 +49,7 @@ void MX_TIM1_Init(void)
   /* USER CODE END TIM1_Init 1 */
   TIM_InitStruct.Prescaler = 0;
   TIM_InitStruct.CounterMode = LL_TIM_COUNTERMODE_CENTER_DOWN;
-  TIM_InitStruct.Autoreload = 2124;
+  TIM_InitStruct.Autoreload = 2124*2;
   TIM_InitStruct.ClockDivision = LL_TIM_CLOCKDIVISION_DIV1;
   TIM_InitStruct.RepetitionCounter = 0;
   LL_TIM_Init(TIM1, &TIM_InitStruct);

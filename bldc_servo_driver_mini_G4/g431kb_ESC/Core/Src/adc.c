@@ -102,9 +102,9 @@ void MX_ADC1_Init(void)
   ADC_REG_InitStruct.Overrun = LL_ADC_REG_OVR_DATA_OVERWRITTEN;
   LL_ADC_REG_Init(ADC1, &ADC_REG_InitStruct);
   LL_ADC_SetGainCompensation(ADC1, 0);
-  LL_ADC_SetOverSamplingScope(ADC1, LL_ADC_OVS_GRP_REGULAR_CONTINUED);
-  LL_ADC_ConfigOverSamplingRatioShift(ADC1, LL_ADC_OVS_RATIO_2, LL_ADC_OVS_SHIFT_NONE);
-  LL_ADC_SetOverSamplingDiscont(ADC1, LL_ADC_OVS_REG_CONT);
+  LL_ADC_SetOverSamplingScope(ADC1, LL_ADC_OVS_DISABLE);
+  //LL_ADC_ConfigOverSamplingRatioShift(ADC1, LL_ADC_OVS_RATIO_2, LL_ADC_OVS_SHIFT_NONE);
+  //LL_ADC_SetOverSamplingDiscont(ADC1, LL_ADC_OVS_REG_CONT);
   ADC_CommonInitStruct.CommonClock = LL_ADC_CLOCK_SYNC_PCLK_DIV4;
   ADC_CommonInitStruct.Multimode = LL_ADC_MULTI_INDEPENDENT;
   LL_ADC_CommonInit(__LL_ADC_COMMON_INSTANCE(ADC1), &ADC_CommonInitStruct);
@@ -219,9 +219,9 @@ void MX_ADC2_Init(void)
   ADC_REG_InitStruct.Overrun = LL_ADC_REG_OVR_DATA_OVERWRITTEN;
   LL_ADC_REG_Init(ADC2, &ADC_REG_InitStruct);
   LL_ADC_SetGainCompensation(ADC2, 0);
-  LL_ADC_SetOverSamplingScope(ADC2, LL_ADC_OVS_GRP_REGULAR_CONTINUED);
-  LL_ADC_ConfigOverSamplingRatioShift(ADC2, LL_ADC_OVS_RATIO_2, LL_ADC_OVS_SHIFT_NONE);
-  LL_ADC_SetOverSamplingDiscont(ADC2, LL_ADC_OVS_REG_CONT);
+  LL_ADC_SetOverSamplingScope(ADC2, LL_ADC_OVS_DISABLE);
+  //LL_ADC_ConfigOverSamplingRatioShift(ADC2, LL_ADC_OVS_RATIO_2, LL_ADC_OVS_SHIFT_NONE);
+  //LL_ADC_SetOverSamplingDiscont(ADC2, LL_ADC_OVS_REG_CONT);
   LL_ADC_REG_SetTriggerEdge(ADC2, LL_ADC_REG_TRIG_EXT_RISING);
 
   /* Disable ADC deep power down (enabled by default after reset state) */

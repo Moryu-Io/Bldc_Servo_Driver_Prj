@@ -116,7 +116,8 @@ public:
   PM3505()
     :iir_cur_u(0.778, 0.111, 0.111),
      iir_cur_v(0.778, 0.111, 0.111),
-     iir_cur_w(0.778, 0.111, 0.111) {};
+     iir_cur_w(0.778, 0.111, 0.111),
+     iir_vellpf(0.96f, 0.02f, 0.02f) {};
 
   void init() override {
     /* init the motor angle senser */
@@ -132,13 +133,13 @@ public:
     LL_TIM_EnableCounter(TIM1);
     // カウント開始してからRCレジスタを変えることで、UEVタイミングを変更
     // 20kHzでUEV発生
-    LL_TIM_SetRepetitionCounter(TIM1, 3);
+    LL_TIM_SetRepetitionCounter(TIM1, 1);
     LL_TIM_GenerateEvent_UPDATE(TIM1);
     TIM1->BDTR |= TIM_BDTR_MOE;
     TIM1->CCR1 = 0;
     TIM1->CCR2 = 0;
     TIM1->CCR3 = 0;
-    TIM1->CCR4 = 2000;    // ADC用トリガ生成(TIM1OC4REF→TIM1TRG→ADC1,2)
+    TIM1->CCR4 = 4200;    // ADC用トリガ生成(TIM1OC4REF→TIM1TRG→ADC1,2)
     //LL_GPIO_SetOutputPin(GPIOC, LL_GPIO_PIN_6); // PWML HIGH
 
     /* ADC用トリガタイマ(TIM3) */
@@ -172,6 +173,7 @@ public:
     // s32_angle_rotor_count_ += delta_ang;
     s32_angle_rotor_count_ -= delta_ang;  // 逆方向のため
 
+    fl_now_out_vel_dps_ = iir_vellpf.update(-(float)delta_ang * Angle_Gain_CNTtoDeg*20000.0f);
     fl_now_out_ang_deg_  = (float)(s32_angle_rotor_count_) * Angle_Gain_CNTtoDeg;
     fl_now_elec_ang_deg_ = ((float)(ang - s32_elec_angle_offset_CNT_) * fl_elec_angle_gain_CNTtoDeg_ - 90.0f)*(float)s8_elec_angle_dir_;
 fl_now_ang_deg_debug = fl_now_out_ang_deg_;
@@ -206,12 +208,14 @@ fl_now_elec_ang_deg_debug = fl_now_elec_ang_deg_;
 private:
   const float Vm_inv = 1.0f / 12.0f;
   const float Vm_Gain_ADtoV = 3.3f/4096.0f * (400.0f + 33.0f) / 33.0f;
-  const float Curr_Gain_ADtoA = -3.3f/8192.0f*6.6667f;  // 3.3V / 8192AD * 20.83 A/V (デフォルト)
+  const float Curr_Gain_ADtoA = -3.3f/4096.0f*6.6667f;  // 3.3V / 4096 * 20.83 A/V (デフォルト)
   const float Angle_Gain_CNTtoDeg = -360.0f / 16384.0f / 1.0f;
 
   IIR1 iir_cur_u;
   IIR1 iir_cur_v;
   IIR1 iir_cur_w;
+
+  IIR1 iir_vellpf;
 
   inline void set_enable_register(uint8_t Uenable, uint8_t Venable, uint8_t Wenable) {
     ///*
@@ -444,6 +448,7 @@ void set_flash_parameter_to_models(){
                          .ilim = 2.0f};
   bldc_drv_method_vector.set_iq_gain(curr_gain);
   bldc_drv_method_vector.set_id_gain(curr_gain);
+  bldc_drv_method_vector.set_ff_kv(0.0015f);
 #endif
 
 }
