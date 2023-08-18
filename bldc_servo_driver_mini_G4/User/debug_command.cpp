@@ -200,7 +200,7 @@ void debug_command_routine() {
 
         BldcModeBase::Instr instr = {
             .InstrTestPosStep = {
-                .u16_instr_id = BldcModeBase::INSTR_ID_TEST_SDRV_OPEN,
+                .u16_instr_id = BldcModeBase::INSTR_ID_TEST_POS_STEP,
                 .s16_tgt_pos_deg  = (int16_t)_u16_buf[0],
                 .u16_move_time_ms = _u16_buf[1],
                 .u8_mabiki        = (uint8_t)_u16_buf[2],

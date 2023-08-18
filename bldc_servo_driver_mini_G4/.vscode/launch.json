@@ -18,6 +18,18 @@
             "preLaunchTask": "Build project",
         },
         {
+            "name": "Cortex Debug (g431cb_FSDmini)",
+            "cwd": "${workspaceRoot}",
+            "executable": "g431cb_FSDmini/build/g431cb_FSDmini.elf",
+            "request": "attach",
+            "type": "cortex-debug",
+            "servertype": "openocd",
+            "configFiles": [
+                "interface/stlink.cfg",
+                "target/stm32g4x.cfg"
+            ]
+        },
+        {
             "name": "Cortex Debug (g431kb_ESC)",
             "cwd": "${workspaceRoot}",
             "executable": "g431kb_ESC/build/g431kb_ESC.elf",
