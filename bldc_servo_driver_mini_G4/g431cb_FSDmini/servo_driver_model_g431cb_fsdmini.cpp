@@ -25,7 +25,7 @@
 #include "flash_interface.hpp"
 
 /************************ VERSION ******************************/
-uint16_t U16_CHIP_LOCAL_VER = 0x0100;
+uint16_t U16_CHIP_LOCAL_VER = 0x0110;
 /***************************************************************/
 
 enum ADC1CH {
@@ -60,7 +60,10 @@ static MotorAngSenser MotorAngSenserCtrl(SPI3);
 class PM3505: public BLDC {
 public:
   PM3505()
-    :iir_vellpf(0.98f, 0.01f, 0.01f){};
+    :iir_cur_u(0.700f, 0.150f, 0.150f),
+     iir_cur_v(0.700f, 0.150f, 0.150f),
+     iir_cur_w(0.700f, 0.150f, 0.150f),
+     iir_vellpf(0.98f, 0.01f, 0.01f){};
 
   void init() override {
     /* PWM */
@@ -118,9 +121,9 @@ public:
     now_curr_raw_.U = Adc2Ctrl.get_adc_data(ADC2CH::CurFb_U);
     now_curr_raw_.V = Adc2Ctrl.get_adc_data(ADC2CH::CurFb_V);
     now_curr_raw_.W = Adc2Ctrl.get_adc_data(ADC2CH::CurFb_W);
-    now_current_.U = Curr_Gain_ADtoA * ((int32_t)now_curr_raw_.U - st_curr_raw_mid_.U);
-    now_current_.V = Curr_Gain_ADtoA * ((int32_t)now_curr_raw_.V - st_curr_raw_mid_.V);
-    now_current_.W = Curr_Gain_ADtoA * ((int32_t)now_curr_raw_.W - st_curr_raw_mid_.W);
+    now_current_.U  = iir_cur_u.update(Curr_Gain_ADtoA * ((int32_t)now_curr_raw_.U - st_curr_raw_mid_.U));
+    now_current_.V  = iir_cur_v.update(Curr_Gain_ADtoA * ((int32_t)now_curr_raw_.V - st_curr_raw_mid_.V));
+    now_current_.W  = iir_cur_w.update(Curr_Gain_ADtoA * ((int32_t)now_curr_raw_.W - st_curr_raw_mid_.W));
   };
 
   void set_drive_duty(DriveDuty &_Vol) override {
@@ -147,6 +150,9 @@ private:
   const float Curr_Gain_ADtoA = 3.3f/4096.0f;  // 3.3V / 4096AD * 1 A/V
   const float Angle_Gain_CNTtoDeg = 360.0f / 16384.0f / 1.0f;
 
+  IIR1 iir_cur_u;
+  IIR1 iir_cur_v;
+  IIR1 iir_cur_w;
   IIR1 iir_vellpf;
 
   inline void set_enable_register(uint8_t Uenable, uint8_t Venable, uint8_t Wenable) {
