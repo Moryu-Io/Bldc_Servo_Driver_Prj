@@ -25,7 +25,7 @@
 #include "flash_interface.hpp"
 
 /************************ VERSION ******************************/
-uint16_t U16_CHIP_LOCAL_VER = 0x0100;
+uint16_t U16_CHIP_LOCAL_VER = 0x0110;
 /***************************************************************/
 
 enum ADC1CH {
@@ -59,27 +59,27 @@ static MotorAngSenser MotorAngSenserCtrl(SPI3);
 
 class PM3505: public BLDC {
 public:
-  PM3505(){};
+  PM3505()
+    :iir_cur_u(0.700f, 0.150f, 0.150f),
+     iir_cur_v(0.700f, 0.150f, 0.150f),
+     iir_cur_w(0.700f, 0.150f, 0.150f),
+     iir_vellpf(0.98f, 0.01f, 0.01f){};
 
   void init() override {
     /* PWM */
     LL_TIM_EnableUpdateEvent(TIM1);
+    LL_TIM_EnableIT_UPDATE(TIM1);
     LL_TIM_EnableCounter(TIM1);
     // カウント開始してからRCレジスタを変えることで、UEVタイミングを変更
-    LL_TIM_SetRepetitionCounter(TIM1, 1);
+    // 20kHzでUEV発生
+    LL_TIM_SetRepetitionCounter(TIM1, 3);
+    LL_TIM_GenerateEvent_UPDATE(TIM1);
     TIM1->BDTR |= TIM_BDTR_MOE;
     TIM1->CCR1 = 0;
     TIM1->CCR2 = 0;
     TIM1->CCR3 = 0;
+    TIM1->CCR4 = 1800;    // ADC用トリガ生成(TIM1OC4REF→TIM1TRG→ADC1,2)
     LL_GPIO_SetOutputPin(GPIOC, LL_GPIO_PIN_6); // PWML HIGH
-
-    /* ADC用トリガタイマ(TIM3) */
-    /* このタイマはTIM1のUEVでカウンタリセットされ */
-    /* OC1REFのトリガー出力でADC1,2を駆動する */
-    LL_TIM_EnableCounter(TIM3);
-    LL_TIM_CC_EnableChannel(TIM3, LL_TIM_CHANNEL_CH1);
-    //TIM3->CCR1 = 1900;
-    TIM3->CCR1 = 3900;
 
     LL_GPIO_SetOutputPin(GPIOB, LL_GPIO_PIN_15); // 3PWM Mode
     LL_mDelay(1);
@@ -113,13 +113,17 @@ public:
     // s32_angle_rotor_count_ += delta_ang;
     s32_angle_rotor_count_ -= delta_ang;  // 逆方向のため
 
+    fl_now_out_vel_dps_ = iir_vellpf.update(-(float)delta_ang * Angle_Gain_CNTtoDeg*20000.0f);
     fl_now_out_ang_deg_  = (float)(s32_angle_rotor_count_) * Angle_Gain_CNTtoDeg;
     fl_now_elec_ang_deg_ = ((float)(ang - s32_elec_angle_offset_CNT_) * fl_elec_angle_gain_CNTtoDeg_ - 90.0f)*(float)s8_elec_angle_dir_;
 
     /* 電流測定 */
-    now_current_.U = Curr_Gain_ADtoA * ((int16_t)Adc2Ctrl.get_adc_data(ADC2CH::CurFb_U) - 2047);
-    now_current_.V = Curr_Gain_ADtoA * ((int16_t)Adc2Ctrl.get_adc_data(ADC2CH::CurFb_V) - 2047);
-    now_current_.W = Curr_Gain_ADtoA * ((int16_t)Adc2Ctrl.get_adc_data(ADC2CH::CurFb_W) - 2047);
+    now_curr_raw_.U = Adc2Ctrl.get_adc_data(ADC2CH::CurFb_U);
+    now_curr_raw_.V = Adc2Ctrl.get_adc_data(ADC2CH::CurFb_V);
+    now_curr_raw_.W = Adc2Ctrl.get_adc_data(ADC2CH::CurFb_W);
+    now_current_.U  = iir_cur_u.update(Curr_Gain_ADtoA * ((int32_t)now_curr_raw_.U - st_curr_raw_mid_.U));
+    now_current_.V  = iir_cur_v.update(Curr_Gain_ADtoA * ((int32_t)now_curr_raw_.V - st_curr_raw_mid_.V));
+    now_current_.W  = iir_cur_w.update(Curr_Gain_ADtoA * ((int32_t)now_curr_raw_.W - st_curr_raw_mid_.W));
   };
 
   void set_drive_duty(DriveDuty &_Vol) override {
@@ -146,7 +150,10 @@ private:
   const float Curr_Gain_ADtoA = 3.3f/4096.0f;  // 3.3V / 4096AD * 1 A/V
   const float Angle_Gain_CNTtoDeg = 360.0f / 16384.0f / 1.0f;
 
-
+  IIR1 iir_cur_u;
+  IIR1 iir_cur_v;
+  IIR1 iir_cur_w;
+  IIR1 iir_vellpf;
 
   inline void set_enable_register(uint8_t Uenable, uint8_t Venable, uint8_t Wenable) {
     ///*
@@ -196,10 +203,11 @@ static PM3505 GmblBldc;
 BLDC *get_bldc_if() { return &GmblBldc; };
 
 static BldcDriveMethodSine   bldc_drv_method_sine(&GmblBldc);
-static BldcDriveMethodVector bldc_drv_method_vector(&GmblBldc);
+static BldcDriveMethodVector bldc_drv_method_vector(&GmblBldc, 20000.0f);
+static BldcDriveMethodSineWithCurr bldc_drv_method_sin_curr(&GmblBldc, 20000.0f);
 BldcDriveMethod* get_bldcdrv_method() { return &bldc_drv_method_vector; };
 
-static PI_D AngleController_PI_D(10000.0f, 0.04f, 0.01f, 0.0003f, 1.0f, 800.0f);
+static PI_D AngleController_PI_D(20000.0f, 0.04f, 0.01f, 0.0003f, 1.0f, 800.0f);
 static IIR1 AngleCountrollerOut_filter(0.70f,0.15f,0.15f);
 static TargetInterp AngleTargetInterp;
 
@@ -256,10 +264,14 @@ BldcModeTestPosStep::Parts bldc_mode_test_posstep_parts = {
 BldcModeTestSineDriveOpen::Parts bldc_mode_test_sindrvopen_parts = {
   .p_bldc_drv   = &bldc_drv_method_sine,
 };
+BldcModeTestVdqStep::Parts bldc_mode_test_vdqstep_parts = {
+  .p_bldc_drv   = &bldc_drv_method_sin_curr,
+};
 BldcModeTestElecAngle  mode_test_elec_ang(bldc_mode_test_elecang_parts);
 BldcModeTestCurrStep   mode_test_curr_step(bldc_mode_test_currstep_parts);
 BldcModeTestPosStep    mode_test_pos_step(bldc_mode_test_posstep_parts);
 BldcModeTestSineDriveOpen   mode_test_sindrvopen(bldc_mode_test_sindrvopen_parts);
+BldcModeTestVdqStep   mode_test_vdqstep(bldc_mode_test_vdqstep_parts);
 /*****************************************************************/
 
 
@@ -309,8 +321,8 @@ void initialize_servo_driver_model() {
   LL_TIM_EnableCounter(TIM6);
 
   /* 10kHz */
-  LL_TIM_EnableIT_UPDATE(TIM7);
-  LL_TIM_EnableCounter(TIM7);
+  // LL_TIM_EnableIT_UPDATE(TIM7);
+  // LL_TIM_EnableCounter(TIM7);
 }
 
 void loop_servo_driver_model() {
@@ -333,13 +345,49 @@ void set_flash_parameter_to_models(){
   GmblBldc.set_elec_angle_gain(FlashIf.mirrorRam.var.fl_elec_angle_gain_CNTtoDeg);
   GmblBldc.set_elec_angle_offset(FlashIf.mirrorRam.var.s32_elec_angle_offset_CNT);
   GmblBldc.set_elec_angle_dir(FlashIf.mirrorRam.var.s8_elec_angle_dir);
+  BLDC::CurrentRaw curmid = {
+    .U = FlashIf.mirrorRam.var.u16_curr_ad_mid_u,
+    .V = FlashIf.mirrorRam.var.u16_curr_ad_mid_v,
+    .W = FlashIf.mirrorRam.var.u16_curr_ad_mid_w,
+  };
+  GmblBldc.set_curr_raw_mid(curmid);
 
-
+#if 1
   /* 位置制御器パラメータ展開 */
   AngleController_PI_D.set_PIDgain(FlashIf.mirrorRam.var.fl_PosCtrl_Pgain,
                               FlashIf.mirrorRam.var.fl_PosCtrl_Igain,
                               FlashIf.mirrorRam.var.fl_PosCtrl_Dgain);
   AngleController_PI_D.set_I_limit(FlashIf.mirrorRam.var.fl_PosCtrl_I_Limit);       
-  AngleController_PI_D.set_VelLpf_CutOff(FlashIf.mirrorRam.var.fl_PosCtrl_VelLpf_CutOffFrq);    
+  AngleController_PI_D.set_VelLpf_CutOff(FlashIf.mirrorRam.var.fl_PosCtrl_VelLpf_CutOffFrq);
+
+  /* 電流制御器パラメータ展開 */
+  PID::Gain iq_g = {.pg   = FlashIf.mirrorRam.var.fl_Iq_Pgain,
+                    .ig   = FlashIf.mirrorRam.var.fl_Iq_Igain,
+                    .dg   = FlashIf.mirrorRam.var.fl_Iq_Dgain,
+                    .ilim = FlashIf.mirrorRam.var.fl_Iq_I_Limit};
+  PID::Gain id_g = {.pg   = FlashIf.mirrorRam.var.fl_Id_Pgain,
+                    .ig   = FlashIf.mirrorRam.var.fl_Id_Igain,
+                    .dg   = FlashIf.mirrorRam.var.fl_Id_Dgain,
+                    .ilim = FlashIf.mirrorRam.var.fl_Id_I_Limit};
+  bldc_drv_method_vector.set_iq_gain(iq_g);
+  bldc_drv_method_vector.set_id_gain(id_g);
+  bldc_drv_method_vector.set_ff_kv(0.0020f);
+  bldc_drv_method_vector.set_Lqd(0.002f);
+#else
+  AngleController_PI_D.set_PIDgain(0.04f,
+                              0.01f,
+                              0.0003f);
+  AngleController_PI_D.set_I_limit(1.0f);       
+  AngleController_PI_D.set_VelLpf_CutOff(800.0f);
+
+  PID::Gain curr_gain = {.pg   = 8.0f,
+                         .ig   = 20000.0f,
+                         .dg   = 0.0f,
+                         .ilim = 6.0f};
+  bldc_drv_method_vector.set_iq_gain(curr_gain);
+  bldc_drv_method_vector.set_id_gain(curr_gain);
+  bldc_drv_method_vector.set_ff_kv(0.0020f);
+  bldc_drv_method_vector.set_Lqd(0.002f);
+#endif
                 
 }

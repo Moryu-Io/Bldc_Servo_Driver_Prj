@@ -96,6 +96,41 @@ protected:
 };
 
 /**
+ * @brief BLDC電圧ステップ応答テスト
+ * 
+ */
+class BldcModeTestVdqStep : public BldcModeBase {
+public:
+    struct Parts{
+        BldcDriveMethod* p_bldc_drv;
+    };
+
+    BldcModeTestVdqStep(Parts& _parts)
+        : parts_(_parts) {};
+
+    void init() override;
+    void update() override;
+    void end() override {};
+
+    bool isCompleted() override { return is_comp_; };
+
+    void set_Instruction(Instr *p_instr) override;
+
+protected:
+    Parts& parts_;
+    
+    float fl_tgt_Vq_V_;
+    float fl_tgt_Vd_V_;
+    float fl_out_ang_deg_;
+
+    bool is_comp_;
+    uint16_t u16_test_cnt_;
+    const uint16_t U16_TEST_VOLT_STEP_START_CNT = 50;
+    const uint16_t U16_TEST_VOLT_END_COUNT    = 10000;
+};
+
+
+/**
  * @brief BLDC位置制御ステップ応答テスト
  * 
  */

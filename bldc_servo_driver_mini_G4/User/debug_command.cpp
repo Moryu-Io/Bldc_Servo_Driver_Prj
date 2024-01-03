@@ -10,6 +10,7 @@ extern BldcModeTestElecAngle     mode_test_elec_ang;
 extern BldcModeTestCurrStep      mode_test_curr_step;
 extern BldcModeTestPosStep       mode_test_pos_step;
 extern BldcModeTestSineDriveOpen mode_test_sindrvopen;
+extern BldcModeTestVdqStep       mode_test_vdqstep;
 
 void debug_command_routine() {
   COM_BASE         *_debug_com     = get_debug_com();
@@ -91,7 +92,7 @@ void debug_command_routine() {
       case 's':
         _flash_if->save();
         break;
-      case 'r':
+      case 'e':
         _flash_if->erase();
         _flash_if->load();
         break;
@@ -111,6 +112,13 @@ void debug_command_routine() {
         _debug_com->get_rxbytes(_u8_write_data, 3);
         uint16_t u16_addr                   = _u8_write_data[0] | (_u8_write_data[1] << 8);
         _flash_if->mirrorRam.u8_d[u16_addr] = _u8_write_data[2];
+      } break;
+      case 'r': {
+        while(_debug_com->get_rxBuf_datasize() < 2) { ; };
+        uint8_t _u8_read_data[2] = {};
+        _debug_com->get_rxbytes(_u8_read_data, 2);
+        uint16_t u16_addr                   = _u8_read_data[0] | (_u8_read_data[1] << 8);
+        debug_printf("%02x\n", (uint8_t)_flash_if->mirrorRam.u8_d[u16_addr]);
       } break;
       case 'd': /* flashに書かれているパラメータを各所に展開 */
         set_flash_parameter_to_models();
@@ -138,6 +146,7 @@ void debug_command_routine() {
       _debug_com->get_rxbyte(_u8_test_cmd);
       switch(_u8_test_cmd) {
       case 'c': {
+        /* 電流Step応答テスト */
         while(_debug_com->get_rxBuf_datasize() < 8) { ; };
         float _fl_buf[2];
         _debug_com->get_rxbytes((uint8_t *)_fl_buf, 8);
@@ -150,6 +159,21 @@ void debug_command_routine() {
             },
         };
         _bldc_manager->set_mode_with_instr(&mode_test_curr_step, &instr);
+      } break;
+      case 'v': {
+        /* 電圧Step応答テスト */
+        while(_debug_com->get_rxBuf_datasize() < 8) { ; };
+        float _fl_buf[2];
+        _debug_com->get_rxbytes((uint8_t *)_fl_buf, 8);
+        
+        BldcModeBase::Instr instr = {
+            .InstrTestVoltOpen = {
+                .u16_instr_id = BldcModeBase::INSTR_ID_TEST_VOLT_STEP,
+                .fl_tgt_Vq_V  = _fl_buf[0],
+                .fl_tgt_Vd_V  = _fl_buf[1],
+            },
+        };
+        _bldc_manager->set_mode_with_instr(&mode_test_vdqstep, &instr);
       } break;
       case 'e':
         _bldc_manager->set_mode(&mode_test_elec_ang);
@@ -176,7 +200,7 @@ void debug_command_routine() {
 
         BldcModeBase::Instr instr = {
             .InstrTestPosStep = {
-                .u16_instr_id = BldcModeBase::INSTR_ID_TEST_SDRV_OPEN,
+                .u16_instr_id = BldcModeBase::INSTR_ID_TEST_POS_STEP,
                 .s16_tgt_pos_deg  = (int16_t)_u16_buf[0],
                 .u16_move_time_ms = _u16_buf[1],
                 .u8_mabiki        = (uint8_t)_u16_buf[2],

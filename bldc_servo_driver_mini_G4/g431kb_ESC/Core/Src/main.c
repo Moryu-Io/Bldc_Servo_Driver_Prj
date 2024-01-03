@@ -102,9 +102,7 @@ int main(void)
   MX_ADC1_Init();
   MX_CORDIC_Init();
   MX_TIM1_Init();
-  MX_TIM3_Init();
   MX_TIM6_Init();
-  MX_TIM7_Init();
   MX_TIM2_Init();
   MX_SPI3_Init();
   /* USER CODE BEGIN 2 */

@@ -33,6 +33,7 @@ public:
   static const uint16_t INSTR_ID_TEST_CURR_STEP = 0xF010;
   static const uint16_t INSTR_ID_TEST_POS_STEP  = 0xF020;
   static const uint16_t INSTR_ID_TEST_SDRV_OPEN = 0xF030;
+  static const uint16_t INSTR_ID_TEST_VOLT_STEP = 0xF040;
 
   union Instr {
     uint16_t u16_instr_id;
@@ -67,6 +68,11 @@ public:
       float    fl_tgt_Vq_V;
       float    fl_tgt_Vd_V;
     } InstrTestSDrvOpen;
+    struct M_Test_VoltOpen {
+      uint16_t u16_instr_id;
+      float    fl_tgt_Vq_V;
+      float    fl_tgt_Vd_V;
+    } InstrTestVoltOpen;
   };
 
   virtual void set_Instruction(Instr *p_instr){};

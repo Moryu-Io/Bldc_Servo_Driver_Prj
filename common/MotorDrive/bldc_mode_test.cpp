@@ -196,6 +196,65 @@ void BldcModeTestCurrStep::set_Instruction(Instr *p_instr){
   }
 }
 
+
+/*******************************************************
+ * 電圧ステップ応答
+ *******************************************************/
+void BldcModeTestVdqStep::init()
+{
+    /* 内部変数初期化 */
+    is_comp_ = false;
+    u16_test_cnt_ = 0;
+
+    /* Logging設定 */
+    LOG::disable_logging();
+    LOG::clear_LogData();
+    LOG::clear_LogAddressArray();
+    LOG::put_LogAddress((uint32_t*)&fl_out_ang_deg_);
+    LOG::put_LogAddress((uint32_t*)&P_BLDC_->fl_calc_Iq_meas_);
+    LOG::put_LogAddress((uint32_t*)&P_BLDC_->fl_calc_Id_meas_);
+    LOG::put_LogAddress((uint32_t*)&P_BLDC_->fl_calc_Vq_);
+    LOG::put_LogAddress((uint32_t*)&P_BLDC_->fl_calc_Vd_);
+    LOG::enable_logging();
+}
+
+void BldcModeTestVdqStep::update()
+{    
+    BldcDriveMethod::Ref input = {};
+
+    if(u16_test_cnt_ < U16_TEST_VOLT_STEP_START_CNT){
+        u16_test_cnt_++;
+    } else if(u16_test_cnt_ < U16_TEST_VOLT_END_COUNT) {
+        input.Vq = fl_tgt_Vq_V_;
+        input.Vd = fl_tgt_Vd_V_;
+
+        u16_test_cnt_++;
+    } else {
+        LOG::disable_logging();
+        input.Vq = 0.0f;
+        input.Vd = 0.0f;
+        is_comp_ = true;
+    }
+
+    P_BLDC_->update();
+    parts_.p_bldc_drv->set(input);
+    parts_.p_bldc_drv->update();
+
+    fl_out_ang_deg_ = P_BLDC_->get_out_angle();
+}
+
+void BldcModeTestVdqStep::set_Instruction(Instr *p_instr){
+  switch(p_instr->u16_instr_id) {
+  case INSTR_ID_TEST_VOLT_STEP:
+    fl_tgt_Vq_V_ = p_instr->InstrTestVoltOpen.fl_tgt_Vq_V;
+    fl_tgt_Vd_V_ = p_instr->InstrTestVoltOpen.fl_tgt_Vd_V;
+    break;
+  default:
+    break;
+  }
+}
+
+
 void BldcModeTestPosStep::init()
 {
     /* 内部変数初期化 */

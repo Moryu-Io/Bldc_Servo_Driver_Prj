@@ -78,9 +78,9 @@ Core/Src/stm32g4xx_hal_msp.c \
 Core/Src/system_stm32g4xx.c
 
 CPP_SOURCES = \
-./../User/flash_initial_params.cpp \
 ./../User/wrapper_main.cpp \
 ./../User/debug_command.cpp \
+flash_initial_params.cpp \
 servo_driver_model_g431cb_fsdmini.cpp \
 $(wildcard ./../User/MyDriver/*.cpp) \
 $(wildcard ./../../common/ExtInterface/*.cpp) \

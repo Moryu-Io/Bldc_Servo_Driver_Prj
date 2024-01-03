@@ -33,7 +33,7 @@ struct REQ_MOVE_ANGLE {
 
 #define CMD_ID_REQ_ANGLE_INIT (0x0011)
 struct REQ_ANGLE_INIT {
-  uint8_t u8_set_angle_flag;  // 0:現在位置を0とする, 1:指定した角度で初期化する
+  uint8_t u8_set_angle_flag;  // 0:現在位置を0とする, 1:指定した角度で初期化する, 最上位bit:強制変更
   uint8_t u8_dummy[3];
   int32_t s32_init_ang_deg_Q16;
 };
@@ -61,6 +61,14 @@ struct RES_STATUS_SUMMAY {
   int8_t  s8_motor_tempr_deg;
 };
 
+struct RES_STATUS_SUMMAY2 {
+  int32_t s32_out_ang_deg_Q8;
+  int8_t  s8_motor_curr_A_Q4;
+  int8_t  s8_motor_vol_V_Q3;
+  uint8_t u8_vm_V_Q3;
+  int8_t  s8_motor_tempr_deg;
+};
+
 #define CMD_ID_RES_STATUS_MOVE_ANGLE (0x1001)
 struct RES_STATUS_MOVE_ANGLE {
   int16_t  s16_out_ang_deg_Q4;
@@ -82,6 +90,7 @@ union REQ_MESSAGE {
 union RES_MESSAGE {
   uint8_t               u8_data[8];
   RES_STATUS_SUMMAY     resSummary;
+  RES_STATUS_SUMMAY2    resSummary2;
   RES_STATUS_MOVE_ANGLE resStsMvAng;
 };
 

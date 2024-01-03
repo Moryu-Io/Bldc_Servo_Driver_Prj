@@ -116,7 +116,8 @@ public:
   PM3505()
     :iir_cur_u(0.778, 0.111, 0.111),
      iir_cur_v(0.778, 0.111, 0.111),
-     iir_cur_w(0.778, 0.111, 0.111) {};
+     iir_cur_w(0.778, 0.111, 0.111),
+     iir_vellpf(0.96f, 0.02f, 0.02f) {};
 
   void init() override {
     /* init the motor angle senser */
@@ -128,22 +129,20 @@ public:
 
     /* PWM */
     LL_TIM_EnableUpdateEvent(TIM1);
+    LL_TIM_EnableIT_UPDATE(TIM1);
     LL_TIM_EnableCounter(TIM1);
     // カウント開始してからRCレジスタを変えることで、UEVタイミングを変更
+    // 20kHzでUEV発生
     LL_TIM_SetRepetitionCounter(TIM1, 1);
+    LL_TIM_GenerateEvent_UPDATE(TIM1);
     TIM1->BDTR |= TIM_BDTR_MOE;
     TIM1->CCR1 = 0;
     TIM1->CCR2 = 0;
     TIM1->CCR3 = 0;
+    TIM1->CCR4 = 4200;    // ADC用トリガ生成(TIM1OC4REF→TIM1TRG→ADC1,2)
     //LL_GPIO_SetOutputPin(GPIOC, LL_GPIO_PIN_6); // PWML HIGH
 
     /* ADC用トリガタイマ(TIM3) */
-    /* このタイマはTIM1のUEVでカウンタリセットされ */
-    /* OC1REFのトリガー出力でADC1,2を駆動する */
-    LL_TIM_EnableCounter(TIM3);
-    LL_TIM_CC_EnableChannel(TIM3, LL_TIM_CHANNEL_CH1);
-    //TIM3->CCR1 = 1900;
-    TIM3->CCR1 = 3700;
 
     LL_mDelay(1);
     //LL_GPIO_SetOutputPin(GPIOB, LL_GPIO_PIN_5); // GPIO_BEMF
@@ -174,6 +173,7 @@ public:
     // s32_angle_rotor_count_ += delta_ang;
     s32_angle_rotor_count_ -= delta_ang;  // 逆方向のため
 
+    fl_now_out_vel_dps_ = iir_vellpf.update(-(float)delta_ang * Angle_Gain_CNTtoDeg*20000.0f);
     fl_now_out_ang_deg_  = (float)(s32_angle_rotor_count_) * Angle_Gain_CNTtoDeg;
     fl_now_elec_ang_deg_ = ((float)(ang - s32_elec_angle_offset_CNT_) * fl_elec_angle_gain_CNTtoDeg_ - 90.0f)*(float)s8_elec_angle_dir_;
 fl_now_ang_deg_debug = fl_now_out_ang_deg_;
@@ -208,12 +208,14 @@ fl_now_elec_ang_deg_debug = fl_now_elec_ang_deg_;
 private:
   const float Vm_inv = 1.0f / 12.0f;
   const float Vm_Gain_ADtoV = 3.3f/4096.0f * (400.0f + 33.0f) / 33.0f;
-  const float Curr_Gain_ADtoA = -3.3f/8192.0f*6.6667f;  // 3.3V / 8192AD * 20.83 A/V (デフォルト)
+  const float Curr_Gain_ADtoA = -3.3f/4096.0f*6.6667f;  // 3.3V / 4096 * 20.83 A/V (デフォルト)
   const float Angle_Gain_CNTtoDeg = -360.0f / 16384.0f / 1.0f;
 
   IIR1 iir_cur_u;
   IIR1 iir_cur_v;
   IIR1 iir_cur_w;
+
+  IIR1 iir_vellpf;
 
   inline void set_enable_register(uint8_t Uenable, uint8_t Venable, uint8_t Wenable) {
     ///*
@@ -263,10 +265,11 @@ static PM3505 GmblBldc;
 BLDC *get_bldc_if() { return &GmblBldc; };
 
 static BldcDriveMethodSine   bldc_drv_method_sine(&GmblBldc);
-static BldcDriveMethodVector bldc_drv_method_vector(&GmblBldc);
+static BldcDriveMethodVector bldc_drv_method_vector(&GmblBldc, 20000.0f);
+static BldcDriveMethodSineWithCurr bldc_drv_method_sin_curr(&GmblBldc, 20000.0f);
 BldcDriveMethod* get_bldcdrv_method() { return &bldc_drv_method_vector; };
 
-static PI_D AngleController_PI_D(10000.0f, 0.04f, 0.01f, 0.0003f, 1.0f, 800.0f);
+static PI_D AngleController_PI_D(20000.0f, 0.04f, 0.01f, 0.0003f, 1.0f, 800.0f);
 static IIR1 AngleCountrollerOut_filter(0.70f,0.15f,0.15f);
 static TargetInterp AngleTargetInterp;
 
@@ -323,10 +326,14 @@ BldcModeTestPosStep::Parts bldc_mode_test_posstep_parts = {
 BldcModeTestSineDriveOpen::Parts bldc_mode_test_sindrvopen_parts = {
   .p_bldc_drv   = &bldc_drv_method_sine,
 };
+BldcModeTestVdqStep::Parts bldc_mode_test_vdqstep_parts = {
+  .p_bldc_drv   = &bldc_drv_method_sin_curr,
+};
 BldcModeTestElecAngle  mode_test_elec_ang(bldc_mode_test_elecang_parts);
 BldcModeTestCurrStep   mode_test_curr_step(bldc_mode_test_currstep_parts);
 BldcModeTestPosStep    mode_test_pos_step(bldc_mode_test_posstep_parts);
 BldcModeTestSineDriveOpen   mode_test_sindrvopen(bldc_mode_test_sindrvopen_parts);
+BldcModeTestVdqStep   mode_test_vdqstep(bldc_mode_test_vdqstep_parts);
 /*****************************************************************/
 
 
@@ -376,8 +383,10 @@ void initialize_servo_driver_model() {
   LL_TIM_EnableCounter(TIM6);
 
   /* 10kHz */
-  LL_TIM_EnableIT_UPDATE(TIM7);
-  LL_TIM_EnableCounter(TIM7);
+  // LL_TIM_EnableIT_UPDATE(TIM7);
+  // LL_TIM_EnableCounter(TIM7);
+
+
 }
 
 void loop_servo_driver_model() {
@@ -439,6 +448,7 @@ void set_flash_parameter_to_models(){
                          .ilim = 2.0f};
   bldc_drv_method_vector.set_iq_gain(curr_gain);
   bldc_drv_method_vector.set_id_gain(curr_gain);
+  bldc_drv_method_vector.set_ff_kv(0.0015f);
 #endif
 
 }

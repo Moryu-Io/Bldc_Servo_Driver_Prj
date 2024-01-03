@@ -58,9 +58,10 @@ protected:
 
 class BldcDriveMethodVector : public BldcDriveMethodSine {
 public:
-  BldcDriveMethodVector(BLDC *_bldc) : BldcDriveMethodSine(_bldc),
-    pid_iq(10000.0f, (PID::Gain){8.0f, 10000.0f, 0.0f, 5.0f}),
-    pid_id(10000.0f, (PID::Gain){8.0f, 10000.0f, 0.0f, 5.0f}) {};
+  BldcDriveMethodVector(BLDC *_bldc, float _c_f=10000.0f) : BldcDriveMethodSine(_bldc),
+    pid_iq(_c_f, (PID::Gain){8.0f, 10000.0f, 0.0f, 5.0f}),
+    pid_id(_c_f, (PID::Gain){8.0f, 10000.0f, 0.0f, 5.0f}),
+    fl_ff_kv_(0), fl_lqd_(0) {};
 
   void update() override;
 
@@ -72,9 +73,21 @@ public:
     pid_id.set_PIDgain(_gain);
   };
 
+  void set_ff_kv(float _kv) { fl_ff_kv_ = _kv;  };
+  void set_Lqd(float _lqd)  { fl_lqd_   = _lqd; };
+
 protected:
   PID pid_iq;
   PID pid_id;
+  float fl_ff_kv_;  // 逆起電力定数[V/(deg/s)]
+  float fl_lqd_;    // qd軸インダクタンス[H]
+};
+
+class BldcDriveMethodSineWithCurr : public BldcDriveMethodSine {
+public:
+  BldcDriveMethodSineWithCurr(BLDC *_bldc, float _c_f=10000.0f) : BldcDriveMethodSine(_bldc) {};
+
+  void update() override;
 };
 
 #endif

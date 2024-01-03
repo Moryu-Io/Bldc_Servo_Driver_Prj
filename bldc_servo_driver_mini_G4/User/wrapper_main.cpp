@@ -24,7 +24,7 @@ void USART1TX_DMATC_ITR() {
 }
 
 void TIM6_ITR() {
-  ext_com_manage_main();
+  //ext_com_manage_main();
 }
 
 void TIM7_ITR() {
@@ -35,8 +35,7 @@ void TIM7_ITR() {
   LOG::routine();
 }
 
-/*
-void HAL_FDCAN_RxFifo0Callback(FDCAN_HandleTypeDef *hcan){
-
+extern "C"
+void HAL_FDCAN_RxFifo0Callback(FDCAN_HandleTypeDef *hfdcan, uint32_t RxFifo0ITs){
+  ext_com_manage_main();
 }
-*/
