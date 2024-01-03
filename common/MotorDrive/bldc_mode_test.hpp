@@ -47,9 +47,9 @@ protected:
     BLDC::CurrentRaw st_curr_max;
     BLDC::CurrentRaw st_curr_min;
     uint32_t u32_test_cnt_;
-    const uint32_t U32_TEST_STABLE_COUNT  = 10000;
+    const uint32_t U32_TEST_STABLE_COUNT  = 40000;
     const uint32_t U32_TEST_AVARAGE_COUNT_SHIFT = 8;
-    const uint32_t U32_TEST_SINE_COUNT  = 10000;
+    const uint32_t U32_TEST_SINE_COUNT  = 50000;
 
 private:
     state apply_open_eang();
@@ -196,6 +196,38 @@ protected:
     float fl_tgt_Vd_V_;
 
 };
+
+/**
+ * @brief BLDC正弦波駆動電気相openテスト
+ * 
+ */
+class BldcModeTestSineDriveElecOpen : public BldcModeBase {
+public:
+    struct Parts{
+        BldcDriveMethod* p_bldc_drv;
+    };
+
+    BldcModeTestSineDriveElecOpen(Parts& _parts)
+        : parts_(_parts) {};
+
+    void init() override{ u32_counter = 0;};
+    void update() override;
+    void end() override {};
+
+    bool isCompleted() override { return false; };
+
+    void set_Instruction(Instr *p_instr) override;
+
+protected:
+    Parts& parts_;
+    
+    float fl_tgt_Vq_V_;
+    float fl_tgt_Vd_V_;
+
+    uint32_t u32_counter;
+
+};
+
 
 
 #endif

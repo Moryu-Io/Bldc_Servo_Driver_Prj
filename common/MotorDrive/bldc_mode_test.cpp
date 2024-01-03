@@ -35,7 +35,7 @@ void BldcModeTestElecAngle::update()
 }
 BldcModeTestElecAngle::state BldcModeTestElecAngle::apply_open_eang(){
     BldcDriveMethod::Ref input = {
-        .Vq = 3.0f,
+        .Vq = 4.0f,
     };
     P_BLDC_->update();
     P_BLDC_->overwrite_elec_angle_forTEST(0.0f);
@@ -74,7 +74,7 @@ BldcModeTestElecAngle::state BldcModeTestElecAngle::average_eang(){
 }
 BldcModeTestElecAngle::state BldcModeTestElecAngle::force_sine(){
     BldcDriveMethod::Ref input = {
-        .Vq = 2.0f,
+        .Vq = 4.0f,
         .Vd = 0.0f,
     };
     P_BLDC_->update();
@@ -91,7 +91,7 @@ BldcModeTestElecAngle::state BldcModeTestElecAngle::force_sine(){
 }
 BldcModeTestElecAngle::state BldcModeTestElecAngle::measure_current(){
     BldcDriveMethod::Ref input = {
-        .Vq = 2.0f,
+        .Vq = 4.0f,
         .Vd = 0.0f,
     };
     P_BLDC_->update();
@@ -331,6 +331,35 @@ void BldcModeTestSineDriveOpen::update()
 }
 
 void BldcModeTestSineDriveOpen::set_Instruction(Instr *p_instr){
+  switch(p_instr->u16_instr_id) {
+  case INSTR_ID_TEST_SDRV_OPEN:
+    fl_tgt_Vq_V_ = p_instr->InstrTestSDrvOpen.fl_tgt_Vq_V;
+    fl_tgt_Vd_V_ = p_instr->InstrTestSDrvOpen.fl_tgt_Vd_V;
+    break;
+  default:
+    break;
+  }
+}
+
+void BldcModeTestSineDriveElecOpen::update()
+{    
+    BldcDriveMethod::Ref input = {
+        .Vq = fl_tgt_Vq_V_,
+        .Vd = fl_tgt_Vd_V_,
+    };
+    const float elec_vel_degps = 360.0f;
+    const float nowtime = (float)u32_counter / 20000.0f;
+    u32_counter++;
+    if(u32_counter > (uint32_t)(20000*(elec_vel_degps/360.0f))) u32_counter = 0;
+
+    P_BLDC_->update();
+    parts_.p_bldc_drv->set(input);
+    P_BLDC_->overwrite_elec_angle_forTEST(elec_vel_degps*nowtime);
+    parts_.p_bldc_drv->update();
+
+}
+
+void BldcModeTestSineDriveElecOpen::set_Instruction(Instr *p_instr){
   switch(p_instr->u16_instr_id) {
   case INSTR_ID_TEST_SDRV_OPEN:
     fl_tgt_Vq_V_ = p_instr->InstrTestSDrvOpen.fl_tgt_Vq_V;
