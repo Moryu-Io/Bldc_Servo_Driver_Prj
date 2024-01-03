@@ -9,6 +9,8 @@ static bool     IS_ALWAYS_RES_SUMMARY       = false; // 常にSummayを返すモ
 static uint32_t U32_ALWAYS_RES_INTERVAL     = 3;     // n回に1回送信する
 static uint32_t U32_ALWAYS_RES_INTERVAL_CNT = 0;     // n回に1回送信する
 
+static uint32_t U32_TEST_COUNT = 0;
+
 void getStatusSummary(RES_MESSAGE &msg);
 void getStatusMoveAngle(RES_MESSAGE &msg);
 
@@ -79,6 +81,12 @@ void ext_com_manage_main() {
     } break;
     case CMD_ID_RES_STATUS_MOVE_ANGLE: {
       getStatusMoveAngle(unResMsg);
+      bRes = true;
+    } break;
+    case CMD_ID_RES_TEST_COM: {
+      unResMsg.resTestCom.u32_test_const_num = 0x12345678;
+      U32_TEST_COUNT++;
+      unResMsg.resTestCom.u32_test_count = U32_TEST_COUNT;
       bRes = true;
     } break;
 

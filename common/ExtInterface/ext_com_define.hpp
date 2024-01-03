@@ -77,6 +77,12 @@ struct RES_STATUS_MOVE_ANGLE {
   uint8_t  u8_dummy[2];
 };
 
+#define CMD_ID_RES_TEST_COM (0x1234)
+struct RES_TEST_COM {
+  uint32_t u32_test_const_num;  // 0x12345678
+  uint32_t u32_test_count;      // このコマンドをCallするたびにインクリされる
+};
+
 union REQ_MESSAGE {
   uint8_t        u8_data[8];
   REQ_TORQUE_ON  reqTrqOn;
@@ -92,6 +98,7 @@ union RES_MESSAGE {
   RES_STATUS_SUMMAY     resSummary;
   RES_STATUS_SUMMAY2    resSummary2;
   RES_STATUS_MOVE_ANGLE resStsMvAng;
+  RES_TEST_COM          resTestCom;
 };
 
 #endif
