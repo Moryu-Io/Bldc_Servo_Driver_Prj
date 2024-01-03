@@ -60,13 +60,13 @@ def write_float(bldcif:BldcDebugIf, addr, val):
 
 def change_to_pm2505(bldcif:BldcDebugIf):
     # 小モータ用パラメータ書き換え
-    write_float(bldcif.ser, 0x24, float(360*7/16384))
-    write_byte(bldcif.ser, 0x28, 1)
+    write_float(bldcif, 0x24, float(360*7/16384))
+    write_byte(bldcif, 0x28, 1)
 
 def change_to_gim4305(bldcif:BldcDebugIf):
     # GIM4305用パラメータ書き換え
-    write_float(bldcif.ser, 0x24, float(-360*14/16384))
-    write_byte(bldcif.ser, 0x28, -1)
+    write_float(bldcif, 0x24, float(360*14/16384))
+    write_byte(bldcif, 0x28, -1)
 
 def change_to_AD12bit(bldcif:BldcDebugIf):
     # 電流中点調整パラメータ書き換え(AD12bit化)
