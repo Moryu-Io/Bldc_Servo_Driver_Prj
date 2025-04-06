@@ -1,9 +1,23 @@
 # BLDC Servo Driver Project
 
 ## 概要
-STM32マイコンを使用してBLDCを駆動する制御プログラム
+STM32マイコンを使用してBLDCを駆動する制御プログラム  
+マイコン種類が変わっても、なるべくペリフェラル設定のメンテのみで動作が可能なように実装  
+現在のメイン開発は`G431CB_FSDmini`
 
-現在のメイン開発はG4
+新ROBO-剣出場ロボット[Quinque](https://www.robo-one.com/rankings/view/1127)のアーム部モータに採用  
+<img width="400" src="./bldc_servo_driver_mini_G4/sch/sch_image.jpg">
+
+
+## フォルダ構成
+| フォルダ名   | 説明                                                                                            |
+| ------------ | ----------------------------------------------------------------------------------------------- |
+|bldc_servo_driver_mini_F4|STM32F405を使用したBLDCドライバ用コード(未メンテ)|
+|bldc_servo_driver_mini_G4|STM32G4系マイコンを使用したBLDCドライバ用コード|
+|bldc_servo_driver_mini_H7|STM32H7を使用したBLDCドライバ用コード(未作成)|
+|bldc_servo_driver_stspin32g4|STM32G4(STSPIN32G4)を使用したBLDCドライバ用コード|
+|common|各マイコンで共通のコード。例えばBLDCベクトル制御ロジック|
+|python|各テストコマンドをpython経由で使用するためのスクリプト群|
 
 
 ## 使い方(Windows)
@@ -31,15 +45,4 @@ STM32マイコンを使用してBLDCを駆動する制御プログラム
 4. Ctrl+Alt+t でタスクを開き`Build project`を実行すると、ビルドができる
 
 5. Ctrl+Alt+t でタスクを開き`cube_program`を実行すると書き込みができる
-
-
-## フォルダ構成
-| フォルダ名   | 説明                                                                                            |
-| ------------ | ----------------------------------------------------------------------------------------------- |
-|bldc_servo_driver_mini_F4|STM32F405を使用したBLDCドライバ用コード|
-|bldc_servo_driver_mini_G4|STM32G4系マイコンを使用したBLDCドライバ用コード|
-|bldc_servo_driver_mini_H7|STM32H7を使用したBLDCドライバ用コード(未)|
-|bldc_servo_driver_stspin32g4|STM32G4(STSPIN32G4)を使用したBLDCドライバ用コード|
-|common|各マイコンで共通のコード。例えばBLDCベクトル制御ロジック|
-|python|各テストコマンドをpython経由で使用するためのスクリプト群|
 
