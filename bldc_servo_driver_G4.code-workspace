@@ -15,7 +15,12 @@
 			"fdcan.h": "c",
 			"stm32g4xx_hal_def.h": "c",
 			"stm32g4xx.h": "c",
-			"stm32g491xx.h": "c"
+			"stm32g491xx.h": "c",
+			"functional": "cpp",
+			"array": "cpp",
+			"string": "cpp",
+			"string_view": "cpp",
+			"ranges": "cpp"
 		}
 	}
 }

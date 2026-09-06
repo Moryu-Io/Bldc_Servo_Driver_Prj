@@ -73,9 +73,9 @@ void BldcServoManager::set_status_memory(){
         case 0x02:
             {
             float _elec_angle = BldcModeBase::P_BLDC_->get_elec_angle();
-            float du = (float)TIM1->CCR1;
-            float dv = (float)TIM1->CCR2;
-            float dw = (float)TIM1->CCR3;
+            float du = (float)TIM2->CCR1;
+            float dv = (float)TIM2->CCR2;
+            float dw = (float)TIM2->CCR3;
             u32_status_memory[0] = CONV_U32TYPE(du);
             u32_status_memory[1] = CONV_U32TYPE(dv);
             u32_status_memory[2] = CONV_U32TYPE(dw);

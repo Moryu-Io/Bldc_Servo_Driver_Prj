@@ -40,6 +40,18 @@
                 "interface/stlink.cfg",
                 "target/stm32g4x.cfg"
             ]
+        },
+        {
+            "name": "Cortex Debug (g474ce_moteus_n1)",
+            "cwd": "${workspaceRoot}",
+            "executable": "g474ce_moteus_n1/build/g474ce_moteus_n1.elf",
+            "request": "launch",
+            "type": "cortex-debug",
+            "servertype": "openocd",
+            "configFiles": [
+                "interface/stlink.cfg",
+                "target/stm32g4x.cfg"
+            ]
         }
     ]
 }

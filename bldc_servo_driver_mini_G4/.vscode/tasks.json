@@ -120,5 +120,45 @@
             "problemMatcher": [],
             "group": "none"
         },
+
+        {
+            "label": "Build(g474ce_moteusn1)",
+            "type": "shell",
+            "command": "C:\\msys64\\usr\\bin\\make.exe",
+            "args": [
+                "DEBUG=1",
+                "-j3",
+                "all"
+            ],
+            "options": {
+                "cwd": "g474ce_moteus_n1"
+            },
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": "build"
+        },
+        {
+            "label": "Clean(g474ce_moteusn1)",
+            "type": "shell",
+            "command": "C:\\msys64\\usr\\bin\\make.exe",
+            "args": [
+                "clean"
+            ],
+            "options": {
+                "cwd": "g474ce_moteus_n1"
+            },
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": "build"
+        },
+        {
+            "label": "Program(g474ce_moteusn1)",
+            "type": "shell",
+            "command": "STM32_Programmer_CLI -c port=SWD -d g474ce_moteus_n1/build/g474ce_moteus_n1.elf -s",
+            "problemMatcher": [],
+            "group": "none"
+        },
     ]
 }

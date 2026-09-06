@@ -23,6 +23,7 @@ public:
 
     LL_ADC_Enable(adcx_);
     LL_DMA_EnableChannel(dmax_, dma_ch_);
+    LL_mDelay(1);
     LL_ADC_REG_StartConversion(adcx_);
   }
 

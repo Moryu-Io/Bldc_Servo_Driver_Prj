@@ -43,6 +43,7 @@ public:
   void set_elec_angle_gain(float _eang_g) { fl_elec_angle_gain_CNTtoDeg_ = _eang_g; }
   void set_elec_angle_offset(int32_t _eang_ofs) { s32_elec_angle_offset_CNT_ = _eang_ofs; }
   void set_elec_angle_dir(int8_t _eang_dir) { s8_elec_angle_dir_ = _eang_dir; }
+  void set_sensor_angle_dir(int8_t _sang_dir) { s8_sensor_angle_dir_ = _sang_dir; }
   void set_curr_raw_mid(CurrentRaw _curr_mid) { st_curr_raw_mid_ = _curr_mid; }
 
   /* 検査やデバッグ用の強制状態上書き */
@@ -95,6 +96,7 @@ protected:
   float   fl_elec_angle_gain_CNTtoDeg_; // モータによって異なる値
   int32_t s32_elec_angle_offset_CNT_;   // モータによって異なる値
   int8_t  s8_elec_angle_dir_;           // モータによって異なる値
+  int8_t  s8_sensor_angle_dir_ = 1;     // モータによって異なる値
 
   CurrentRaw st_curr_raw_mid_;           // 電流AD値の中点調整値
 };
