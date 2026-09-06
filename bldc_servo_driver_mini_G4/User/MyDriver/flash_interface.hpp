@@ -18,12 +18,15 @@ union FlashSaveParams {
     uint8_t  u8_dummy_0003_000F[12];
     /* CAN Config */
     uint16_t u16_can_device_id;
-    uint8_t  u8_dummy_0012_001F[14];
+    uint8_t  u8_can_terminated;
+    uint8_t  u8_dummy_0013_001F[13];
     /* BLDC Config */
     int32_t s32_elec_angle_offset_CNT;
     float   fl_elec_angle_gain_CNTtoDeg;
     int8_t  s8_elec_angle_dir;
-    uint8_t u8_dummy_0029_002B[3];
+    uint8_t u8_sensor_select;
+    int8_t  s8_sensor_angle_dir;
+    uint8_t u8_dummy_002B;
     uint16_t u16_curr_ad_mid_u;
     uint16_t u16_curr_ad_mid_v;
     uint16_t u16_curr_ad_mid_w;

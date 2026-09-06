@@ -74,7 +74,7 @@ BldcModeTestElecAngle::state BldcModeTestElecAngle::average_eang(){
 }
 BldcModeTestElecAngle::state BldcModeTestElecAngle::force_sine(){
     BldcDriveMethod::Ref input = {
-        .Vq = 4.0f,
+        .Vq = 0.0f,
         .Vd = 0.0f,
     };
     P_BLDC_->update();
@@ -91,7 +91,7 @@ BldcModeTestElecAngle::state BldcModeTestElecAngle::force_sine(){
 }
 BldcModeTestElecAngle::state BldcModeTestElecAngle::measure_current(){
     BldcDriveMethod::Ref input = {
-        .Vq = 4.0f,
+        .Vq = 0.0f,
         .Vd = 0.0f,
     };
     P_BLDC_->update();

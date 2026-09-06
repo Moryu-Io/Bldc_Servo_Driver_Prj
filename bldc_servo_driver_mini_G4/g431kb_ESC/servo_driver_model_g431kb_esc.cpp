@@ -26,7 +26,7 @@
 #include "flash_interface.hpp"
 
 /************************ VERSION ******************************/
-uint16_t U16_CHIP_LOCAL_VER = 0x0100;
+uint16_t U16_CHIP_LOCAL_VER = 0x0101;
 /***************************************************************/
 
 enum ADC1CH {
@@ -122,7 +122,13 @@ public:
   void init() override {
     /* init the motor angle senser */
     MotorAngSenserCtrl.init();
-
+    LL_mDelay(50);
+    uint16_t txdata = 0xFFFF;
+    uint16_t rxdata = 0;
+    MotorAngSenserCtrl.send_bytes(&txdata, &rxdata, 1);
+    s32_angle_rotor_count_ = rxdata & 0x3FFF;
+    LL_mDelay(50);
+  
     LL_OPAMP_Enable(OPAMP1);
     LL_OPAMP_Enable(OPAMP2);
     LL_OPAMP_Enable(OPAMP3);
@@ -164,18 +170,18 @@ public:
     uint16_t rxdata = 0;
 
     MotorAngSenserCtrl.send_bytes(&txdata, &rxdata, 1);
-    int32_t ang       = rxdata & 0x3FFF;    // 14bit Absolute Encoder
+    int32_t ang       = (s8_sensor_angle_dir_ >= 0) ? (rxdata & 0x3FFF)
+                                                    : 0x3FFF - (rxdata & 0x3FFF);// 14bit Absolute Encoder
     int32_t delta_ang = ang - s32_pre_angle_raw;
     delta_ang =  (delta_ang > 0x1FFF)  ? (delta_ang - 0x3FFF)
                :((delta_ang < -0x1FFF) ? (delta_ang + 0x3FFF)
                                         : delta_ang );
     s32_pre_angle_raw = ang;
-    // s32_angle_rotor_count_ += delta_ang;
-    s32_angle_rotor_count_ -= delta_ang;  // 逆方向のため
+    s32_angle_rotor_count_ += delta_ang;
 
-    fl_now_out_vel_dps_ = iir_vellpf.update(-(float)delta_ang * Angle_Gain_CNTtoDeg*20000.0f);
+    fl_now_out_vel_dps_ = iir_vellpf.update((float)delta_ang * Angle_Gain_CNTtoDeg*20000.0f);
     fl_now_out_ang_deg_  = (float)(s32_angle_rotor_count_) * Angle_Gain_CNTtoDeg;
-    fl_now_elec_ang_deg_ = ((float)(ang - s32_elec_angle_offset_CNT_) * fl_elec_angle_gain_CNTtoDeg_ - 90.0f)*(float)s8_elec_angle_dir_;
+    fl_now_elec_ang_deg_ = ((float)(ang - s32_elec_angle_offset_CNT_) * fl_elec_angle_gain_CNTtoDeg_ + 90.0f)*(float)s8_elec_angle_dir_;
 fl_now_ang_deg_debug = fl_now_out_ang_deg_;
 fl_now_elec_ang_deg_debug = fl_now_elec_ang_deg_;
     /* 電流測定 */
@@ -209,7 +215,7 @@ private:
   const float Vm_inv = 1.0f / 12.0f;
   const float Vm_Gain_ADtoV = 3.3f/4096.0f * (400.0f + 33.0f) / 33.0f;
   const float Curr_Gain_ADtoA = -3.3f/4096.0f*6.6667f;  // 3.3V / 4096 * 20.83 A/V (デフォルト)
-  const float Angle_Gain_CNTtoDeg = -360.0f / 16384.0f / 1.0f;
+  const float Angle_Gain_CNTtoDeg = 360.0f / 16384.0f / 1.0f;
 
   IIR1 iir_cur_u;
   IIR1 iir_cur_v;
@@ -367,7 +373,6 @@ void initialize_servo_driver_model() {
                            u8_DEBUG_COM_TXBUF, DEBUG_COM_TXBUF_LENGTH);
   DebugCom.init_rxtx();
 
-  LL_GPIO_SetOutputPin(GPIOC, LL_GPIO_PIN_14);
   CanIf.init();
   
   MotorAngSenserCtrl.init();
@@ -404,11 +409,17 @@ void loop_servo_driver_model() {
 void set_flash_parameter_to_models(){
   /* 通信パラメータ展開 */
   CanIf.set_can_id(FlashIf.mirrorRam.var.u16_can_device_id);
+  if(FlashIf.mirrorRam.var.u8_can_terminated){
+    LL_GPIO_SetOutputPin(GPIOC, LL_GPIO_PIN_14);
+  }else{
+    LL_GPIO_ResetOutputPin(GPIOC, LL_GPIO_PIN_14);
+  }
 
   /* HWパラメータ展開 */
   GmblBldc.set_elec_angle_gain(FlashIf.mirrorRam.var.fl_elec_angle_gain_CNTtoDeg);
   GmblBldc.set_elec_angle_offset(FlashIf.mirrorRam.var.s32_elec_angle_offset_CNT);
   GmblBldc.set_elec_angle_dir(FlashIf.mirrorRam.var.s8_elec_angle_dir);
+  GmblBldc.set_sensor_angle_dir((int8_t)FlashIf.mirrorRam.var.s8_sensor_angle_dir);
   BLDC::CurrentRaw curmid = {
     .U = FlashIf.mirrorRam.var.u16_curr_ad_mid_u,
     .V = FlashIf.mirrorRam.var.u16_curr_ad_mid_v,
@@ -443,9 +454,9 @@ void set_flash_parameter_to_models(){
   AngleController_PI_D.set_VelLpf_CutOff(800.0f);
 
   PID::Gain curr_gain = {.pg   = 2.0f,
-                         .ig   = 1000.0f,
+                         .ig   = 5000.0f,
                          .dg   = 0.0f,
-                         .ilim = 2.0f};
+                         .ilim = 8.0f};
   bldc_drv_method_vector.set_iq_gain(curr_gain);
   bldc_drv_method_vector.set_id_gain(curr_gain);
   bldc_drv_method_vector.set_ff_kv(0.0015f);

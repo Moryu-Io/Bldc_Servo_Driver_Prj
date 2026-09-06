@@ -65,7 +65,7 @@ def change_to_pm2505(bldcif:BldcDebugIf):
 
 def change_to_gim4305(bldcif:BldcDebugIf):
     # GIM4305用パラメータ書き換え
-    write_float(bldcif, 0x24, float(360*14/16384))
+    write_float(bldcif, 0x24, float(-360*14/16384))
     write_byte(bldcif, 0x28, -1)
 
 def change_to_AD12bit(bldcif:BldcDebugIf):
@@ -95,6 +95,10 @@ def main():
             print('21:PM2205用書き換え')
             print('22:GIM4305用書き換え')
             print('23:AD14bit->12bitへ書き換え')
+            print('24:CAN 終端書き換え(G4ESC専用)')
+            print('25:CAN 非終端書き換え(G4ESC専用)')
+            print('26:外部センサー使用(n1専用)')
+            print('27:センサー出力方向')
             mode = int(input('>> '))
 
             if mode == 0:
@@ -142,6 +146,19 @@ def main():
                 change_to_gim4305(bldc_if)
             elif mode == 23:
                 change_to_AD12bit(bldc_if)
+            elif mode == 24:
+                write_byte(bldc_if, 0x12, int(1))
+            elif mode == 25:
+                write_byte(bldc_if, 0x12, int(0))
+            elif mode == 26:
+                id = input('外部センサ(1) or Other >> ')
+                if id == "1":
+                    write_byte(bldc_if, 0x29, int(1))
+                else:
+                    write_byte(bldc_if, 0x29, int(0))
+            elif mode == 27:
+                id = input('センサ出力方向は？(1 or -1) >> ')
+                write_byte(bldc_if, 0x2A, int(id))
             else:
                 break
 

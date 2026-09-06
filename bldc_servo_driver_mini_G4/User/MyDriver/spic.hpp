@@ -16,7 +16,7 @@ protected:
   virtual void select()   = 0;
   virtual void deselect() = 0;
 
-  const SPI_TypeDef *spi_;
+  SPI_TypeDef *spi_;
 };
 
 
